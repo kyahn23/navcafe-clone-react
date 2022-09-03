@@ -1,7 +1,6 @@
 .menuInfoArea {
   float: left;
   text-align: left;
-  margin-left: 20px;
   width: 200px;
   min-height: 800px;
 }
@@ -14,6 +13,7 @@
 }
 
 .menuInfoArea .info li {
+  margin: 5px 0;
   line-height: 0.8rem;
 }
 

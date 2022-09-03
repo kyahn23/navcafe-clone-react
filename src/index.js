@@ -5,12 +5,15 @@ import { BrowserRouter } from "react-router-dom";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+import { IconContext } from "react-icons";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <BrowserRouter>
     <React.StrictMode>
-      <App />
+      <IconContext.Provider value={{ style: { verticalAlign: "middle" } }}>
+        <App />
+      </IconContext.Provider>
     </React.StrictMode>
   </BrowserRouter>
 );

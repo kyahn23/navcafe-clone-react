@@ -1,21 +1,26 @@
 import { Link } from "react-router-dom";
 
 import Header from "./Header";
+import Footer from "./Footer";
 import MenuInfo from "./MenuInfo";
 
 const Layout = (props) => {
   return (
     <div>
       <Header />
-      <div className="front-image">
-        <span className="inner-text">
-          <Link to="/">
-            <span className="title">CAFE_CLONE</span>
-          </Link>
-        </span>
+      <div className="container">
+        <div className="front-image">
+          <span className="inner-text">
+            <Link to="/">
+              <span className="title">CAFE_CLONE</span>
+            </Link>
+          </span>
+        </div>
+
+        <MenuInfo />
+        {props.children}
+        <Footer />
       </div>
-      <MenuInfo />
-      {props.children}
     </div>
   );
 };
