@@ -33,10 +33,7 @@ const MainPage = () => {
                   <div className={classes.board_list}>
                     <div className={classes.inner_list}>
                       <a href="#none" className={classes.article}>
-                        <span className={classes.inner}>
-                          샤크웨이브 AME 이어폰 시리즈 / 각종 젠더 / OTG /
-                          커스텀 케이블 추석 맞이 할인
-                        </span>
+                        <span className={classes.inner}>공지사항입니다.</span>
                       </a>
 
                       <div className={classes.article_append}>
@@ -65,7 +62,8 @@ const MainPage = () => {
                     <div className={classes.inner_list}>
                       <a href="/" className={classes.article}>
                         <span className={classes.inner}>
-                          와 간만에 들을만한
+                          게시글 글제목영역 길이제한 없는지 확인게시글
+                          글제목영역 길이제한 없는지 확인
                         </span>
                       </a>
 
@@ -94,7 +92,8 @@ const MainPage = () => {
                     <div className={classes.inner_list}>
                       <a href="/" className={classes.article}>
                         <span className={classes.inner}>
-                          와 간만에 들을만한
+                          게시글 글제목영역 길이제한 없는지 확인게시글
+                          글제목영역 길이제한 없는지 확인
                         </span>
                       </a>
 
@@ -123,7 +122,8 @@ const MainPage = () => {
                     <div className={classes.inner_list}>
                       <a href="/" className={classes.article}>
                         <span className={classes.inner}>
-                          와 간만에 들을만한
+                          게시글 글제목영역 길이제한 없는지 확인게시글
+                          글제목영역 길이제한 없는지 확인
                         </span>
                       </a>
 
@@ -152,7 +152,8 @@ const MainPage = () => {
                     <div className={classes.inner_list}>
                       <a href="/" className={classes.article}>
                         <span className={classes.inner}>
-                          와 간만에 들을만한
+                          게시글 글제목영역 길이제한 없는지 확인게시글
+                          글제목영역 길이제한 없는지 확인
                         </span>
                       </a>
 
@@ -181,7 +182,8 @@ const MainPage = () => {
                     <div className={classes.inner_list}>
                       <a href="/" className={classes.article}>
                         <span className={classes.inner}>
-                          와 간만에 들을만한
+                          게시글 글제목영역 길이제한 없는지 확인게시글
+                          글제목영역 길이제한 없는지 확인
                         </span>
                       </a>
 
@@ -210,7 +212,8 @@ const MainPage = () => {
                     <div className={classes.inner_list}>
                       <a href="/" className={classes.article}>
                         <span className={classes.inner}>
-                          와 간만에 들을만한
+                          게시글 글제목영역 길이제한 없는지 확인게시글
+                          글제목영역 길이제한 없는지 확인
                         </span>
                       </a>
 
@@ -256,10 +259,7 @@ const MainPage = () => {
                   <div className={classes.board_list}>
                     <div className={classes.inner_list}>
                       <a href="#none" className={classes.article}>
-                        <span className={classes.inner}>
-                          샤크웨이브 AME 이어폰 시리즈 / 각종 젠더 / OTG /
-                          커스텀 케이블 추석 맞이 할인
-                        </span>
+                        <span className={classes.inner}>공지사항입니다.</span>
                       </a>
 
                       <div className={classes.article_append}>
@@ -288,7 +288,8 @@ const MainPage = () => {
                     <div className={classes.inner_list}>
                       <a href="/" className={classes.article}>
                         <span className={classes.inner}>
-                          와 간만에 들을만한
+                          게시글 글제목영역 길이제한 없는지 확인게시글
+                          글제목영역 길이제한 없는지 확인
                         </span>
                       </a>
 
@@ -317,7 +318,8 @@ const MainPage = () => {
                     <div className={classes.inner_list}>
                       <a href="/" className={classes.article}>
                         <span className={classes.inner}>
-                          와 간만에 들을만한
+                          게시글 글제목영역 길이제한 없는지 확인게시글
+                          글제목영역 길이제한 없는지 확인
                         </span>
                       </a>
 
@@ -346,7 +348,8 @@ const MainPage = () => {
                     <div className={classes.inner_list}>
                       <a href="/" className={classes.article}>
                         <span className={classes.inner}>
-                          와 간만에 들을만한
+                          게시글 글제목영역 길이제한 없는지 확인게시글
+                          글제목영역 길이제한 없는지 확인
                         </span>
                       </a>
 
@@ -375,7 +378,8 @@ const MainPage = () => {
                     <div className={classes.inner_list}>
                       <a href="/" className={classes.article}>
                         <span className={classes.inner}>
-                          와 간만에 들을만한
+                          게시글 글제목영역 길이제한 없는지 확인게시글
+                          글제목영역 길이제한 없는지 확인
                         </span>
                       </a>
 
@@ -404,7 +408,8 @@ const MainPage = () => {
                     <div className={classes.inner_list}>
                       <a href="/" className={classes.article}>
                         <span className={classes.inner}>
-                          와 간만에 들을만한
+                          게시글 글제목영역 길이제한 없는지 확인게시글
+                          글제목영역 길이제한 없는지 확인
                         </span>
                       </a>
 
@@ -433,7 +438,8 @@ const MainPage = () => {
                     <div className={classes.inner_list}>
                       <a href="/" className={classes.article}>
                         <span className={classes.inner}>
-                          와 간만에 들을만한
+                          게시글 글제목영역 길이제한 없는지 확인게시글
+                          글제목영역 길이제한 없는지 확인
                         </span>
                       </a>
 
@@ -480,10 +486,7 @@ const MainPage = () => {
                   <div className={classes.board_list}>
                     <div className={classes.inner_list}>
                       <a href="#none" className={classes.article}>
-                        <span className={classes.inner}>
-                          샤크웨이브 AME 이어폰 시리즈 / 각종 젠더 / OTG /
-                          커스텀 케이블 추석 맞이 할인
-                        </span>
+                        <span className={classes.inner}>공지사항입니다.</span>
                       </a>
 
                       <div className={classes.article_append}>
@@ -512,7 +515,8 @@ const MainPage = () => {
                     <div className={classes.inner_list}>
                       <a href="/" className={classes.article}>
                         <span className={classes.inner}>
-                          와 간만에 들을만한
+                          게시글 글제목영역 길이제한 없는지 확인게시글
+                          글제목영역 길이제한 없는지 확인
                         </span>
                       </a>
 
@@ -541,7 +545,8 @@ const MainPage = () => {
                     <div className={classes.inner_list}>
                       <a href="/" className={classes.article}>
                         <span className={classes.inner}>
-                          와 간만에 들을만한
+                          게시글 글제목영역 길이제한 없는지 확인게시글
+                          글제목영역 길이제한 없는지 확인
                         </span>
                       </a>
 
@@ -570,7 +575,8 @@ const MainPage = () => {
                     <div className={classes.inner_list}>
                       <a href="/" className={classes.article}>
                         <span className={classes.inner}>
-                          와 간만에 들을만한
+                          게시글 글제목영역 길이제한 없는지 확인게시글
+                          글제목영역 길이제한 없는지 확인
                         </span>
                       </a>
 
@@ -599,7 +605,8 @@ const MainPage = () => {
                     <div className={classes.inner_list}>
                       <a href="/" className={classes.article}>
                         <span className={classes.inner}>
-                          와 간만에 들을만한
+                          게시글 글제목영역 길이제한 없는지 확인게시글
+                          글제목영역 길이제한 없는지 확인
                         </span>
                       </a>
 
@@ -628,7 +635,8 @@ const MainPage = () => {
                     <div className={classes.inner_list}>
                       <a href="/" className={classes.article}>
                         <span className={classes.inner}>
-                          와 간만에 들을만한
+                          게시글 글제목영역 길이제한 없는지 확인게시글
+                          글제목영역 길이제한 없는지 확인
                         </span>
                       </a>
 
@@ -657,7 +665,8 @@ const MainPage = () => {
                     <div className={classes.inner_list}>
                       <a href="/" className={classes.article}>
                         <span className={classes.inner}>
-                          와 간만에 들을만한
+                          게시글 글제목영역 길이제한 없는지 확인게시글
+                          글제목영역 길이제한 없는지 확인
                         </span>
                       </a>
 
@@ -703,10 +712,7 @@ const MainPage = () => {
                   <div className={classes.board_list}>
                     <div className={classes.inner_list}>
                       <a href="#none" className={classes.article}>
-                        <span className={classes.inner}>
-                          샤크웨이브 AME 이어폰 시리즈 / 각종 젠더 / OTG /
-                          커스텀 케이블 추석 맞이 할인
-                        </span>
+                        <span className={classes.inner}>공지사항입니다.</span>
                       </a>
 
                       <div className={classes.article_append}>
@@ -735,7 +741,8 @@ const MainPage = () => {
                     <div className={classes.inner_list}>
                       <a href="/" className={classes.article}>
                         <span className={classes.inner}>
-                          와 간만에 들을만한
+                          게시글 글제목영역 길이제한 없는지 확인게시글
+                          글제목영역 길이제한 없는지 확인
                         </span>
                       </a>
 
@@ -764,7 +771,8 @@ const MainPage = () => {
                     <div className={classes.inner_list}>
                       <a href="/" className={classes.article}>
                         <span className={classes.inner}>
-                          와 간만에 들을만한
+                          게시글 글제목영역 길이제한 없는지 확인게시글
+                          글제목영역 길이제한 없는지 확인
                         </span>
                       </a>
 
@@ -793,7 +801,8 @@ const MainPage = () => {
                     <div className={classes.inner_list}>
                       <a href="/" className={classes.article}>
                         <span className={classes.inner}>
-                          와 간만에 들을만한
+                          게시글 글제목영역 길이제한 없는지 확인게시글
+                          글제목영역 길이제한 없는지 확인
                         </span>
                       </a>
 
@@ -822,7 +831,8 @@ const MainPage = () => {
                     <div className={classes.inner_list}>
                       <a href="/" className={classes.article}>
                         <span className={classes.inner}>
-                          와 간만에 들을만한
+                          게시글 글제목영역 길이제한 없는지 확인게시글
+                          글제목영역 길이제한 없는지 확인
                         </span>
                       </a>
 
@@ -851,7 +861,8 @@ const MainPage = () => {
                     <div className={classes.inner_list}>
                       <a href="/" className={classes.article}>
                         <span className={classes.inner}>
-                          와 간만에 들을만한
+                          게시글 글제목영역 길이제한 없는지 확인게시글
+                          글제목영역 길이제한 없는지 확인
                         </span>
                       </a>
 
@@ -880,7 +891,8 @@ const MainPage = () => {
                     <div className={classes.inner_list}>
                       <a href="/" className={classes.article}>
                         <span className={classes.inner}>
-                          와 간만에 들을만한
+                          게시글 글제목영역 길이제한 없는지 확인게시글
+                          글제목영역 길이제한 없는지 확인
                         </span>
                       </a>
 

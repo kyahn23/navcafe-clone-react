@@ -1,0 +1,38 @@
+.mainData {
+  width: 880px;
+  float: right;
+}
+
+.titleArea {
+  width: 100%;
+  margin-top: -1px;
+  line-height: 25px;
+  display: inline-block;
+}
+
+.titleTxt {
+  display: inline;
+  font-weight: 600;
+  font-size: 22px;
+  line-height: 24px;
+  vertical-align: sub;
+  float: left;
+}
+
+.sortArea {
+  float: right;
+}
+
+.ntcHideChk {
+  display: inline-block;
+  margin: 7px 0 0 8px;
+  vertical-align: top;
+}
+
+.ntcHideChk input {
+  vertical-align: middle;
+}
+.ntcHideChk label {
+  color: #333;
+  line-height: 16px;
+}

@@ -80,6 +80,7 @@
   line-height: 0.9rem;
 }
 .menuInfoArea .menu li a {
+  color: black;
   text-decoration: none;
 }
 .menuInfoArea .menu li a:hover {
@@ -103,4 +104,7 @@
   margin: 10px 0;
   font-size: 0.9rem;
   line-height: 0.9rem;
+}
+.menuInfoArea .menu .board li a {
+  color: black;
 }
