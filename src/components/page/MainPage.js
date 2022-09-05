@@ -51,7 +51,6 @@ const MainPage = () => {
                 <td className={classes.td_article}>
                   <div className={`${classes.board_tag} ${classes.type_dot}`}>
                     <img
-                      src="https://cafe.pstatic.net/cafe4/ico-blank.gif"
                       width="3"
                       height="3"
                       alt=""
@@ -81,7 +80,6 @@ const MainPage = () => {
                 <td className={classes.td_article}>
                   <div className={`${classes.board_tag} ${classes.type_dot}`}>
                     <img
-                      src="https://cafe.pstatic.net/cafe4/ico-blank.gif"
                       width="3"
                       height="3"
                       alt=""
@@ -111,7 +109,6 @@ const MainPage = () => {
                 <td className={classes.td_article}>
                   <div className={`${classes.board_tag} ${classes.type_dot}`}>
                     <img
-                      src="https://cafe.pstatic.net/cafe4/ico-blank.gif"
                       width="3"
                       height="3"
                       alt=""
@@ -141,7 +138,6 @@ const MainPage = () => {
                 <td className={classes.td_article}>
                   <div className={`${classes.board_tag} ${classes.type_dot}`}>
                     <img
-                      src="https://cafe.pstatic.net/cafe4/ico-blank.gif"
                       width="3"
                       height="3"
                       alt=""
@@ -171,7 +167,6 @@ const MainPage = () => {
                 <td className={classes.td_article}>
                   <div className={`${classes.board_tag} ${classes.type_dot}`}>
                     <img
-                      src="https://cafe.pstatic.net/cafe4/ico-blank.gif"
                       width="3"
                       height="3"
                       alt=""
@@ -201,7 +196,6 @@ const MainPage = () => {
                 <td className={classes.td_article}>
                   <div className={`${classes.board_tag} ${classes.type_dot}`}>
                     <img
-                      src="https://cafe.pstatic.net/cafe4/ico-blank.gif"
                       width="3"
                       height="3"
                       alt=""
@@ -277,7 +271,6 @@ const MainPage = () => {
                 <td className={classes.td_article}>
                   <div className={`${classes.board_tag} ${classes.type_dot}`}>
                     <img
-                      src="https://cafe.pstatic.net/cafe4/ico-blank.gif"
                       width="3"
                       height="3"
                       alt=""
@@ -307,7 +300,6 @@ const MainPage = () => {
                 <td className={classes.td_article}>
                   <div className={`${classes.board_tag} ${classes.type_dot}`}>
                     <img
-                      src="https://cafe.pstatic.net/cafe4/ico-blank.gif"
                       width="3"
                       height="3"
                       alt=""
@@ -337,7 +329,6 @@ const MainPage = () => {
                 <td className={classes.td_article}>
                   <div className={`${classes.board_tag} ${classes.type_dot}`}>
                     <img
-                      src="https://cafe.pstatic.net/cafe4/ico-blank.gif"
                       width="3"
                       height="3"
                       alt=""
@@ -367,7 +358,6 @@ const MainPage = () => {
                 <td className={classes.td_article}>
                   <div className={`${classes.board_tag} ${classes.type_dot}`}>
                     <img
-                      src="https://cafe.pstatic.net/cafe4/ico-blank.gif"
                       width="3"
                       height="3"
                       alt=""
@@ -397,7 +387,6 @@ const MainPage = () => {
                 <td className={classes.td_article}>
                   <div className={`${classes.board_tag} ${classes.type_dot}`}>
                     <img
-                      src="https://cafe.pstatic.net/cafe4/ico-blank.gif"
                       width="3"
                       height="3"
                       alt=""
@@ -427,7 +416,6 @@ const MainPage = () => {
                 <td className={classes.td_article}>
                   <div className={`${classes.board_tag} ${classes.type_dot}`}>
                     <img
-                      src="https://cafe.pstatic.net/cafe4/ico-blank.gif"
                       width="3"
                       height="3"
                       alt=""
@@ -504,7 +492,6 @@ const MainPage = () => {
                 <td className={classes.td_article}>
                   <div className={`${classes.board_tag} ${classes.type_dot}`}>
                     <img
-                      src="https://cafe.pstatic.net/cafe4/ico-blank.gif"
                       width="3"
                       height="3"
                       alt=""
@@ -534,7 +521,6 @@ const MainPage = () => {
                 <td className={classes.td_article}>
                   <div className={`${classes.board_tag} ${classes.type_dot}`}>
                     <img
-                      src="https://cafe.pstatic.net/cafe4/ico-blank.gif"
                       width="3"
                       height="3"
                       alt=""
@@ -564,7 +550,6 @@ const MainPage = () => {
                 <td className={classes.td_article}>
                   <div className={`${classes.board_tag} ${classes.type_dot}`}>
                     <img
-                      src="https://cafe.pstatic.net/cafe4/ico-blank.gif"
                       width="3"
                       height="3"
                       alt=""
@@ -594,7 +579,6 @@ const MainPage = () => {
                 <td className={classes.td_article}>
                   <div className={`${classes.board_tag} ${classes.type_dot}`}>
                     <img
-                      src="https://cafe.pstatic.net/cafe4/ico-blank.gif"
                       width="3"
                       height="3"
                       alt=""
@@ -624,7 +608,6 @@ const MainPage = () => {
                 <td className={classes.td_article}>
                   <div className={`${classes.board_tag} ${classes.type_dot}`}>
                     <img
-                      src="https://cafe.pstatic.net/cafe4/ico-blank.gif"
                       width="3"
                       height="3"
                       alt=""
@@ -654,7 +637,6 @@ const MainPage = () => {
                 <td className={classes.td_article}>
                   <div className={`${classes.board_tag} ${classes.type_dot}`}>
                     <img
-                      src="https://cafe.pstatic.net/cafe4/ico-blank.gif"
                       width="3"
                       height="3"
                       alt=""
@@ -730,7 +712,6 @@ const MainPage = () => {
                 <td className={classes.td_article}>
                   <div className={`${classes.board_tag} ${classes.type_dot}`}>
                     <img
-                      src="https://cafe.pstatic.net/cafe4/ico-blank.gif"
                       width="3"
                       height="3"
                       alt=""
@@ -760,7 +741,6 @@ const MainPage = () => {
                 <td className={classes.td_article}>
                   <div className={`${classes.board_tag} ${classes.type_dot}`}>
                     <img
-                      src="https://cafe.pstatic.net/cafe4/ico-blank.gif"
                       width="3"
                       height="3"
                       alt=""
@@ -790,7 +770,6 @@ const MainPage = () => {
                 <td className={classes.td_article}>
                   <div className={`${classes.board_tag} ${classes.type_dot}`}>
                     <img
-                      src="https://cafe.pstatic.net/cafe4/ico-blank.gif"
                       width="3"
                       height="3"
                       alt=""
@@ -820,7 +799,6 @@ const MainPage = () => {
                 <td className={classes.td_article}>
                   <div className={`${classes.board_tag} ${classes.type_dot}`}>
                     <img
-                      src="https://cafe.pstatic.net/cafe4/ico-blank.gif"
                       width="3"
                       height="3"
                       alt=""
@@ -850,7 +828,6 @@ const MainPage = () => {
                 <td className={classes.td_article}>
                   <div className={`${classes.board_tag} ${classes.type_dot}`}>
                     <img
-                      src="https://cafe.pstatic.net/cafe4/ico-blank.gif"
                       width="3"
                       height="3"
                       alt=""
@@ -880,7 +857,6 @@ const MainPage = () => {
                 <td className={classes.td_article}>
                   <div className={`${classes.board_tag} ${classes.type_dot}`}>
                     <img
-                      src="https://cafe.pstatic.net/cafe4/ico-blank.gif"
                       width="3"
                       height="3"
                       alt=""
