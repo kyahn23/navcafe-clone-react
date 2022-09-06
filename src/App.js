@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { Routes, Route } from "react-router-dom";
 import BoardDetail from "./components/Board/BoardDetail";
-import BoardList from "./components/Board/BoardList";
+import Board from "./components/Board/Board";
 
 import Layout from "./components/Layout/Layout";
 import AuthPage from "./components/page/AuthPage";
@@ -15,7 +15,7 @@ function App() {
       <Routes>
         <Route path="/" exact={true} element={<MainPage />} />
         {!authCtx.isLoggedIn && <Route path="/auth" element={<AuthPage />} />}
-        <Route path="/board" exact={true} element={<BoardList />} />
+        <Route path="/board" exact={true} element={<Board />} />
         <Route path="/board/detail" exact={true} element={<BoardDetail />} />
       </Routes>
     </Layout>

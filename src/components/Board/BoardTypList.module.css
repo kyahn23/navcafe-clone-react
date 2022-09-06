@@ -1,0 +1,21 @@
+.tdArticle .boardNumber {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.boardNumber .innerNumber {
+  display: inline-block;
+  width: 69px;
+  font-size: 11px;
+  line-height: 13px;
+  text-align: center;
+  word-wrap: break-word;
+  word-break: break-word;
+}
+
+.tdName,
+.tdDate,
+.tdView,
+.tdLikes {
+  text-align: center;
+}

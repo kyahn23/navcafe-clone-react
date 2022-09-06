@@ -1,100 +1,73 @@
-.mainData {
-  width: 880px;
-  float: right;
+.articleBoard {
+  color: #333;
 }
 
-.titleArea {
+.articleBoard table {
   width: 100%;
-  margin-top: -1px;
-  line-height: 25px;
-  display: inline-block;
-  position: relative;
+  table-layout: fixed;
+  border-collapse: collapse;
+  word-wrap: break-word;
+  word-break: break-word;
+  border-collapse: collapse;
 }
 
-.titleTxt {
-  display: inline;
-  font-weight: 600;
-  font-size: 22px;
+.articleBoard table thead th {
+  height: 40px;
+  padding: 2px;
+  border-top: 1px solid #666;
+  border-bottom: 1px solid #f2f2f2;
+  text-align: center;
+}
+
+.articleBoard table tbody td {
+  height: 36px;
+  padding: 4px 7px;
+  border-bottom: 1px solid #f2f2f2;
+}
+
+.postBtn {
+  margin-top: 9px;
+  text-align: right;
+}
+
+.postBtn .writeBtn {
+  width: 74px;
+  padding: 9px 0;
+  display: inline-block;
+  min-width: 56px;
+  height: 36px;
+  padding: 9px 12px;
+  box-sizing: border-box;
+  border: 1px solid #d3d3d3;
+  text-align: center;
+  vertical-align: top;
+}
+
+.prevNext {
+  background-color: #f9f9f9;
+  margin-top: 52px;
+  height: 40px;
+  padding-top: 16px;
+  text-align: center;
+}
+
+.prevNext span {
+  color: #333;
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  margin: 0 2px;
+  box-sizing: border-box;
   line-height: 24px;
-  vertical-align: sub;
-  float: left;
-  position: absolute;
-  top: 20%;
+  font-family: arial, sans-serif;
 }
 
-.sortArea {
-  float: right;
+.prevNext span.on {
+  border: solid 1px;
+  background-color: #fff;
+  color: #03c75a;
 }
 
-.ntcHideChk {
-  display: inline-block;
-  margin: 7px 0 0 8px;
-  vertical-align: top;
-  color: #333;
-}
-
-.ntcHideChk input {
-  vertical-align: middle;
-}
-.ntcHideChk label {
-  color: #333;
-  line-height: 16px;
-  position: relative;
-  top: 1px;
-  margin-left: 2px;
-}
-
-.sortArea button {
-  background-color: transparent;
-  border: none;
-}
-
-.sortForm {
-  display: inline-block;
-  margin: 7px 0 0 8px;
-  vertical-align: top;
-  color: #333;
-  border-left: solid 1px #e5e5e5;
-}
-
-.sortCard {
-  display: inline-block;
-  margin-left: 8px;
-  background-position: -207px -112px;
-  width: 14px;
-  height: 16px;
-  background-image: url("../../image/icon.svg");
-  vertical-align: middle;
-}
-
-.sortList {
-  display: inline-block;
-  margin-left: 12px;
-  background-position: -261px -122px;
-  width: 14px;
-  height: 16px;
-  background-image: url("../../image/icon.svg");
-  vertical-align: middle;
-}
-
-.blind {
-  overflow: hidden;
-  position: absolute;
-  clip: rect(0 0 0 0);
-  width: 1px;
-  height: 1px;
-  margin: -1px;
-}
-
-.selectDiv {
-  display: inline-block;
-  margin: 7px 0 0 8px;
-  vertical-align: top;
-  border-left: solid 1px #e5e5e5;
-}
-
-.selectDiv .sortCnt {
-  margin-left: 12px;
-  border: 1px solid #ddd;
-  height: 30px;
+.prevNext span.pgR {
+  width: auto;
 }
