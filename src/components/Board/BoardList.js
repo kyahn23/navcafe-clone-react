@@ -1,22 +1,34 @@
+import React from "react";
+import Select from "react-select";
+
 import { Link } from "react-router-dom";
 import classes from "./BoardList.module.css";
 import BoardNotice from "./BoardNotice";
 import BoardTypList from "./BoardTypList";
 
+import { AiOutlineRight } from "react-icons/ai";
+
+const options = [
+  { value: "title", label: "제목" },
+  { value: "content", label: "내용" },
+  { value: "writer", label: "작성자" },
+];
+
 const BoardList = (props) => {
+  const searchHandler = () => {
+    return;
+  };
   return (
     <div className={classes.articleBoard}>
       <BoardNotice />
       <BoardTypList />
-
       <div className={classes.postBtn}>
         <div className="fr">
-          <Link to="/" id="writeFormBtn" className={classes.writeBtn}>
+          <Link to="/board/write" className={classes.writeBtn}>
             글쓰기
           </Link>
         </div>
       </div>
-
       <div className={classes.prevNext}>
         <span className={classes.on}>1</span>
         <span>2</span>
@@ -28,10 +40,32 @@ const BoardList = (props) => {
         <span>8</span>
         <span>9</span>
         <span>10</span>
-
         <span className={classes.pgR}>
-          <div class="m-tcol-c">다음</div>
+          <div>
+            <AiOutlineRight />
+          </div>
         </span>
+      </div>
+      <div className={classes.listSearch}>
+        <div className={classes.selectTyp}>
+          <Select
+            className={classes.selectList}
+            defaultValue={options[0]}
+            options={options}
+          />
+        </div>
+        <div className={classes.inputSearchArea}>
+          <div className={classes.inputComponent}>
+            <input
+              type="text"
+              placeholder="검색어를 입력해주세요"
+              onKeyDown={searchHandler}
+            />
+          </div>
+          <button onClick={searchHandler} className={classes.btnSearch}>
+            검색
+          </button>
+        </div>
       </div>
     </div>
   );

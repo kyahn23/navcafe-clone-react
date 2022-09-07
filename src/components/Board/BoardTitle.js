@@ -1,10 +1,36 @@
+import React from "react";
+import Select from "react-select";
+
 import { useRef, useState } from "react";
 
 import classes from "./BoardTitle.module.css";
 
+const options = [
+  { value: "5", label: "5개씩" },
+  { value: "10", label: "10개씩" },
+  { value: "15", label: "15개씩" },
+];
+
+const customStyles = {
+  control: (base, state) => ({
+    ...base,
+    height: "30px",
+    minHeight: "30px",
+  }),
+  valueContainer: (base, state) => ({
+    ...base,
+    paddingTop: "0px",
+    marginBottom: 4,
+  }),
+  indicatorSeparator: (base, state) => ({
+    ...base,
+    marginTop: 6,
+    marginBottom: 12,
+  }),
+};
 const BoardTitle = (props) => {
   const [boardTyp, setBoardTyp] = useState("list");
-  const [sortCnt, setSortCnt] = useState(10);
+  const [sortCnt, setSortCnt] = useState("10");
 
   const ntcHideChkRef = useRef();
 
@@ -31,21 +57,14 @@ const BoardTitle = (props) => {
           </button>
         </div>
         <div className={classes.selectDiv}>
-          <select
+          <Select
             className={classes.sortCnt}
-            value={sortCnt}
+            value={options.filter((option) => option.value === sortCnt)}
             onChange={listCntHandler}
-          >
-            <option key={"5"} value={"5"}>
-              5개씩
-            </option>
-            <option key={"10"} value={"10"}>
-              10개씩
-            </option>
-            <option key={"15"} value={"15"}>
-              15개씩
-            </option>
-          </select>
+            options={options}
+            styles={customStyles}
+            isSearchable={false}
+          />
         </div>
       </div>
     </div>

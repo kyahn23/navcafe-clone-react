@@ -11,7 +11,9 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <BrowserRouter>
     <React.StrictMode>
-      <IconContext.Provider value={{ style: { verticalAlign: "middle" } }}>
+      <IconContext.Provider
+        value={{ style: { verticalAlign: "middle", marginTop: "-3px" } }}
+      >
         <App />
       </IconContext.Provider>
     </React.StrictMode>

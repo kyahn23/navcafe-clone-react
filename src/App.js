@@ -7,6 +7,7 @@ import Layout from "./components/Layout/Layout";
 import AuthPage from "./components/page/AuthPage";
 import MainPage from "./components/page/MainPage";
 import AuthContext from "./store/auth-context";
+import BoardWrite from "./components/Board/BoardWrite";
 
 function App() {
   const authCtx = useContext(AuthContext);
@@ -16,6 +17,7 @@ function App() {
         <Route path="/" exact={true} element={<MainPage />} />
         {!authCtx.isLoggedIn && <Route path="/auth" element={<AuthPage />} />}
         <Route path="/board" exact={true} element={<Board />} />
+        <Route path="/board/write" exact={true} element={<BoardWrite />} />
         <Route path="/board/detail" exact={true} element={<BoardDetail />} />
       </Routes>
     </Layout>
