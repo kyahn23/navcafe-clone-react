@@ -1,7 +1,7 @@
 import React from "react";
 import Select from "react-select";
 
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import classes from "./BoardList.module.css";
 import BoardNotice from "./BoardNotice";
 import BoardTypList from "./BoardTypList";
@@ -15,16 +15,27 @@ const options = [
 ];
 
 const BoardList = (props) => {
+  const loc = useLocation();
+
+  let typ = props.typ;
+  if (!!typ) {
+    typ = loc.state.typ;
+  }
   const searchHandler = () => {
     return;
   };
+  console.log(typ);
   return (
     <div className={classes.articleBoard}>
       <BoardNotice />
       <BoardTypList />
       <div className={classes.postBtn}>
         <div className="fr">
-          <Link to="/board/write" className={classes.writeBtn}>
+          <Link
+            to="/board/write"
+            className={classes.writeBtn}
+            state={{ typ: typ }}
+          >
             글쓰기
           </Link>
         </div>

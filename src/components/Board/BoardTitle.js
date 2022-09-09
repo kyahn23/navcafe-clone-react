@@ -39,7 +39,7 @@ const BoardTitle = (props) => {
   };
   return (
     <div className={classes.titleArea}>
-      <h3 className={classes.titleTxt}>{props.typ}</h3>
+      <h3 className={classes.titleTxt}>{props.txt}</h3>
       <div className={classes.sortArea}>
         <div className={classes.ntcHideChk}>
           <input type="checkbox" id="ntc_hidden" ref={ntcHideChkRef} />

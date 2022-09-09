@@ -16,3 +16,72 @@
 .writeHeader .title {
   font-size: 22px;
 }
+
+.writingTitle {
+  display: block;
+}
+
+.row {
+  margin-top: 10px;
+}
+
+.boardSelect {
+  width: 640px;
+  float: left;
+}
+
+.headSelect {
+  width: 230px;
+  float: right;
+}
+
+.titleAreaInput {
+  margin-top: 10px;
+  height: 40px;
+  width: 100%;
+  padding: 11px 12px 10px;
+  border: 1px solid;
+  border-color: hsl(0, 0%, 70%);
+  border-radius: 4px;
+  box-sizing: border-box;
+  overflow: hidden;
+  resize: none;
+  word-break: break-all;
+  font-size: 15px;
+  letter-spacing: -0.23px;
+  line-height: 17px;
+  outline: none;
+}
+
+.editorArea {
+  margin-top: 10px;
+}
+
+.btnArea {
+  margin-top: 10px;
+  display: block;
+  text-align: center;
+}
+
+.btnArea button {
+  min-width: 46px;
+  height: 36px;
+  margin-left: 10px;
+  padding: 0 12px;
+  font-size: 13px;
+  line-height: 36px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.cancelBtn {
+  border: 1px solid;
+  border-color: #e4e4e4;
+  background-color: #fff;
+}
+
+.regiBtn {
+  border: none;
+  background: rgba(3, 199, 90, 0.12);
+  color: green;
+}

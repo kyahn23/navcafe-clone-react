@@ -35,7 +35,7 @@ const BoardNotice = () => {
             <td>
               <div className={classes.boardTitle}>
                 <div className={classes.boardTitleTxt}>
-                  <Link to="/boardDetail" class={classes.title}>
+                  <Link to="/boardDetail" className={classes.title}>
                     공지사항입니다 [<em>30</em>]
                   </Link>
                 </div>
@@ -43,7 +43,7 @@ const BoardNotice = () => {
             </td>
 
             <td className={classes.tdName}>
-              <div class="pers_nick_area">관리자</div>
+              <span>관리자</span>
             </td>
             <td className={classes.tdDate}>2022.09.03</td>
             <td className={classes.tdView}>3,885</td>

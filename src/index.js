@@ -6,6 +6,7 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { IconContext } from "react-icons";
+import ScrollToTop from "./helpers/ScrollToTop";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -14,6 +15,7 @@ root.render(
       <IconContext.Provider
         value={{ style: { verticalAlign: "middle", marginTop: "-3px" } }}
       >
+        <ScrollToTop />
         <App />
       </IconContext.Provider>
     </React.StrictMode>

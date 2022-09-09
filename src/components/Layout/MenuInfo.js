@@ -31,7 +31,7 @@ const MenuInfo = () => {
         <ul className={classes.allText}>
           <li>
             <BiDetail />
-            <Link to="/board" state={{ type: "all", txt: "전체글보기" }}>
+            <Link to="/board" state={{ typ: "all", txt: "전체글보기" }}>
               전체글보기
             </Link>
             <span className={classes.fl_R}>100</span>
@@ -41,7 +41,7 @@ const MenuInfo = () => {
         <ul className={classes.board}>
           <li>
             <BiDetail />
-            <Link to="/board" state={{ type: "notice", txt: "카페공지" }}>
+            <Link to="/board" state={{ typ: "notice", txt: "카페공지" }}>
               카페공지
             </Link>
           </li>
@@ -50,19 +50,19 @@ const MenuInfo = () => {
         <ul className={classes.board}>
           <li>
             <BiDetail />
-            <Link to="/board" state={{ type: "free", txt: "자유게시판" }}>
+            <Link to="/board" state={{ typ: "free", txt: "자유게시판" }}>
               자유게시판
             </Link>
           </li>
           <li>
             <BiDetail />
-            <Link to="/board" state={{ type: "qna", txt: "질문게시판" }}>
+            <Link to="/board" state={{ typ: "qna", txt: "질문게시판" }}>
               질문게시판
             </Link>
           </li>
           <li>
             <BiDetail />
-            <Link to="/board" state={{ type: "photo", txt: "사진게시판" }}>
+            <Link to="/board" state={{ typ: "photo", txt: "사진게시판" }}>
               사진게시판
             </Link>
           </li>
