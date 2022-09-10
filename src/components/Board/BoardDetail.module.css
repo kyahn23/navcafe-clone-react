@@ -1,0 +1,57 @@
+.boardDetail {
+  width: 860px;
+  margin: 0 auto;
+  background-color: #fff;
+  font-size: 13px;
+  float: right;
+}
+
+.boardDetail .wrap {
+  position: relative;
+  width: 860px;
+  margin: 0 auto;
+  font-size: 12px;
+}
+
+.contentBox {
+  padding: 29px 29px 0;
+  border: 1px solid #ebecef;
+  border-radius: 6px;
+}
+
+.contentBox .detailHeader {
+  position: relative;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #ebecef;
+}
+
+.boardTyp {
+  margin-bottom: 12px;
+  font-size: 13px;
+}
+.linkBoard {
+  color: #03c75a;
+}
+
+.titleArea {
+  margin-top: 7px;
+}
+
+.titleCategory {
+  position: relative;
+  float: left;
+  margin-right: 8px;
+}
+
+.categoryText {
+  display: block;
+  font-size: 26px;
+}
+
+.titleText {
+  font-weight: 400;
+  font-size: 26px;
+  word-wrap: break-word;
+  word-break: break-word;
+}

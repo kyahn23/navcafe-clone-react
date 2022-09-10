@@ -21,7 +21,9 @@ const BoardTypList = (props) => {
               </div>
             </td>
             <td className={classes.tdTitle}>
-              <Link to="/">aaaaaaa</Link>
+              <Link to="/board/detail" state={{ id: "1" }}>
+                aaaaaaa
+              </Link>
             </td>
             <td className={classes.tdName}>a</td>
             <td className={classes.tdDate}>a</td>

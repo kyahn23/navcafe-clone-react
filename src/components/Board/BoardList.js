@@ -24,7 +24,6 @@ const BoardList = (props) => {
   const searchHandler = () => {
     return;
   };
-  console.log(typ);
   return (
     <div className={classes.articleBoard}>
       <BoardNotice />
