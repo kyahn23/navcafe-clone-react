@@ -1,4 +1,4 @@
-import { Fragment, useContext, useEffect, useState } from "react";
+import { Fragment, useCallback, useContext, useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import AuthContext from "../../store/auth-context";
 import classes from "./Header.module.css";
@@ -9,20 +9,25 @@ const Header = (props) => {
   const [authPageChk, setAuthPageChk] = useState(false);
 
   const authCtx = useContext(AuthContext);
-
   const isLoggedIn = authCtx.isLoggedIn;
 
-  useEffect(() => {
+  const authChkLayout = useCallback(() => {
     if (!isLoggedIn) {
       if (loc.pathname.includes("/auth")) {
-        if (loc.state.authPageChk) {
+        if (loc.state.hasOwnProperty("authPageChk")) {
           setAuthPageChk(true);
         }
       }
     } else {
       setAuthPageChk(false);
     }
-  }, [loc.pathname, isLoggedIn]);
+  }, [isLoggedIn, loc.pathname, loc.state]);
+
+  useEffect(() => {
+    authChkLayout();
+  }, [authChkLayout]);
+
+  useEffect(() => {}, [loc.pathname, isLoggedIn]);
 
   let layout;
   if (!isLoggedIn && !authPageChk) {

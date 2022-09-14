@@ -9,6 +9,7 @@ const AuthForm = () => {
   const nav = useNavigate();
   const emailInputRef = useRef();
   const pwInputRef = useRef();
+  const pwChkInputRef = useRef();
 
   const [isLogin, setIsLogin] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
@@ -17,6 +18,9 @@ const AuthForm = () => {
 
   const switchAuthModeHandler = () => {
     setIsLogin((prevState) => !prevState);
+    emailInputRef.current.value = "";
+    pwInputRef.current.value = "";
+    pwChkInputRef.current.value = "";
   };
 
   const submitHandler = (event) => {
@@ -24,6 +28,15 @@ const AuthForm = () => {
 
     const enteredEmail = emailInputRef.current.value;
     const enteredPw = pwInputRef.current.value;
+    if (!isLogin) {
+      const enteredPwChk = pwChkInputRef.current.value;
+      if (enteredPw !== enteredPwChk) {
+        alert("비밀번호가 일치하지 않습니다");
+        pwInputRef.current.value = "";
+        pwChkInputRef.current.value = "";
+        return;
+      }
+    }
 
     setIsLoading(true);
 
@@ -52,10 +65,7 @@ const AuthForm = () => {
           return res.json();
         } else {
           return res.json().then((data) => {
-            let errorMessage = "Authentication failed!";
-            // if (data && data.error && data.error.message) {
-            //   errorMessage = data.error.message;
-            // }
+            let errorMessage = "인증 실패";
 
             throw new Error(errorMessage);
           });
@@ -74,27 +84,46 @@ const AuthForm = () => {
   };
   return (
     <section className={classes.auth}>
-      <h1>{isLogin ? "Login" : "Sign Up"}</h1>
+      <h1>{isLogin ? "로그인" : "회원가입"}</h1>
       <form onSubmit={submitHandler}>
         <div className={classes.control}>
-          <label htmlFor="email">Your Email</label>
-          <input type="email" id="email" required ref={emailInputRef} />
+          <input
+            type="email"
+            id="email"
+            required
+            ref={emailInputRef}
+            placeholder="이메일 아이디"
+          />
         </div>
         <div className={classes.control}>
-          <label htmlFor="password">Your Password</label>
-          <input type="password" id="password" required ref={pwInputRef} />
+          <input
+            type="password"
+            id="password"
+            required
+            ref={pwInputRef}
+            placeholder="비밀번호"
+          />
         </div>
+        {!isLogin && (
+          <div className={classes.control}>
+            <input
+              type="password"
+              id="passwordChk"
+              required
+              ref={pwChkInputRef}
+              placeholder="비밀번호 확인"
+            />
+          </div>
+        )}
         <div className={classes.actions}>
-          {!isLoading && (
-            <button>{isLogin ? "Login" : "Create Account"}</button>
-          )}
-          {isLoading && <p>Sending request...</p>}
+          {!isLoading && <button>{isLogin ? "로그인" : "회원가입"}</button>}
+          {isLoading && <p>요청중입니다...</p>}
           <button
             type="button"
             className={classes.toggle}
             onClick={switchAuthModeHandler}
           >
-            {isLogin ? "Create new account" : "Login with existing account"}
+            {isLogin ? "회원가입" : "로그인"}
           </button>
         </div>
       </form>

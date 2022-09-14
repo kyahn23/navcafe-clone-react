@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 import Header from "./Header";
@@ -10,15 +10,19 @@ const Layout = (props) => {
   const loc = useLocation();
   const [authPageChk, setAuthPageChk] = useState(false);
 
-  useEffect(() => {
+  const authChkLayout = useCallback(() => {
     if (loc.pathname.includes("/auth")) {
-      if (loc.state.authPageChk) {
+      if (loc.state.hasOwnProperty("authPageChk")) {
         setAuthPageChk(true);
       }
     } else {
       setAuthPageChk(false);
     }
-  }, [loc.pathname]);
+  }, [loc.pathname, loc.state]);
+
+  useEffect(() => {
+    authChkLayout();
+  }, [authChkLayout]);
 
   const layout = (
     <React.Fragment>

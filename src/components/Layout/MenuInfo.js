@@ -2,8 +2,30 @@ import { Link } from "react-router-dom";
 import { BiDetail } from "react-icons/bi";
 
 import classes from "./MenuInfo.module.css";
+import { useContext } from "react";
+import AuthContext from "../../store/auth-context";
 
 const MenuInfo = () => {
+  const authCtx = useContext(AuthContext);
+
+  const isLoggedIn = authCtx.isLoggedIn;
+
+  let btnArea;
+  if (!isLoggedIn) {
+    btnArea = (
+      <div className={classes.writeBtn}>
+        <Link to="/auth" state={{ authPageChk: true }}>
+          카페 가입하기
+        </Link>
+      </div>
+    );
+  } else {
+    btnArea = (
+      <div className={classes.joinBtn}>
+        <Link to="/">카페 글쓰기</Link>
+      </div>
+    );
+  }
   return (
     <div className={classes.menuInfoArea}>
       <div className={classes.info}>
@@ -18,14 +40,7 @@ const MenuInfo = () => {
           </li>
         </ul>
       </div>
-      <div className={classes.btnArea}>
-        <div className={classes.writeBtn}>
-          <Link to="/">카페 가입하기</Link>
-        </div>
-        <div className={classes.joinBtn}>
-          <Link to="/">카페 글쓰기</Link>
-        </div>
-      </div>
+      <div className={classes.btnArea}>{btnArea}</div>
 
       <div className={classes.menu}>
         <ul className={classes.allText}>
