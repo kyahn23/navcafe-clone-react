@@ -34,3 +34,7 @@ a {
 a:hover {
   text-decoration: underline;
 }
+
+.logo a:hover {
+  text-decoration: none;
+}

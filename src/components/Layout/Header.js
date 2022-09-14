@@ -1,28 +1,64 @@
-import { useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import { Fragment, useContext, useEffect, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import AuthContext from "../../store/auth-context";
 import classes from "./Header.module.css";
 
 const Header = (props) => {
-  const authCtx = useContext(AuthContext);
-  const [isLoginClick, setIsLoginClick] = useState(false);
+  const loc = useLocation();
+  const navigate = useNavigate();
+  const [authPageChk, setAuthPageChk] = useState(false);
 
-  const loginHandler = () => {
-    setIsLoginClick(true);
-    props.loginClick(isLoginClick);
+  const authCtx = useContext(AuthContext);
+
+  const isLoggedIn = authCtx.isLoggedIn;
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      if (loc.pathname.includes("/auth")) {
+        if (loc.state.authPageChk) {
+          setAuthPageChk(true);
+        }
+      }
+    } else {
+      setAuthPageChk(false);
+    }
+  }, [loc.pathname, isLoggedIn]);
+
+  let layout;
+  if (!isLoggedIn && !authPageChk) {
+    console.log("asdfasdf");
+    layout = (
+      <Fragment>
+        <li>
+          <Link to="/auth" state={{ authPageChk: true }}>
+            로그인
+          </Link>
+        </li>
+      </Fragment>
+    );
+  } else if (isLoggedIn) {
+    layout = (
+      <Fragment>
+        <li>
+          <Link to="/myInfo">내정보</Link>
+        </li>
+      </Fragment>
+    );
+  }
+
+  console.log(layout);
+
+  const logoBtn = () => {
+    setAuthPageChk(false);
+    navigate("/");
   };
   return (
     <header className={classes.header}>
-      <div className={classes.logo}>CAFE_CLONE</div>
+      <div className={classes.logo} onClick={logoBtn}>
+        CAFE_CLONE
+      </div>
       <nav>
-        <ul>
-          <li>
-            <Link to="/myInfo">내정보</Link>
-          </li>
-          <Link to="/auth" onClick={loginHandler}>
-            로그인
-          </Link>
-        </ul>
+        <ul>{layout}</ul>
       </nav>
     </header>
   );

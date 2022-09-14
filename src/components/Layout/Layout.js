@@ -1,20 +1,25 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 
 import Header from "./Header";
 import Footer from "./Footer";
 import MenuInfo from "./MenuInfo";
-import { useState } from "react";
 import AuthForm from "../Auth/AuthForm";
 
 const Layout = (props) => {
+  const loc = useLocation();
   const [authPageChk, setAuthPageChk] = useState(false);
-  const loginClickHandler = (val) => {
-    console.log(val);
-    if (val) {
-      setAuthPageChk(val);
+
+  useEffect(() => {
+    if (loc.pathname.includes("/auth")) {
+      if (loc.state.authPageChk) {
+        setAuthPageChk(true);
+      }
+    } else {
+      setAuthPageChk(false);
     }
-  };
+  }, [loc.pathname]);
+
   const layout = (
     <React.Fragment>
       <div className="container">
@@ -34,7 +39,7 @@ const Layout = (props) => {
   );
   return (
     <div>
-      <Header loginClick={loginClickHandler} />
+      <Header />
       {!authPageChk && layout}
       {authPageChk && <AuthForm />}
     </div>

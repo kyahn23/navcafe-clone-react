@@ -11,6 +11,7 @@ import BoardWrite from "./components/Board/BoardWrite";
 
 function App() {
   const authCtx = useContext(AuthContext);
+  console.log(authCtx);
   return (
     <Layout>
       <Routes>
