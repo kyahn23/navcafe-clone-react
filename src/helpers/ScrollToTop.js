@@ -4,7 +4,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 const ScrollToTop = () => {
   const { key } = useLocation();
   const loc = useLocation();
-  console.log(loc);
   const navigate = useNavigate();
 
   useEffect(() => {

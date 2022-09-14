@@ -30,9 +30,7 @@ const BoardWrite = (props) => {
     });
   };
 
-  const registHandler = () => {
-    console.log("wwwww");
-  };
+  const registHandler = () => {};
   return (
     <div className={classes.boardWrite}>
       <div className={classes.writeHeader}>

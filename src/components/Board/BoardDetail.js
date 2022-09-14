@@ -2,8 +2,15 @@ import classes from "./BoardDetail.module.css";
 import { AiOutlineRight } from "react-icons/ai";
 import { BiMessageRoundedDetail } from "react-icons/bi";
 import { Link } from "react-router-dom";
+import { useRef } from "react";
 
 const BoardDetail = (props) => {
+  const replyArea = useRef();
+
+  const moveToReplyBox = () => {
+    replyArea.current.scrollIntoView();
+  };
+
   return (
     <div className={classes.boardDetail}>
       <div className={classes.wrap}>
@@ -33,7 +40,7 @@ const BoardDetail = (props) => {
               </div>
             </div>
             <div className={classes.articleTool}>
-              <span className={classes.buttonComment}>
+              <span onClick={moveToReplyBox} className={classes.buttonComment}>
                 <BiMessageRoundedDetail />
                 댓글
                 <strong className={classes.num}>3</strong>
@@ -62,7 +69,7 @@ const BoardDetail = (props) => {
                   </span>
                 </div>
               </div>
-              <div className={classes.commentBox}>
+              <div ref={replyArea} className={classes.commentBox}>
                 <div className={classes.commentOption}>
                   <h3 className={classes.commentTitle}>댓글</h3>
                   <div className={classes.commentTab}>
@@ -152,13 +159,9 @@ const BoardDetail = (props) => {
                           <span className={classes.commentInfoDate}>
                             2022.09.12. 11:37
                           </span>
-                          <a
-                            href="#"
-                            role="button"
-                            className={classes.commentInfoButton}
-                          >
+                          <span className={classes.commentInfoButton}>
                             답글쓰기
-                          </a>
+                          </span>
                         </div>
                       </div>
                     </div>
@@ -166,13 +169,17 @@ const BoardDetail = (props) => {
                 </ul>
                 <div className={classes.commentWriter}>
                   <div className={classes.commentInbox}>
-                    <em class="comment_inbox_name">구엉</em>
+                    <em className={classes.commentInboxName}>구엉</em>
                     <textarea
                       placeholder="댓글을 남겨보세요"
                       rows="1"
-                      class="comment_inbox_text"
-                      // style="overflow: hidden; overflow-wrap: break-word; height: 18px;"
+                      className={classes.commentInboxText}
                     />
+                  </div>
+                  <div className={classes.commentRegist}>
+                    <div className={classes.registerBox}>
+                      <span className={classes.btnRegister}>등록</span>
+                    </div>
                   </div>
                 </div>
               </div>
