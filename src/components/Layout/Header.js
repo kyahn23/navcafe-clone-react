@@ -1,4 +1,5 @@
-import { Fragment, useCallback, useContext, useEffect, useState } from "react";
+import { Fragment } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import AuthContext from "../../store/auth-context";
 import classes from "./Header.module.css";
@@ -10,18 +11,35 @@ const Header = (props) => {
 
   const authCtx = useContext(AuthContext);
   const isLoggedIn = authCtx.isLoggedIn;
+  console.log(isLoggedIn);
+
+  const logoBtn = () => {
+    setAuthPageChk(false);
+    navigate("/");
+  };
+
+  const logoutHandler = () => {
+    authCtx.logout();
+    alert("로그아웃되었습니다.");
+    navigate("/", { replace: true });
+  };
 
   const authChkLayout = useCallback(() => {
     if (!isLoggedIn) {
       if (loc.pathname.includes("/auth")) {
-        if (loc.state.hasOwnProperty("authPageChk")) {
-          setAuthPageChk(true);
-        }
+        setAuthPageChk(true);
+
+        // if (loc.state.hasOwnProperty("authPageChk")) {
+        //   setAuthPageChk(true);
+        // }
+      } else {
+        setAuthPageChk(false);
       }
     } else {
+      console.log("111111111");
       setAuthPageChk(false);
     }
-  }, [isLoggedIn, loc.pathname, loc.state]);
+  }, [isLoggedIn, loc.pathname]);
 
   useEffect(() => {
     authChkLayout();
@@ -31,15 +49,12 @@ const Header = (props) => {
 
   let layout;
   if (!isLoggedIn && !authPageChk) {
-    console.log("asdfasdf");
     layout = (
-      <Fragment>
-        <li>
-          <Link to="/auth" state={{ authPageChk: true }}>
-            로그인
-          </Link>
-        </li>
-      </Fragment>
+      <li>
+        <Link to="/auth" state={{ authPageChk: true }}>
+          로그인
+        </Link>
+      </li>
     );
   } else if (isLoggedIn) {
     layout = (
@@ -47,16 +62,15 @@ const Header = (props) => {
         <li>
           <Link to="/myInfo">내정보</Link>
         </li>
+        <li>
+          <span className={classes.logout} onClick={logoutHandler}>
+            로그아웃
+          </span>
+        </li>
       </Fragment>
     );
   }
 
-  console.log(layout);
-
-  const logoBtn = () => {
-    setAuthPageChk(false);
-    navigate("/");
-  };
   return (
     <header className={classes.header}>
       <div className={classes.logo} onClick={logoBtn}>

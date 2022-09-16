@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
+import { AuthContextProvider } from "./store/auth-context";
 
 import "./index.css";
 import App from "./App";
@@ -10,16 +11,18 @@ import ScrollToTop from "./helpers/ScrollToTop";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <BrowserRouter>
-    <React.StrictMode>
-      <IconContext.Provider
-        value={{ style: { verticalAlign: "middle", marginTop: "-3px" } }}
-      >
-        <ScrollToTop />
-        <App />
-      </IconContext.Provider>
-    </React.StrictMode>
-  </BrowserRouter>
+  <AuthContextProvider>
+    <BrowserRouter>
+      <React.StrictMode>
+        <IconContext.Provider
+          value={{ style: { verticalAlign: "middle", marginTop: "-3px" } }}
+        >
+          <ScrollToTop />
+          <App />
+        </IconContext.Provider>
+      </React.StrictMode>
+    </BrowserRouter>
+  </AuthContextProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function

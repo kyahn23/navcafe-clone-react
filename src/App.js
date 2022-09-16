@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import BoardDetail from "./components/Board/BoardDetail";
 import Board from "./components/Board/Board";
 
@@ -11,7 +11,6 @@ import BoardWrite from "./components/Board/BoardWrite";
 
 function App() {
   const authCtx = useContext(AuthContext);
-  console.log(authCtx);
   return (
     <Layout>
       <Routes>
@@ -20,6 +19,7 @@ function App() {
         <Route path="/board" exact={true} element={<Board />} />
         <Route path="/board/write" exact={true} element={<BoardWrite />} />
         <Route path="/board/detail" exact={true} element={<BoardDetail />} />
+        <Route path="/*" element={<Navigate to="/" />} />
       </Routes>
     </Layout>
   );

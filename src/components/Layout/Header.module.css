@@ -35,3 +35,12 @@ a {
 a:hover {
   text-decoration: underline;
 }
+
+.logout {
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+.logout:hover {
+  text-decoration: underline;
+}

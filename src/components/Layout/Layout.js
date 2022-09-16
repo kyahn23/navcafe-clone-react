@@ -12,13 +12,15 @@ const Layout = (props) => {
 
   const authChkLayout = useCallback(() => {
     if (loc.pathname.includes("/auth")) {
-      if (loc.state.hasOwnProperty("authPageChk")) {
-        setAuthPageChk(true);
-      }
+      setAuthPageChk(true);
+      // if (loc.state.hasOwnProperty("authPageChk")) {
+      // } else {
+
+      // }
     } else {
       setAuthPageChk(false);
     }
-  }, [loc.pathname, loc.state]);
+  }, [loc.pathname]);
 
   useEffect(() => {
     authChkLayout();
