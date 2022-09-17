@@ -1,7 +1,12 @@
 import classes from "./MainPage.module.css";
 import { FiArrowRight } from "react-icons/fi";
+import { useEffect } from "react";
+import { getData } from "../../service/firebase";
+import { useState } from "react";
 
 const MainPage = () => {
+  useEffect(() => {}, []);
+
   return (
     <div>
       <div className={classes.mainData}>

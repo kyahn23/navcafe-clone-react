@@ -11,7 +11,12 @@ const boardTyp = [
   { label: "카페공지", value: "notice" },
   { label: "질문게시판", value: "qna" },
   { label: "사진게시판", value: "photo" },
-  { label: "전체글보기", value: "all" },
+  // { label: "전체글보기", value: "all" },
+];
+
+const postHeader = [
+  { label: "잡담", value: "talk" },
+  { label: "정보", value: "info" },
 ];
 
 const BoardWrite = (props) => {
@@ -19,7 +24,14 @@ const BoardWrite = (props) => {
   const loc = useLocation();
   const typ = loc.state.typ;
 
-  const currPage = boardTyp.filter((option) => option.value === typ);
+  let currPage;
+  if (typ !== "all") {
+    currPage = boardTyp.filter((option) => option.value === typ);
+  } else {
+    currPage = boardTyp.filter((option) => option.value !== "notice");
+    // currPage = boardTyp;
+  }
+
   const cancleHandler = () => {
     let board = boardTyp.filter((bd) => bd.value === typ);
     navigate("/board", {
@@ -40,10 +52,23 @@ const BoardWrite = (props) => {
         <div className={classes.writingTitle}>
           <div className={classes.row}>
             <div className={classes.boardSelect}>
-              <Select options={currPage} value={currPage[0]} />
+              <Select
+                options={currPage}
+                styles={{
+                  menu: (provided) => ({ ...provided, zIndex: 9999 }),
+                }}
+                value={typ !== "all" ? currPage[0] : null}
+                placeholder="게시판 선택"
+              />
             </div>
             <div className={classes.headSelect}>
-              <Select />
+              <Select
+                options={postHeader}
+                placeholder="말머리 선택"
+                styles={{
+                  menu: (provided) => ({ ...provided, zIndex: 9999 }),
+                }}
+              />
             </div>
           </div>
           <div className={classes.row}>

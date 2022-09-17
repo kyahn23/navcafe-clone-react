@@ -1,7 +1,7 @@
 import { useState, useRef, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
-import AuthContext from "../../store/auth-context";
+import AuthContext from "../../store/auth/auth-context";
 
 import classes from "./AuthForm.module.css";
 
@@ -77,7 +77,6 @@ const AuthForm = () => {
       },
     })
       .then((res) => {
-        console.log(res);
         setIsLoading(false);
         if (res.ok) {
           return res.json();
@@ -90,27 +89,25 @@ const AuthForm = () => {
         }
       })
       .then((data) => {
-        console.log("data", data);
         const expirationTime = new Date(
           new Date().getTime() + +data.expiresIn * 1000
         );
         if (!isLogin) {
-          // const addUser = async (data) => {
-          //   await setDoc(doc(db, "member", data.email), {
-          //     id: data.email,
-          //     nickName: data.displayName,
-          //     level: "user",
-          //   })
-          //     .then((res) => {
-          //       console.log(res);
-          //       alert("회원가입이 완료되었습니다.");
-          //       nav("/");
-          //     })
-          //     .catch((error) => {
-          //       console.log(error);
-          //     });
-          // };
-          // addUser(data);
+          const addUser = async (data) => {
+            await setDoc(doc(db, "member", data.email), {
+              id: data.email,
+              nickName: data.displayName,
+              level: "user",
+            });
+          };
+          addUser(data)
+            .then((res) => {
+              alert("회원가입이 완료되었습니다.");
+              nav("/");
+            })
+            .catch((error) => {
+              console.log(error);
+            });
           // FireBaseFunc.setData("member", data).then((res) => {
           //   console.log(res);
           //   alert("회원가입이 완료되었습니다.");

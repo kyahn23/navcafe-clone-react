@@ -1,8 +1,9 @@
-.articleBoard {
+/* .articleBoard {
   color: #333;
-}
+} */
 
-.articleBoard table {
+table {
+  color: #333;
   width: 100%;
   table-layout: fixed;
   border-collapse: collapse;
@@ -11,7 +12,7 @@
   border-collapse: collapse;
 }
 
-.articleBoard table thead th {
+table thead th {
   height: 40px;
   padding: 2px;
   border-top: 1px solid #666;
@@ -19,14 +20,18 @@
   text-align: center;
 }
 
-.articleBoard table tbody td {
+table tbody td {
   height: 36px;
   padding: 4px 7px;
   border-bottom: 1px solid #f2f2f2;
 }
 
-.articleBoard .tdArticle .boardTag .boardTagTxt,
-.articleBoard .tdArticle .boardTag .boardTagTitle {
+tr.noticeArticle {
+  background-color: #f9f9f8;
+}
+
+.tdArticle .boardTag .boardTagTxt,
+.tdArticle .boardTag .boardTagTitle {
   border: 1px solid #ffc6c9;
   background-color: #ffe3e4;
   color: #ff4e59;

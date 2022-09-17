@@ -44,6 +44,7 @@ export const AuthContextProvider = (props) => {
   }
 
   const [token, setToken] = useState(initialToken);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   const userIsLoggedIn = !!token;
 
@@ -63,6 +64,8 @@ export const AuthContextProvider = (props) => {
     setToken(token);
     localStorage.setItem("token", token);
     localStorage.setItem("expirationTime", expirationTime);
+    const a = localStorage.getItem("userInfo");
+    console.log(a);
 
     const remainingTime = calculateRemainingTime(expirationTime);
 

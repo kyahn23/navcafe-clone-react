@@ -6,7 +6,7 @@ import Board from "./components/Board/Board";
 import Layout from "./components/Layout/Layout";
 import AuthPage from "./components/page/AuthPage";
 import MainPage from "./components/page/MainPage";
-import AuthContext from "./store/auth-context";
+import AuthContext from "./store/auth/auth-context";
 import BoardWrite from "./components/Board/BoardWrite";
 
 function App() {

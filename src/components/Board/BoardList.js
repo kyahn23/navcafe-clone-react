@@ -7,6 +7,10 @@ import BoardNotice from "./BoardNotice";
 import BoardTypList from "./BoardTypList";
 
 import { AiOutlineRight } from "react-icons/ai";
+import { useState } from "react";
+import { useEffect } from "react";
+import { useContext } from "react";
+import AuthContext from "../../store/auth/auth-context";
 
 const options = [
   { value: "title", label: "제목" },
@@ -15,30 +19,69 @@ const options = [
 ];
 
 const BoardList = (props) => {
+  const [noticeHide, setNoticeHide] = useState(false);
   const loc = useLocation();
+
+  const authCtx = useContext(AuthContext);
+  const user = JSON.parse(localStorage.getItem("userInfo"));
 
   let typ = props.typ;
   if (!!typ) {
     typ = loc.state.typ;
   }
+  let postBtnArea = true;
+  if (typ === "notice") {
+    if (user.level !== "admin") {
+      postBtnArea = false;
+    }
+  }
+
+  useEffect(() => {
+    setNoticeHide(props.ntcHide);
+  }, [props.ntcHide]);
+
   const searchHandler = () => {
     return;
   };
+
   return (
     <div className={classes.articleBoard}>
-      <BoardNotice />
+      <table>
+        <colgroup>
+          <col style={{ width: "88px" }} />
+          <col />
+          <col style={{ width: "110px" }} />
+          <col style={{ width: "88px" }} />
+          <col style={{ width: "68px" }} />
+          <col style={{ width: "68px" }} />
+        </colgroup>
+        <thead>
+          <tr>
+            <th scope="col">말머리</th>
+            <th scope="col">제목</th>
+            <th scope="col">작성자</th>
+            <th scope="col">작성일</th>
+            <th scope="col">조회</th>
+            <th scope="col">좋아요</th>
+          </tr>
+        </thead>
+        <tbody>{!noticeHide && <BoardNotice />}</tbody>
+      </table>
+
       <BoardTypList />
-      <div className={classes.postBtn}>
-        <div className="fr">
-          <Link
-            to="/board/write"
-            className={classes.writeBtn}
-            state={{ typ: typ }}
-          >
-            글쓰기
-          </Link>
+      {authCtx.isLoggedIn && postBtnArea && (
+        <div className={classes.postBtn}>
+          <div className="fr">
+            <Link
+              to="/board/write"
+              className={classes.writeBtn}
+              state={{ typ: typ }}
+            >
+              글쓰기
+            </Link>
+          </div>
         </div>
-      </div>
+      )}
       <div className={classes.prevNext}>
         <span className={classes.on}>1</span>
         <span>2</span>

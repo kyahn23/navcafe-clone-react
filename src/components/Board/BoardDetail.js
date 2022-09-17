@@ -72,39 +72,13 @@ const BoardDetail = (props) => {
               <div ref={replyArea} className={classes.commentBox}>
                 <div className={classes.commentOption}>
                   <h3 className={classes.commentTitle}>댓글</h3>
-                  <div className={classes.commentTab}>
-                    {/* <ul class="comment_tab_list">
-                      <li class="comment_tab_item">
-                        <a
-                          href="#"
-                          role="button"
-                          aria-selected="true"
-                          class="comment_tab_button"
-                        >
-                          등록순
-                        </a>
-                      </li>
-                      <li class="comment_tab_item">
-                        <a
-                          href="#"
-                          role="button"
-                          aria-selected="false"
-                          class="comment_tab_button"
-                        >
-                          최신순
-                        </a>
-                      </li>
-                    </ul> */}
-                    {/* <button type="button" class="comment_refresh_button">
-                      <span class="blind">새로고침</span>
-                    </button> */}
-                  </div>
+                  <div className={classes.commentTab}></div>
                 </div>
                 <ul className={classes.commentList}>
                   <li id="89951807" className={classes.commentItem}>
                     <div className={classes.commentArea}>
                       <div className={classes.commentTab}>
-                        <div class={classes.commentNickBox}>
+                        <div className={classes.commentNickBox}>
                           <div className={classes.commentNickInfo}>
                             <span className={classes.commentNickname}>09</span>
                           </div>
@@ -126,20 +100,13 @@ const BoardDetail = (props) => {
                             답글쓰기
                           </span>
                         </div>
-                        {/* <div data-v-5213e8a5="" class="comment_tool">
-                          <a data-v-5213e8a5="" id="commentItem89951807" href="#" role="button" title="더보기" class="comment_tool_button">
-                            <svg data-v-5213e8a5="" aria-label="더보기" class="svg-icon ico-post-more-979797">
-                              <use data-v-5213e8a5="" xlink:href="#ico-post-more-979797" aria-hidden="false"></use>
-                            </svg>
-                          </a>
-                        </div> */}
                       </div>
                     </div>
                   </li>
                   <li className={classes.commentItem}>
                     <div className={classes.commentArea}>
                       <div className={classes.commentTab}>
-                        <div class={classes.commentNickBox}>
+                        <div className={classes.commentNickBox}>
                           <div className={classes.commentNickInfo}>
                             <span className={classes.commentNickname}>
                               닉네임

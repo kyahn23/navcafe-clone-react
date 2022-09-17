@@ -2,13 +2,29 @@ import { Link } from "react-router-dom";
 import { BiDetail } from "react-icons/bi";
 
 import classes from "./MenuInfo.module.css";
-import { useContext } from "react";
-import AuthContext from "../../store/auth-context";
+import { useContext, useState, useEffect } from "react";
+import AuthContext from "../../store/auth/auth-context";
+import { getData } from "../../service/firebase";
 
 const MenuInfo = () => {
   const authCtx = useContext(AuthContext);
-
   const isLoggedIn = authCtx.isLoggedIn;
+
+  const [memberCnt, setMemberCnt] = useState(0);
+  const [postCnt, setPostCnt] = useState(0);
+  useEffect(() => {
+    getData("member").then((res) => {
+      if (res.length) {
+        setMemberCnt(res.length);
+      }
+    });
+
+    getData("board").then((res) => {
+      if (res.length) {
+        setPostCnt(res.length);
+      }
+    });
+  }, []);
 
   let btnArea;
   if (!isLoggedIn) {
@@ -22,7 +38,9 @@ const MenuInfo = () => {
   } else {
     btnArea = (
       <div className={classes.joinBtn}>
-        <Link to="/">카페 글쓰기</Link>
+        <Link to="/board/write" state={{ typ: "all" }}>
+          카페 글쓰기
+        </Link>
       </div>
     );
   }
@@ -36,7 +54,7 @@ const MenuInfo = () => {
         <ul>
           <li>
             <span className={classes.dtl}>회원수</span>
-            <span className={classes.dtlInfo}>100</span>
+            <span className={classes.dtlInfo}>{memberCnt}</span>
           </li>
         </ul>
       </div>
@@ -49,7 +67,7 @@ const MenuInfo = () => {
             <Link to="/board" state={{ typ: "all", txt: "전체글보기" }}>
               전체글보기
             </Link>
-            <span className={classes.fl_R}>100</span>
+            <span className={classes.fl_R}>{postCnt}</span>
           </li>
         </ul>
         <h4 className={classes.title}>공지사항</h4>

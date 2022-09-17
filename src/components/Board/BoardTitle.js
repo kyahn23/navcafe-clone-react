@@ -4,6 +4,7 @@ import Select from "react-select";
 import { useRef, useState } from "react";
 
 import classes from "./BoardTitle.module.css";
+import { useEffect } from "react";
 
 const options = [
   { value: "5", label: "5개씩" },
@@ -29,37 +30,55 @@ const customStyles = {
   }),
 };
 const BoardTitle = (props) => {
-  const [boardTyp, setBoardTyp] = useState("list");
+  const ntcHideChkRef = useRef();
   const [sortCnt, setSortCnt] = useState("10");
 
-  const ntcHideChkRef = useRef();
-
-  const listCntHandler = (e) => {
-    setSortCnt(e.target.value);
+  const ntcHideHandler = () => {
+    // props.ntcChk(ntcHideChkRef.current.checked);
   };
+
+  const listCntHandler = (val) => {
+    setSortCnt(val.value);
+  };
+
+  const cardTypHandler = () => {
+    props.boardTyp("card");
+    console.log("card");
+  };
+
+  const listTypHandler = () => {
+    props.boardTyp("list");
+    console.log("list");
+  };
+
   return (
     <div className={classes.titleArea}>
       <h3 className={classes.titleTxt}>{props.txt}</h3>
       <div className={classes.sortArea}>
         <div className={classes.ntcHideChk}>
-          <input type="checkbox" id="ntc_hidden" ref={ntcHideChkRef} />
+          <input
+            type="checkbox"
+            id="ntc_hidden"
+            ref={ntcHideChkRef}
+            onClick={ntcHideHandler}
+          />
           <label htmlFor="ntc_hidden">공지 숨기기</label>
         </div>
         <div className={classes.sortForm}>
-          <button className={classes.sortCard}>
+          <button className={classes.sortCard} onClick={cardTypHandler}>
             <span className={classes.blind}>카드형</span>
           </button>
-          {/* <button className={classes.sort_album}>
-          <span className={classes.blind}>앨범형</span>
-        </button> */}
-          <button className={`${classes.sortList} ${classes.isSelected}`}>
+          <button
+            className={`${classes.sortList}  ${classes.isSelected}`}
+            onClick={listTypHandler}
+          >
             <span className={classes.blind}>목록형</span>
           </button>
         </div>
         <div className={classes.selectDiv}>
           <Select
             className={classes.sortCnt}
-            value={options.filter((option) => option.value === sortCnt)}
+            value={options.filter((opt) => opt.value === sortCnt)}
             onChange={listCntHandler}
             options={options}
             styles={customStyles}

@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 import { useCallback, useContext, useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import AuthContext from "../../store/auth-context";
+import AuthContext from "../../store/auth/auth-context";
 import classes from "./Header.module.css";
 
 const Header = (props) => {
@@ -11,7 +11,6 @@ const Header = (props) => {
 
   const authCtx = useContext(AuthContext);
   const isLoggedIn = authCtx.isLoggedIn;
-  console.log(isLoggedIn);
 
   const logoBtn = () => {
     setAuthPageChk(false);
@@ -36,7 +35,6 @@ const Header = (props) => {
         setAuthPageChk(false);
       }
     } else {
-      console.log("111111111");
       setAuthPageChk(false);
     }
   }, [isLoggedIn, loc.pathname]);
