@@ -13,7 +13,7 @@ const Board = () => {
   const [sortCnt, setSortCnt] = useState("10");
 
   const ntcShowHandler = (val) => {
-    console.log(val);
+    setNtcHide(val);
   };
   useEffect(() => {
     window.scrollTo(0, 0);

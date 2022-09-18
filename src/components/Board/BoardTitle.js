@@ -34,7 +34,7 @@ const BoardTitle = (props) => {
   const [sortCnt, setSortCnt] = useState("10");
 
   const ntcHideHandler = () => {
-    // props.ntcChk(ntcHideChkRef.current.checked);
+    props.ntcChk(ntcHideChkRef.current.checked);
   };
 
   const listCntHandler = (val) => {

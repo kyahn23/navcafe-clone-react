@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { BiDetail } from "react-icons/bi";
 
 import classes from "./MenuInfo.module.css";
@@ -8,6 +8,7 @@ import { getData } from "../../service/firebase";
 
 const MenuInfo = () => {
   const authCtx = useContext(AuthContext);
+  const loc = useLocation();
   const isLoggedIn = authCtx.isLoggedIn;
 
   const [memberCnt, setMemberCnt] = useState(0);
@@ -19,12 +20,12 @@ const MenuInfo = () => {
       }
     });
 
-    getData("board").then((res) => {
+    getData("post").then((res) => {
       if (res.length) {
         setPostCnt(res.length);
       }
     });
-  }, []);
+  }, [loc.pathname]);
 
   let btnArea;
   if (!isLoggedIn) {
@@ -38,11 +39,16 @@ const MenuInfo = () => {
   } else {
     btnArea = (
       <div className={classes.joinBtn}>
-        <Link to="/board/write" state={{ typ: "all" }}>
+        <Link to="/board/write" state={{ typ: "main" }}>
           카페 글쓰기
         </Link>
       </div>
     );
+  }
+
+  let btnAreaRender = true;
+  if (loc.pathname.includes("/write")) {
+    btnAreaRender = false;
   }
   return (
     <div className={classes.menuInfoArea}>
@@ -58,7 +64,7 @@ const MenuInfo = () => {
           </li>
         </ul>
       </div>
-      <div className={classes.btnArea}>{btnArea}</div>
+      <div className={classes.btnArea}>{btnAreaRender && btnArea}</div>
 
       <div className={classes.menu}>
         <ul className={classes.allText}>

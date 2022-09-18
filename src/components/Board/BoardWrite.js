@@ -4,8 +4,13 @@ import "@toast-ui/editor/dist/i18n/ko-kr";
 
 import classes from "./BoardWrite.module.css";
 import Select from "react-select";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useRef } from "react";
+import { useState } from "react";
+import { useEffect } from "react";
+import { addPost } from "../../service/firebase";
 
+// 게시판 종류
 const boardTyp = [
   { label: "자유게시판", value: "free" },
   { label: "카페공지", value: "notice" },
@@ -14,6 +19,7 @@ const boardTyp = [
   // { label: "전체글보기", value: "all" },
 ];
 
+// 말머리
 const postHeader = [
   { label: "잡담", value: "talk" },
   { label: "정보", value: "info" },
@@ -23,26 +29,85 @@ const BoardWrite = (props) => {
   const navigate = useNavigate();
   const loc = useLocation();
   const typ = loc.state.typ;
-
+  const [bdSelect, setBdSelect] = useState(null);
+  const [hdSelect, setHdSelect] = useState(null);
   let currPage;
-  if (typ !== "all") {
-    currPage = boardTyp.filter((option) => option.value === typ);
-  } else {
+
+  useEffect(() => {
+    if (typ !== "all" && typ !== "main") {
+      setBdSelect(typ);
+    }
+  }, [typ]);
+
+  // 게시판 목록
+
+  if (typ === "all" || typ === "main") {
     currPage = boardTyp.filter((option) => option.value !== "notice");
-    // currPage = boardTyp;
+  } else {
+    currPage = boardTyp.filter((option) => option.value === typ);
   }
 
-  const cancleHandler = () => {
-    let board = boardTyp.filter((bd) => bd.value === typ);
-    navigate("/board", {
-      state: {
-        typ: typ,
-        txt: board[0].label,
-      },
-    });
+  const inputTitleRef = useRef();
+  const inputContentRef = useRef();
+
+  const boardChgHandler = (val) => {
+    setBdSelect(val.value);
   };
 
-  const registHandler = () => {};
+  const headerChgHandler = (val) => {
+    setHdSelect(val.value);
+  };
+
+  // 취소
+  const cancleHandler = () => {
+    let board = boardTyp.filter((bd) => bd.value === typ);
+    console.log(board);
+    if (typ === "main") {
+      navigate("/");
+    } else {
+      navigate("/board", {
+        state: {
+          typ: typ,
+          txt: board[0].label,
+        },
+      });
+    }
+  };
+
+  // 등록
+  const registHandler = () => {
+    const postTitle = inputTitleRef.current.value;
+    const textContent = inputContentRef.current.getInstance(); //.getHTML() html 형태로  || .getMarkdown() markdown 형태로
+
+    if (!!bdSelect === false) {
+      alert("게시판을 선택해주세요.");
+      return;
+    }
+    if (postTitle === "") {
+      alert("제목을 입력해주세요.");
+      return;
+    }
+    if (textContent.getMarkdown().length === 0) {
+      alert("내용을 입력해주세요.");
+      return;
+    }
+    const postData = {
+      title: postTitle,
+      content: textContent.getHTML(),
+      postTyp: bdSelect,
+      postHeader: hdSelect,
+    };
+    addPost(postData).then((res) => {
+      if (res) {
+        alert("게시글이 등록되었습니다.");
+        navigate("/board/detail", {
+          state: {
+            id: res,
+          },
+        });
+      }
+    });
+  };
   return (
     <div className={classes.boardWrite}>
       <div className={classes.writeHeader}>
@@ -57,8 +122,11 @@ const BoardWrite = (props) => {
                 styles={{
                   menu: (provided) => ({ ...provided, zIndex: 9999 }),
                 }}
-                value={typ !== "all" ? currPage[0] : null}
+                defaultValue={
+                  typ !== "all" && typ !== "main" ? currPage[0] : null
+                }
                 placeholder="게시판 선택"
+                onChange={boardChgHandler}
               />
             </div>
             <div className={classes.headSelect}>
@@ -68,6 +136,7 @@ const BoardWrite = (props) => {
                 styles={{
                   menu: (provided) => ({ ...provided, zIndex: 9999 }),
                 }}
+                onChange={headerChgHandler}
               />
             </div>
           </div>
@@ -76,6 +145,7 @@ const BoardWrite = (props) => {
               type="text"
               className={classes.titleAreaInput}
               placeholder="제목을 입력해 주세요."
+              ref={inputTitleRef}
             />
           </div>
         </div>
@@ -87,6 +157,7 @@ const BoardWrite = (props) => {
             initialValue=" "
             language="ko-KR"
             placeholder="내용을 입력하세요."
+            ref={inputContentRef}
           />
         </div>
         <div className={classes.btnArea}>

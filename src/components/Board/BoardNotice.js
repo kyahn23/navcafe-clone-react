@@ -29,7 +29,7 @@ const BoardNotice = () => {
         </td>
         <td className={classes.tdDate}>2022.09.03</td>
         <td className={classes.tdView}>3,885</td>
-        <td className={classes.tdLikes}>25</td>
+        {/* <td className={classes.tdLikes}>25</td> */}
       </tr>
     </Fragment>
   );

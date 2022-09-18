@@ -3,6 +3,7 @@ import { FiArrowRight } from "react-icons/fi";
 import { useEffect } from "react";
 import { getData } from "../../service/firebase";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const MainPage = () => {
   useEffect(() => {}, []);
@@ -13,13 +14,15 @@ const MainPage = () => {
         <div className={classes.cont_L}>
           <div className={classes.boardTitleArea}>
             <h3 className={classes.title}>
-              <a href="#none">전체게시글</a>
+              <Link to="/board" state={{ typ: "all", txt: "전체글보기" }}>
+                전체게시글
+              </Link>
             </h3>
             <span className={classes.more}>
-              <a href="#none">
+              <Link to="/board" state={{ typ: "all", txt: "전체글보기" }}>
                 더보기
                 <FiArrowRight />
-              </a>
+              </Link>
             </span>
           </div>
           <table className={classes.boardTable}>
@@ -233,13 +236,15 @@ const MainPage = () => {
         <div className={classes.cont_R}>
           <div className={classes.boardTitleArea}>
             <h3 className={classes.title}>
-              <a href="#none">자유게시판</a>
+              <Link to="/board" state={{ typ: "free", txt: "자유게시판" }}>
+                자유게시판
+              </Link>
             </h3>
             <span className={classes.more}>
-              <a href="#none">
+              <Link to="/board" state={{ typ: "free", txt: "자유게시판" }}>
                 더보기
                 <FiArrowRight />
-              </a>
+              </Link>
             </span>
           </div>
           <table className={classes.boardTable}>
@@ -269,7 +274,6 @@ const MainPage = () => {
                     </div>
                   </div>
                 </td>
-
                 <td className={classes.td_view}>1,543</td>
               </tr>
               <tr>
@@ -454,7 +458,7 @@ const MainPage = () => {
         <div className={classes.cont_L}>
           <div className={classes.boardTitleArea}>
             <h3 className={classes.title}>
-              <a href="#none">전체게시글</a>
+              <a href="#none">질문게시판</a>
             </h3>
             <span className={classes.more}>
               <a href="#none">
@@ -674,7 +678,7 @@ const MainPage = () => {
         <div className={classes.cont_R}>
           <div className={classes.boardTitleArea}>
             <h3 className={classes.title}>
-              <a href="#none">자유게시판</a>
+              <a href="#none">사진게시판</a>
             </h3>
             <span className={classes.more}>
               <a href="#none">

@@ -1,15 +1,36 @@
 import classes from "./BoardDetail.module.css";
 import { AiOutlineRight } from "react-icons/ai";
 import { BiMessageRoundedDetail } from "react-icons/bi";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useRef } from "react";
+import { useEffect } from "react";
+import { useState } from "react";
+import { getPostDetail } from "../../service/firebase";
+
+// 게시판 종류
+const boardTyp = [
+  { label: "자유게시판", value: "free" },
+  { label: "카페공지", value: "notice" },
+  { label: "질문게시판", value: "qna" },
+  { label: "사진게시판", value: "photo" },
+  // { label: "전체글보기", value: "all" },
+];
 
 const BoardDetail = (props) => {
-  const replyArea = useRef();
+  const [postInfo, setPostInfo] = useState({});
+  const loc = useLocation();
+  const st = loc.state;
 
+  const replyArea = useRef();
   const moveToReplyBox = () => {
     replyArea.current.scrollIntoView();
   };
+
+  useEffect(() => {
+    getPostDetail(st.id).then((res) => {
+      setPostInfo(res);
+    });
+  }, [st.id]);
 
   return (
     <div className={classes.boardDetail}>
@@ -17,16 +38,24 @@ const BoardDetail = (props) => {
         <div className={classes.contentBox}>
           <div className={classes.detailHeader}>
             <div className={classes.BoardTyp}>
-              <Link to="/" className={classes.linkBoard}>
-                자유게시판
+              <Link
+                to="/board"
+                className={classes.linkBoard}
+                state={{ typ: postInfo.postTyp, txt: postInfo.postTypNm }}
+              >
+                {postInfo.postTypNm}
                 <AiOutlineRight />
               </Link>
             </div>
             <div className={classes.titleArea}>
-              <div className={classes.titleCategory}>
-                <em className={classes.categoryText}>[정보]</em>
-              </div>
-              <h3 className={classes.titleText}>게시글 상세화면 테스트</h3>
+              {postInfo.postHeader !== null ? (
+                <div className={classes.titleCategory}>
+                  <em className={classes.categoryText}>
+                    {postInfo.postHeaderNm}
+                  </em>
+                </div>
+              ) : null}
+              <h3 className={classes.titleText}>{postInfo.title}</h3>
             </div>
             <div className={classes.writerInfo}>
               <div className={classes.profileArea}>

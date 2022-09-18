@@ -44,7 +44,6 @@ export const AuthContextProvider = (props) => {
   }
 
   const [token, setToken] = useState(initialToken);
-  const [isAdmin, setIsAdmin] = useState(false);
 
   const userIsLoggedIn = !!token;
 

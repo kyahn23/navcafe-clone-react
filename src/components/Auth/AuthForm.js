@@ -5,7 +5,7 @@ import AuthContext from "../../store/auth/auth-context";
 
 import classes from "./AuthForm.module.css";
 
-import { db } from "../../service/firebase";
+import { addUser, db } from "../../service/firebase";
 import { collection, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
 
 const AuthForm = () => {
@@ -108,11 +108,6 @@ const AuthForm = () => {
             .catch((error) => {
               console.log(error);
             });
-          // FireBaseFunc.setData("member", data).then((res) => {
-          //   console.log(res);
-          //   alert("회원가입이 완료되었습니다.");
-          //   nav("/");
-          // });
         } else {
           const getMember = async (userId) => {
             const memberRef = doc(db, "member", userId);

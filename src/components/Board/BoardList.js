@@ -11,6 +11,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { useContext } from "react";
 import AuthContext from "../../store/auth/auth-context";
+import { getData, getPostList } from "../../service/firebase";
 
 const options = [
   { value: "title", label: "제목" },
@@ -20,6 +21,7 @@ const options = [
 
 const BoardList = (props) => {
   const [noticeHide, setNoticeHide] = useState(false);
+  const [postList, setPostList] = useState([]);
   const loc = useLocation();
 
   const authCtx = useContext(AuthContext);
@@ -30,20 +32,32 @@ const BoardList = (props) => {
     typ = loc.state.typ;
   }
   let postBtnArea = true;
-  if (typ === "notice") {
-    if (user.level !== "admin") {
-      postBtnArea = false;
+  if (authCtx.isLoggedIn) {
+    if (typ === "notice") {
+      if (user.level !== "admin") {
+        postBtnArea = false;
+      }
     }
   }
 
   useEffect(() => {
+    getPostList("post").then((res) => {
+      if (res.length) {
+        if (typ !== "all" && typ !== "main") {
+          let postArr = res.filter((post) => post.postTyp === typ);
+          // boardTyp.filter((option) => option.value !== "notice");
+          setPostList(postArr);
+        }
+      }
+    });
+  }, []);
+  useEffect(() => {
     setNoticeHide(props.ntcHide);
   }, [props.ntcHide]);
-
   const searchHandler = () => {
     return;
   };
-
+  console.log(postList);
   return (
     <div className={classes.articleBoard}>
       <table>
@@ -53,7 +67,7 @@ const BoardList = (props) => {
           <col style={{ width: "110px" }} />
           <col style={{ width: "88px" }} />
           <col style={{ width: "68px" }} />
-          <col style={{ width: "68px" }} />
+          {/* <col style={{ width: "68px" }} /> */}
         </colgroup>
         <thead>
           <tr>
@@ -62,13 +76,13 @@ const BoardList = (props) => {
             <th scope="col">작성자</th>
             <th scope="col">작성일</th>
             <th scope="col">조회</th>
-            <th scope="col">좋아요</th>
+            {/* <th scope="col">좋아요</th> */}
           </tr>
         </thead>
         <tbody>{!noticeHide && <BoardNotice />}</tbody>
       </table>
 
-      <BoardTypList />
+      <BoardTypList postList={postList} />
       {authCtx.isLoggedIn && postBtnArea && (
         <div className={classes.postBtn}>
           <div className="fr">
