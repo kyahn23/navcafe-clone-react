@@ -5,19 +5,16 @@ import {
   doc,
   getDoc,
   getDocs,
-  setDoc,
   addDoc,
-  Timestamp,
 } from "firebase/firestore";
 import FirebaseConfig from "./firebaseConfig";
 
 // Initialize Firebase
 const app = initializeApp(FirebaseConfig);
+const user = JSON.parse(localStorage.getItem("userInfo"));
 
 export const db = getFirestore(app);
 
-const user = JSON.parse(localStorage.getItem("userInfo"));
-console.log(user.id);
 export const getData = async (col) => {
   try {
     const collectionRef = collection(db, col); // 참조
@@ -46,10 +43,10 @@ export const getDataDetail = async (col, docId) => {
   }
 };
 
-export const getPostList = async (col) => {
+export const getPostList = async () => {
   try {
-    const collectionRef = collection(db, col); // 참조
-    const dataSnap = await getDocs(collectionRef); // 데이터 스냅 받아오기 - 비동기처리
+    const collectionRef = collection(db, "post");
+    const dataSnap = await getDocs(collectionRef);
 
     let data = [];
     for (const item of dataSnap.docs) {

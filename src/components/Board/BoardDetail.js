@@ -16,7 +16,7 @@ const boardTyp = [
   // { label: "전체글보기", value: "all" },
 ];
 
-const BoardDetail = (props) => {
+const BoardDetail = () => {
   const [postInfo, setPostInfo] = useState({});
   const loc = useLocation();
   const st = loc.state;
@@ -60,11 +60,13 @@ const BoardDetail = (props) => {
             <div className={classes.writerInfo}>
               <div className={classes.profileArea}>
                 <div className={classes.profileInfo}>
-                  <div className={classes.nickBox}>닉네임</div>
+                  <div className={classes.nickBox}>{postInfo.nickName}</div>
                 </div>
                 <div className={classes.articleInfo}>
-                  <span className={classes.date}>2022.09.12. 13:44</span>
-                  <span className={classes.count}>조회 101</span>
+                  <span className={classes.date}>
+                    {new Date(postInfo.regDt).toLocaleString()}
+                  </span>
+                  <span className={classes.count}>조회 {postInfo.viewCnt}</span>
                 </div>
               </div>
             </div>
@@ -78,17 +80,7 @@ const BoardDetail = (props) => {
           </div>
           <div className={classes.detailContainer}>
             <div className={classes.detailViewer}>
-              <div className={classes.detailContent}>
-                얼마전 모멘텀4구입해서 명절 연휴가 되서야 겨우 각잡고들었습니다
-                약2시간 가량 Aptx adaptive동글도 하나구입해서 컴터에 꽂아주고
-                들으려는데 틱틱 거리는 노이즈가 노래시작하고 좀들리더니 노래
-                시작하고는 들리지 않는것처럼 느껴져서 그래 이정도는 참을수
-                있어하고 듣고있다가 귀쪽에 땀이 좀나서 헤드폰 좀 벗고 식히고
-                다시쓰는 와중에 터치가 되서 노래가 멈추길래 다시 터치했는데
-                노래가 나오지 않더군요 그뒤로 쭉.... 룬다시끄고 재실행후 다시
-                잘나옵니다 근데 틱틱거리는 노이즈 다시 들리고 노래변경하니 다시
-                노래가 들리지 않습니다
-              </div>
+              <div className={classes.detailContent}>{postInfo.content}</div>
               <div className={classes.replyBox}>
                 <div className={classes.boxLeft}>
                   <span className={classes.buttonComment}>

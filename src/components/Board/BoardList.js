@@ -11,7 +11,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { useContext } from "react";
 import AuthContext from "../../store/auth/auth-context";
-import { getData, getPostList } from "../../service/firebase";
+import { getPostList } from "../../service/firebase";
 
 const options = [
   { value: "title", label: "제목" },
@@ -31,6 +31,7 @@ const BoardList = (props) => {
   if (!!typ) {
     typ = loc.state.typ;
   }
+  console.log(typ);
   let postBtnArea = true;
   if (authCtx.isLoggedIn) {
     if (typ === "notice") {
@@ -41,23 +42,25 @@ const BoardList = (props) => {
   }
 
   useEffect(() => {
-    getPostList("post").then((res) => {
+    getPostList().then((res) => {
       if (res.length) {
+        let postArr;
         if (typ !== "all" && typ !== "main") {
-          let postArr = res.filter((post) => post.postTyp === typ);
+          postArr = res.filter((post) => post.postTyp === typ);
           // boardTyp.filter((option) => option.value !== "notice");
-          setPostList(postArr);
+        } else {
+          postArr = res;
         }
+        setPostList(postArr);
       }
     });
-  }, []);
+  }, [typ]);
   useEffect(() => {
     setNoticeHide(props.ntcHide);
   }, [props.ntcHide]);
   const searchHandler = () => {
     return;
   };
-  console.log(postList);
   return (
     <div className={classes.articleBoard}>
       <table>

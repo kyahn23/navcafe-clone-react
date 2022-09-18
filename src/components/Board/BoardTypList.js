@@ -35,7 +35,7 @@ const BoardTypList = (props) => {
                 </div>
               </td>
               <td className={classes.tdTitle}>
-                <Link to="/board/detail" state={{ id: "1" }}>
+                <Link to="/board/detail" state={{ id: post.id }}>
                   {post.title}
                 </Link>
               </td>

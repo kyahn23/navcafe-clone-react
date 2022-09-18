@@ -4,7 +4,6 @@ import Select from "react-select";
 import { useRef, useState } from "react";
 
 import classes from "./BoardTitle.module.css";
-import { useEffect } from "react";
 
 const options = [
   { value: "5", label: "5개씩" },

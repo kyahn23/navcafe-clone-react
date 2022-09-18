@@ -93,7 +93,7 @@ const BoardWrite = (props) => {
     }
     const postData = {
       title: postTitle,
-      content: textContent.getHTML(),
+      content: textContent.getMarkdown(),
       postTyp: bdSelect,
       postHeader: hdSelect,
     };
