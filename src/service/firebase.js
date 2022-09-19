@@ -6,6 +6,8 @@ import {
   getDoc,
   getDocs,
   addDoc,
+  updateDoc,
+  increment,
 } from "firebase/firestore";
 import FirebaseConfig from "./firebaseConfig";
 
@@ -69,6 +71,7 @@ export const getPostList = async () => {
 
 export const getPostDetail = async (docId) => {
   try {
+    console.log(docId);
     const docRef = doc(db, "post", docId);
     const dataSnap = await getDoc(docRef);
 
@@ -120,6 +123,15 @@ export const addPost = async (data) => {
     return docRef.id;
   } catch (error) {
     return error;
+  }
+};
+
+export const viewCntInc = async (docId) => {
+  try {
+    const docRef = doc(db, "post", docId);
+    await updateDoc(docRef, { viewCnt: increment(1) });
+  } catch (error) {
+    console.log(error);
   }
 };
 

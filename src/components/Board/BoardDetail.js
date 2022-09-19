@@ -5,16 +5,16 @@ import { Link, useLocation } from "react-router-dom";
 import { useRef } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
-import { getPostDetail } from "../../service/firebase";
+import { getPostDetail, viewCntInc } from "../../service/firebase";
 
 // 게시판 종류
-const boardTyp = [
-  { label: "자유게시판", value: "free" },
-  { label: "카페공지", value: "notice" },
-  { label: "질문게시판", value: "qna" },
-  { label: "사진게시판", value: "photo" },
-  // { label: "전체글보기", value: "all" },
-];
+// const boardTyp = [
+//   { label: "자유게시판", value: "free" },
+//   { label: "카페공지", value: "notice" },
+//   { label: "질문게시판", value: "qna" },
+//   { label: "사진게시판", value: "photo" },
+//   // { label: "전체글보기", value: "all" },
+// ];
 
 const BoardDetail = () => {
   const [postInfo, setPostInfo] = useState({});
@@ -27,6 +27,7 @@ const BoardDetail = () => {
   };
 
   useEffect(() => {
+    viewCntInc(st.id);
     getPostDetail(st.id).then((res) => {
       setPostInfo(res);
     });

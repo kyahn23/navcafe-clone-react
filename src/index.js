@@ -8,20 +8,23 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { IconContext } from "react-icons";
 import ScrollToTop from "./helpers/ScrollToTop";
+import { MenuContextProvider } from "./store/menu-context";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <AuthContextProvider>
-    <BrowserRouter>
-      <React.StrictMode>
+    <MenuContextProvider>
+      <BrowserRouter>
+        {/* <React.StrictMode> */}
         <IconContext.Provider
           value={{ style: { verticalAlign: "middle", marginTop: "-3px" } }}
         >
           <ScrollToTop />
           <App />
         </IconContext.Provider>
-      </React.StrictMode>
-    </BrowserRouter>
+        {/* </React.StrictMode> */}
+      </BrowserRouter>
+    </MenuContextProvider>
   </AuthContextProvider>
 );
 

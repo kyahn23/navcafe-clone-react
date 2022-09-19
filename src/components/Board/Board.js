@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useContext } from "react";
 import { useEffect } from "react";
+import { useState } from "react";
 import { useLocation } from "react-router-dom";
+import MenuContext from "../../store/menu-context";
 
 import classes from "./Board.module.css";
 import BoardList from "./BoardList";
@@ -8,6 +10,10 @@ import BoardTitle from "./BoardTitle";
 
 const Board = () => {
   const loc = useLocation();
+  const state = loc.state;
+
+  const menuCtx = useContext(MenuContext);
+
   const [ntcHide, setNtcHide] = useState(false);
   const [boardTyp, setBoardTyp] = useState("list");
   const [sortCnt, setSortCnt] = useState("10");
@@ -15,11 +21,10 @@ const Board = () => {
   const ntcShowHandler = (val) => {
     setNtcHide(val);
   };
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-  const state = loc.state;
 
+  useEffect(() => {
+    menuCtx.setBoard(state.typ);
+  }, [menuCtx, state.typ]);
   return (
     <div className={classes.mainData}>
       <BoardTitle

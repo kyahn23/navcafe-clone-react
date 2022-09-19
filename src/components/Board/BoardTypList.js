@@ -2,6 +2,16 @@ import { Link } from "react-router-dom";
 import classes from "./BoardTypList.module.css";
 
 const BoardTypList = (props) => {
+  let empty;
+  props.postList.length ? (empty = false) : (empty = true);
+  const noData = (
+    <tr>
+      <td colSpan="5">
+        <div className={classes.noData}>등록된 게시글이 없습니다.</div>
+      </td>
+    </tr>
+  );
+
   const regDtFormat = (val) => {
     let dt = new Date(val).toLocaleDateString();
     let time = new Date(val).toTimeString().split(" ")[0];
@@ -14,7 +24,6 @@ const BoardTypList = (props) => {
       return dt;
     }
   };
-
   return (
     <div>
       <table>
@@ -31,7 +40,9 @@ const BoardTypList = (props) => {
             <tr key={post.id}>
               <td className={classes.tdArticle}>
                 <div className={classes.boardNumber}>
-                  <div className={classes.innerNumber}>{idx + 1}</div>
+                  <div className={classes.innerNumber}>
+                    {props.postList.length - idx}
+                  </div>
                 </div>
               </td>
               <td className={classes.tdTitle}>
@@ -45,133 +56,7 @@ const BoardTypList = (props) => {
               {/* <td className={classes.tdLikes}>a</td> */}
             </tr>
           ))}
-
-          {/* <tr>
-            <td className={classes.tdArticle}>
-              <div className={classes.boardNumber}>
-                <div className={classes.innerNumber}>1</div>
-              </div>
-            </td>
-            <td className={classes.tdTitle}>
-              <Link to="/">aaaaaaa</Link>
-            </td>
-            <td className={classes.tdName}>a</td>
-            <td className={classes.tdDate}>a</td>
-            <td className={classes.tdView}>a</td>
-            <td className={classes.tdLikes}>a</td>
-          </tr>
-          <tr>
-            <td className={classes.tdArticle}>
-              <div className={classes.boardNumber}>
-                <div className={classes.innerNumber}>1</div>
-              </div>
-            </td>
-            <td className={classes.tdTitle}>
-              <Link to="/">aaaaaaa</Link>
-            </td>
-            <td className={classes.tdName}>a</td>
-            <td className={classes.tdDate}>a</td>
-            <td className={classes.tdView}>a</td>
-            <td className={classes.tdLikes}>a</td>
-          </tr>
-          <tr>
-            <td className={classes.tdArticle}>
-              <div className={classes.boardNumber}>
-                <div className={classes.innerNumber}>1</div>
-              </div>
-            </td>
-            <td className={classes.tdTitle}>
-              <Link to="/">aaaaaaa</Link>
-            </td>
-            <td className={classes.tdName}>a</td>
-            <td className={classes.tdDate}>a</td>
-            <td className={classes.tdView}>a</td>
-            <td className={classes.tdLikes}>a</td>
-          </tr>
-          <tr>
-            <td className={classes.tdArticle}>
-              <div className={classes.boardNumber}>
-                <div className={classes.innerNumber}>1</div>
-              </div>
-            </td>
-            <td className={classes.tdTitle}>
-              <Link to="/">aaaaaaa</Link>
-            </td>
-            <td className={classes.tdName}>a</td>
-            <td className={classes.tdDate}>a</td>
-            <td className={classes.tdView}>a</td>
-            <td className={classes.tdLikes}>a</td>
-          </tr>
-          <tr>
-            <td className={classes.tdArticle}>
-              <div className={classes.boardNumber}>
-                <div className={classes.innerNumber}>1</div>
-              </div>
-            </td>
-            <td className={classes.tdTitle}>
-              <Link to="/">aaaaaaa</Link>
-            </td>
-            <td className={classes.tdName}>a</td>
-            <td className={classes.tdDate}>a</td>
-            <td className={classes.tdView}>a</td>
-            <td className={classes.tdLikes}>a</td>
-          </tr>
-          <tr>
-            <td className={classes.tdArticle}>
-              <div className={classes.boardNumber}>
-                <div className={classes.innerNumber}>1</div>
-              </div>
-            </td>
-            <td className={classes.tdTitle}>
-              <Link to="/">aaaaaaa</Link>
-            </td>
-            <td className={classes.tdName}>a</td>
-            <td className={classes.tdDate}>a</td>
-            <td className={classes.tdView}>a</td>
-            <td className={classes.tdLikes}>a</td>
-          </tr>
-          <tr>
-            <td className={classes.tdArticle}>
-              <div className={classes.boardNumber}>
-                <div className={classes.innerNumber}>1</div>
-              </div>
-            </td>
-            <td className={classes.tdTitle}>
-              <Link to="/">aaaaaaa</Link>
-            </td>
-            <td className={classes.tdName}>a</td>
-            <td className={classes.tdDate}>a</td>
-            <td className={classes.tdView}>a</td>
-            <td className={classes.tdLikes}>a</td>
-          </tr>
-          <tr>
-            <td className={classes.tdArticle}>
-              <div className={classes.boardNumber}>
-                <div className={classes.innerNumber}>1</div>
-              </div>
-            </td>
-            <td className={classes.tdTitle}>
-              <Link to="/">aaaaaaa</Link>
-            </td>
-            <td className={classes.tdName}>a</td>
-            <td className={classes.tdDate}>a</td>
-            <td className={classes.tdView}>a</td>
-            <td className={classes.tdLikes}>a</td>
-          </tr>
-          <tr>
-            <td className={classes.tdArticle}>
-              <div className={classes.boardNumber}>
-                <div className={classes.innerNumber}>1</div>
-              </div>
-            </td>
-            <td className={classes.tdTitle}>
-              <Link to="/">aaaaaaa</Link>
-            </td>
-            <td className={classes.tdName}>a</td>
-            <td className={classes.tdDate}>a</td>
-            <td className={classes.tdView}>a</td>
-            <td className={classes.tdLikes}>a</td>
-          </tr> */}
+          {empty && noData}
         </tbody>
       </table>
     </div>

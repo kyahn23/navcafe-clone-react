@@ -12,6 +12,7 @@ import { useEffect } from "react";
 import { useContext } from "react";
 import AuthContext from "../../store/auth/auth-context";
 import { getPostList } from "../../service/firebase";
+import MenuContext from "../../store/menu-context";
 
 const options = [
   { value: "title", label: "제목" },
@@ -31,7 +32,6 @@ const BoardList = (props) => {
   if (!!typ) {
     typ = loc.state.typ;
   }
-  console.log(typ);
   let postBtnArea = true;
   if (authCtx.isLoggedIn) {
     if (typ === "notice") {
@@ -86,6 +86,7 @@ const BoardList = (props) => {
       </table>
 
       <BoardTypList postList={postList} />
+
       {authCtx.isLoggedIn && postBtnArea && (
         <div className={classes.postBtn}>
           <div className="fr">

@@ -1,15 +1,16 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState, useContext } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 import Header from "./Header";
 import Footer from "./Footer";
 import MenuInfo from "./MenuInfo";
 import AuthForm from "../Auth/AuthForm";
+import MenuContext from "../../store/menu-context";
 
 const Layout = (props) => {
   const loc = useLocation();
   const [authPageChk, setAuthPageChk] = useState(false);
-
+  const menuCtx = useContext(MenuContext);
   const authChkLayout = useCallback(() => {
     if (loc.pathname.includes("/auth")) {
       setAuthPageChk(true);
@@ -20,7 +21,10 @@ const Layout = (props) => {
     } else {
       setAuthPageChk(false);
     }
-  }, [loc.pathname]);
+    if (!loc.pathname.includes("/board")) {
+      menuCtx.setBoard("none");
+    }
+  }, [loc.pathname, menuCtx]);
 
   useEffect(() => {
     authChkLayout();

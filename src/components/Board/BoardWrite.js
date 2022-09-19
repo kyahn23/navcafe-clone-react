@@ -61,7 +61,6 @@ const BoardWrite = (props) => {
   // 취소
   const cancleHandler = () => {
     let board = boardTyp.filter((bd) => bd.value === typ);
-    console.log(board);
     if (typ === "main") {
       navigate("/");
     } else {
