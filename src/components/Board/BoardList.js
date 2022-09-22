@@ -11,8 +11,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { useContext } from "react";
 import AuthContext from "../../store/auth/auth-context";
-import { getPostList } from "../../service/firebase";
-import MenuContext from "../../store/menu-context";
+import { getPostPaiging } from "../../service/firebase";
 
 const options = [
   { value: "title", label: "제목" },
@@ -23,11 +22,12 @@ const options = [
 const BoardList = (props) => {
   const [noticeHide, setNoticeHide] = useState(false);
   const [postList, setPostList] = useState([]);
+  const [page, setPage] = useState("1");
+
   const loc = useLocation();
 
   const authCtx = useContext(AuthContext);
   const user = JSON.parse(localStorage.getItem("userInfo"));
-
   let typ = props.typ;
   if (!!typ) {
     typ = loc.state.typ;
@@ -40,9 +40,10 @@ const BoardList = (props) => {
       }
     }
   }
+  console.log(typ);
 
   useEffect(() => {
-    getPostList().then((res) => {
+    getPostPaiging(typ, page, props.postCnt).then((res) => {
       if (res.length) {
         let postArr;
         if (typ !== "all" && typ !== "main") {
@@ -54,7 +55,7 @@ const BoardList = (props) => {
         setPostList(postArr);
       }
     });
-  }, [typ]);
+  }, [typ, page, props.postCnt]);
   useEffect(() => {
     setNoticeHide(props.ntcHide);
   }, [props.ntcHide]);

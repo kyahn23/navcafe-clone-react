@@ -22,6 +22,10 @@ const Board = () => {
     setNtcHide(val);
   };
 
+  const cntHandler = (val) => {
+    setSortCnt(val);
+  };
+
   useEffect(() => {
     menuCtx.setBoard(state.typ);
   }, [menuCtx, state.typ]);
@@ -31,10 +35,14 @@ const Board = () => {
         txt={state.txt}
         ntcChk={ntcShowHandler}
         boardTyp={setBoardTyp}
-        postCnt={sortCnt}
-        setPostCnt={setSortCnt}
+        cnt={cntHandler}
       />
-      <BoardList typ={state.typ} ntcHide={ntcHide} boardSet={boardTyp} />
+      <BoardList
+        typ={state.typ}
+        ntcHide={ntcHide}
+        boardSet={boardTyp}
+        postCnt={sortCnt}
+      />
     </div>
   );
 };

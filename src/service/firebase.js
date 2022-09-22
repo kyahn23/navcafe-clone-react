@@ -8,12 +8,18 @@ import {
   addDoc,
   updateDoc,
   increment,
+  query,
+  orderBy,
+  limit,
+  startAt,
+  where,
 } from "firebase/firestore";
 import FirebaseConfig from "./firebaseConfig";
 
 // Initialize Firebase
 const app = initializeApp(FirebaseConfig);
 const user = JSON.parse(localStorage.getItem("userInfo"));
+console.log(user);
 
 export const db = getFirestore(app);
 
@@ -48,7 +54,10 @@ export const getDataDetail = async (col, docId) => {
 export const getPostList = async () => {
   try {
     const collectionRef = collection(db, "post");
-    const dataSnap = await getDocs(collectionRef);
+    const list = await query(collectionRef, orderBy("regDt", "desc"));
+    const dataSnap = await getDocs(list);
+
+    console.log(dataSnap);
 
     let data = [];
     for (const item of dataSnap.docs) {
@@ -66,6 +75,46 @@ export const getPostList = async () => {
     return data;
   } catch (error) {
     console.log(error);
+  }
+};
+
+export const getPostPaiging = async (typ, page, cnt) => {
+  try {
+    // 첫 페이지
+    const collectionRef = collection(db, "post");
+    const post = await query(
+      collectionRef,
+      // where("postTyp", "==", typ),
+      orderBy("regDt", "desc")
+    );
+    const postList = await getDocs(post);
+    console.log(postList.docs);
+
+    let firstIdx;
+    +page === 1 ? (firstIdx = 0) : (firstIdx = cnt * page);
+    console.log(firstIdx);
+    const first = postList.docs[firstIdx];
+    console.log(first);
+    const curPage = query(
+      collectionRef,
+      orderBy("regDt", "desc"),
+      startAt(first),
+      limit(cnt)
+    );
+    const dataSnap = await getDocs(curPage);
+
+    let data = [];
+    for (const item of dataSnap.docs) {
+      const post = item.data();
+      const memberRef = doc(db, "member", post.writer);
+      const mbSnap = await getDoc(memberRef);
+      post.nickName = mbSnap.data().nickName;
+      post.id = item.id;
+      data.push(post);
+    }
+    return data;
+  } catch (error) {
+    return error;
   }
 };
 
