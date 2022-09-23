@@ -82,19 +82,22 @@ export const getPostPaiging = async (typ, page, cnt) => {
   try {
     // 첫 페이지
     const collectionRef = collection(db, "post");
-    const post = await query(
-      collectionRef,
-      // where("postTyp", "==", typ),
-      orderBy("regDt", "desc")
-    );
+    let post;
+    if (typ === "all" || typ === "main") {
+      post = await query(collectionRef, orderBy("regDt", "desc"));
+    } else {
+      post = await query(
+        collectionRef,
+        where("postTyp", "==", typ),
+        orderBy("regDt", "desc")
+      );
+    }
+
     const postList = await getDocs(post);
-    console.log(postList.docs);
 
     let firstIdx;
     +page === 1 ? (firstIdx = 0) : (firstIdx = cnt * page);
-    console.log(firstIdx);
     const first = postList.docs[firstIdx];
-    console.log(first);
     const curPage = query(
       collectionRef,
       orderBy("regDt", "desc"),
@@ -112,7 +115,11 @@ export const getPostPaiging = async (typ, page, cnt) => {
       post.id = item.id;
       data.push(post);
     }
-    return data;
+
+    let rslt = {};
+    rslt.totalCnt = postList.docs.length;
+    rslt.list = data;
+    return rslt;
   } catch (error) {
     return error;
   }

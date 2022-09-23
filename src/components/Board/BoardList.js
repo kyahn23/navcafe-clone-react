@@ -20,9 +20,11 @@ const options = [
 ];
 
 const BoardList = (props) => {
-  const [noticeHide, setNoticeHide] = useState(false);
-  const [postList, setPostList] = useState([]);
-  const [page, setPage] = useState("1");
+  const [noticeHide, setNoticeHide] = useState(false); // 공지사항 보이기 체크여부
+  const [postList, setPostList] = useState([]); // 현재 페이지에 표시할 게시글리스트
+  const [page, setPage] = useState(1); // 현재 페이지
+  const [totCnt, setTotCnt] = useState(0); // 전체 게시글 수
+  const [paging, setPaiging] = useState([]);
 
   const loc = useLocation();
 
@@ -40,19 +42,60 @@ const BoardList = (props) => {
       }
     }
   }
-  console.log(typ);
+
+  let startPgNum;
+  let endPgNum;
+  const paginationAreaRender = () => {
+    let pg = [];
+    console.log("현재게시판 전체 게시글수", totCnt);
+    let pgEndNum = parseInt(totCnt / props.postCnt + 1); // 마지막 페이지 넘버
+    console.log("마지막페이지", pgEndNum);
+    startPgNum = parseInt(page / 10);
+    if (startPgNum % 10 === 0) {
+      startPgNum++;
+    }
+    console.log("현재화면 시작페이지", startPgNum);
+
+    endPgNum = startPgNum + 10;
+    if (endPgNum > pgEndNum) {
+      endPgNum = pgEndNum;
+    }
+    console.log("현재화면 마지막페이지", endPgNum);
+
+    // if (parseInt(paigination / props.postCnt) < page + 10) {
+    for (let i = startPgNum; i < endPgNum; i++) {
+      pg.push(i);
+    }
+    if (startPgNum === endPgNum) {
+      pg.push(startPgNum);
+    }
+    if (endPgNum < pgEndNum) {
+      pg.push("next");
+    }
+    console.log(pg);
+    setPaiging(pg);
+  };
+
+  const pagelistRender = (val) => {
+    setPage(val);
+  };
+
+  useEffect(() => {
+    paginationAreaRender();
+  }, [page]);
 
   useEffect(() => {
     getPostPaiging(typ, page, props.postCnt).then((res) => {
-      if (res.length) {
+      if (res.list.length) {
         let postArr;
-        if (typ !== "all" && typ !== "main") {
-          postArr = res.filter((post) => post.postTyp === typ);
-          // boardTyp.filter((option) => option.value !== "notice");
-        } else {
-          postArr = res;
-        }
+        // if (typ !== "all" && typ !== "main") {
+        //   postArr = res.list.filter((post) => post.postTyp === typ);
+        //   // boardTyp.filter((option) => option.value !== "notice");
+        // } else {
+        postArr = res.list;
+        // }
         setPostList(postArr);
+        setTotCnt(res.totalCnt);
       }
     });
   }, [typ, page, props.postCnt]);
@@ -102,21 +145,33 @@ const BoardList = (props) => {
         </div>
       )}
       <div className={classes.prevNext}>
-        <span className={classes.on}>1</span>
-        <span>2</span>
-        <span>3</span>
-        <span>4</span>
-        <span>5</span>
-        <span>6</span>
-        <span>7</span>
-        <span>8</span>
-        <span>9</span>
-        <span>10</span>
-        <span className={classes.pgR}>
-          <div>
-            <AiOutlineRight />
-          </div>
-        </span>
+        {paging.map((num) => {
+          if (num === page) {
+            return (
+              <span key={num} className={classes.on}>
+                {num}
+              </span>
+            );
+          } else if (num === "next") {
+            return (
+              <span
+                key={num}
+                className={classes.pgR}
+                onClick={() => pagelistRender(num)}
+              >
+                <div>
+                  <AiOutlineRight />
+                </div>
+              </span>
+            );
+          } else {
+            return (
+              <span key={num} onClick={() => pagelistRender(num)}>
+                {num}
+              </span>
+            );
+          }
+        })}
       </div>
       <div className={classes.listSearch}>
         <div className={classes.selectTyp}>
