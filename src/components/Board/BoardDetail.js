@@ -5,7 +5,7 @@ import { Link, useLocation } from "react-router-dom";
 import { useRef } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
-import { getPostDetail, viewCntInc } from "../../service/firebase";
+import { addComment, getPostDetail, viewCntInc } from "../../service/firebase";
 import { useContext } from "react";
 import AuthContext from "../../store/auth/auth-context";
 
@@ -20,6 +20,7 @@ import AuthContext from "../../store/auth/auth-context";
 
 const BoardDetail = () => {
   const [postInfo, setPostInfo] = useState({});
+  const [commentList, setCommentList] = useState([]);
   const loc = useLocation();
   const st = loc.state;
   const authCtx = useContext(AuthContext);
@@ -36,26 +37,21 @@ const BoardDetail = () => {
     const textContent = commentInputRef.current.value;
 
     const postData = {
-      postId: postInfo.id,
+      postId: st.id,
       content: textContent,
     };
     console.log(postData);
-    // addPost(postData).then((res) => {
-    //   if (res) {
-    //     alert("게시글이 등록되었습니다.");
-    //     navigate("/board/detail", {
-    //       state: {
-    //         id: res,
-    //       },
-    //     });
-    //   }
-    // });
+    addComment(postData).then(() => {
+      commentInputRef.current.value = "";
+    });
   };
 
   useEffect(() => {
     viewCntInc(st.id);
     getPostDetail(st.id).then((res) => {
-      setPostInfo(res);
+      console.log(res);
+      setPostInfo(res.postInfo);
+      setCommentList(res.commentList);
     });
   }, [st.id]);
 
@@ -101,7 +97,7 @@ const BoardDetail = () => {
               <span onClick={moveToReplyBox} className={classes.buttonComment}>
                 <BiMessageRoundedDetail />
                 댓글
-                <strong className={classes.num}>3</strong>
+                <strong className={classes.num}>{commentList.length}</strong>
               </span>
             </div>
           </div>
@@ -113,74 +109,51 @@ const BoardDetail = () => {
                   <span className={classes.buttonComment}>
                     <BiMessageRoundedDetail />
                     댓글
-                    <strong className={classes.num}>3</strong>
+                    <strong className={classes.num}>
+                      {commentList.length}
+                    </strong>
                   </span>
                 </div>
               </div>
               <div ref={replyArea} className={classes.commentBox}>
-                <div className={classes.commentOption}>
-                  <h3 className={classes.commentTitle}>댓글</h3>
-                  <div className={classes.commentTab}></div>
-                </div>
+                {commentList.length > 0 && (
+                  <div className={classes.commentOption}>
+                    <h3 className={classes.commentTitle}>댓글</h3>
+                    <div className={classes.commentTab}></div>
+                  </div>
+                )}
                 <ul className={classes.commentList}>
-                  <li id="89951807" className={classes.commentItem}>
-                    <div className={classes.commentArea}>
-                      <div className={classes.commentTab}>
-                        <div className={classes.commentNickBox}>
-                          <div className={classes.commentNickInfo}>
-                            <span className={classes.commentNickname}>09</span>
+                  {commentList.length > 0 &&
+                    commentList.map((comment) => (
+                      <li key={comment.id} className={classes.commentItem}>
+                        <div className={classes.commentArea}>
+                          <div className={classes.commentTab}>
+                            <div className={classes.commentNickBox}>
+                              <div className={classes.commentNickInfo}>
+                                <span className={classes.commentNickname}>
+                                  {comment.nickName}
+                                </span>
+                              </div>
+                            </div>
+                            <div className={classes.commentTextBox}>
+                              <p className={classes.commentTextView}>
+                                <span className={classes.textComment}>
+                                  {comment.content}
+                                </span>
+                              </p>
+                            </div>
+                            <div className={classes.commentInfoBox}>
+                              <span className={classes.commentInfoDate}>
+                                {new Date(comment.regDt).toLocaleString()}
+                              </span>
+                              {/* <span className={classes.commentInfoButton}>
+                                답글쓰기
+                              </span> */}
+                            </div>
                           </div>
                         </div>
-                        <div className={classes.commentTextBox}>
-                          <p className={classes.commentTextView}>
-                            <span className={classes.textComment}>
-                              츄는 추천하지 않고 시민리는 추천할만 합니다
-                              <br />
-                              그외 추천할만한게 비퀴즈 어텀정도요
-                            </span>
-                          </p>
-                        </div>
-                        <div className={classes.commentInfoBox}>
-                          <span className={classes.commentInfoDate}>
-                            2022.09.12. 11:37
-                          </span>
-                          <span className={classes.commentInfoButton}>
-                            답글쓰기
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </li>
-                  <li className={classes.commentItem}>
-                    <div className={classes.commentArea}>
-                      <div className={classes.commentTab}>
-                        <div className={classes.commentNickBox}>
-                          <div className={classes.commentNickInfo}>
-                            <span className={classes.commentNickname}>
-                              닉네임
-                            </span>
-                          </div>
-                        </div>
-                        <div className={classes.commentTextBox}>
-                          <p className={classes.commentTextView}>
-                            <span className={classes.textComment}>
-                              츄는 추천하지 않고 시민리는 추천할만 합니다
-                              <br />
-                              ㅇㄴ녀
-                            </span>
-                          </p>
-                        </div>
-                        <div className={classes.commentInfoBox}>
-                          <span className={classes.commentInfoDate}>
-                            2022.09.12. 11:37
-                          </span>
-                          <span className={classes.commentInfoButton}>
-                            답글쓰기
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </li>
+                      </li>
+                    ))}
                 </ul>
                 {authCtx.isLoggedIn && (
                   <div className={classes.commentWriter}>
@@ -197,7 +170,12 @@ const BoardDetail = () => {
                     </div>
                     <div className={classes.commentRegist}>
                       <div className={classes.registerBox}>
-                        <span className={classes.btnRegister}>등록</span>
+                        <span
+                          className={classes.btnRegister}
+                          onClick={registCommentHandler}
+                        >
+                          등록
+                        </span>
                       </div>
                     </div>
                   </div>

@@ -176,32 +176,54 @@ export const getPostDetail = async (docId) => {
     const memberRef = doc(db, "member", dataSnap.data().writer);
     const mbSnap = await getDoc(memberRef);
 
-    let rslt;
-    rslt = dataSnap.data();
-    rslt.nickName = mbSnap.data().nickName;
-    switch (rslt.postTyp) {
+    const commentRef = collection(db, "comment");
+    let commentDoc;
+    commentDoc = await query(
+      commentRef,
+      where("postId", "==", docId),
+      orderBy("regDt", "desc")
+    );
+    let commentArr = [];
+    const commentSnap = await getDocs(commentDoc);
+    for (const item of commentSnap.docs) {
+      const comment = item.data();
+      const memberRef = doc(db, "member", comment.writer);
+      const mbSnap = await getDoc(memberRef);
+      comment.nickName = mbSnap.data().nickName;
+      comment.id = item.id;
+      commentArr.push(comment);
+    }
+
+    let postInfo;
+    postInfo = dataSnap.data();
+    postInfo.nickName = mbSnap.data().nickName;
+    switch (postInfo.postTyp) {
       case "notice":
-        rslt.postTypNm = "카페공지";
+        postInfo.postTypNm = "카페공지";
         break;
       case "free":
-        rslt.postTypNm = "자유게시판";
+        postInfo.postTypNm = "자유게시판";
         break;
       case "qna":
-        rslt.postTypNm = "질문게시판";
+        postInfo.postTypNm = "질문게시판";
         break;
       default:
         break;
     }
-    switch (rslt.postHeader) {
+    switch (postInfo.postHeader) {
       case "talk":
-        rslt.postHeaderNm = "잡담";
+        postInfo.postHeaderNm = "[잡담]";
         break;
       case "info":
-        rslt.postHeaderNm = "정보";
+        postInfo.postHeaderNm = "[정보]";
         break;
       default:
         break;
     }
+
+    let rslt = {};
+    rslt.postInfo = postInfo;
+    rslt.commentList = commentArr;
     return rslt;
   } catch (error) {
     return error;
@@ -229,15 +251,15 @@ export const addPost = async (data) => {
 export const addComment = async (data) => {
   const user = JSON.parse(localStorage.getItem("userInfo"));
 
-  let postData;
+  let commentData;
   data.regDt = Date.now(); // 작성일
   data.modiDt = Date.now(); // 수정일
   data.writer = user.id; // 작성자
 
-  postData = data;
+  commentData = data;
   try {
-    const docRef = await addDoc(collection(db, "comment"), postData);
-    return docRef.id;
+    await addDoc(collection(db, "comment"), commentData);
+    // return docRef.id;
   } catch (error) {
     return error;
   }
