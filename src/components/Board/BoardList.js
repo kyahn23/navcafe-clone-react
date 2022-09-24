@@ -10,7 +10,7 @@ import BoardTypList from "./BoardTypList";
 
 import { AiOutlineRight } from "react-icons/ai";
 import AuthContext from "../../store/auth/auth-context";
-import { getPostPaiging } from "../../service/firebase";
+import { getPostPaiging, getTopNtc } from "../../service/firebase";
 
 const options = [
   { value: "title", label: "제목" },
@@ -20,6 +20,7 @@ const options = [
 
 const BoardList = (props) => {
   // const [noticeHide, setNoticeHide] = useState(false); // 공지사항 보이기 체크여부
+  const [topNtc, setTopNtc] = useState([]); // 상단 공지사항
   const [postList, setPostList] = useState([]); // 현재 페이지에 표시할 게시글리스트
   const [page, setPage] = useState(1); // 현재 페이지
   const [totCnt, setTotCnt] = useState(0); // 전체 게시글 수
@@ -76,6 +77,12 @@ const BoardList = (props) => {
   const pagelistRender = (val) => {
     setPage(val);
   };
+  useEffect(() => {
+    getTopNtc().then((res) => {
+      console.log(res);
+      setTopNtc(res);
+    });
+  }, []);
 
   useEffect(() => {
     getPostPaiging(typ, page, props.postCnt).then((res) => {
@@ -111,7 +118,7 @@ const BoardList = (props) => {
             {/* <th scope="col">좋아요</th> */}
           </tr>
         </thead>
-        <tbody>{!props.ntcHide && <BoardNotice />}</tbody>
+        <tbody>{!props.ntcHide && <BoardNotice ntcList={topNtc} />}</tbody>
       </table>
 
       <BoardTypList

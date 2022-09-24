@@ -76,6 +76,42 @@ export const getPostList = async () => {
   }
 };
 
+export const getTopNtc = async () => {
+  try {
+    const collectionRef = collection(db, "post");
+    const list = await query(
+      collectionRef,
+      where("noticeYn", "==", true),
+      // orderBy("regDt", "desc"),
+      limit(2)
+    );
+    const dataSnap = await getDocs(list);
+    let data = [];
+    for (const item of dataSnap.docs) {
+      const post = item.data();
+      const memberRef = doc(db, "member", post.writer);
+      const mbSnap = await getDoc(memberRef);
+      post.nickName = mbSnap.data().nickName;
+      post.id = item.id;
+
+      const commentRef = collection(db, "comment");
+      let commentDoc;
+      commentDoc = await query(
+        commentRef,
+        where("postId", "==", item.id),
+        orderBy("regDt", "desc")
+      );
+      const commentSnap = await getDocs(commentDoc);
+      post.commentCnt = commentSnap.docs.length;
+
+      data.push(post);
+    }
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const getPostPaiging = async (typ, page, cnt) => {
   try {
     // 첫 페이지
@@ -124,6 +160,17 @@ export const getPostPaiging = async (typ, page, cnt) => {
         const mbSnap = await getDoc(memberRef);
         post.nickName = mbSnap.data().nickName;
         post.id = item.id;
+
+        const commentRef = collection(db, "comment");
+        let commentDoc;
+        commentDoc = await query(
+          commentRef,
+          where("postId", "==", item.id),
+          orderBy("regDt", "desc")
+        );
+        const commentSnap = await getDocs(commentDoc);
+        post.commentCnt = commentSnap.docs.length;
+
         data.push(post);
       }
     }

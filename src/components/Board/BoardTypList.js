@@ -1,6 +1,19 @@
 import { Link } from "react-router-dom";
 import classes from "./BoardTypList.module.css";
 
+export const regDtFormat = (val) => {
+  let dt = new Date(val).toLocaleDateString();
+  let time = new Date(val).toTimeString().split(" ")[0];
+
+  time = time.substring(0, 5);
+  let now = new Date().toLocaleDateString();
+  if (dt === now) {
+    return time;
+  } else {
+    return dt;
+  }
+};
+
 const BoardTypList = (props) => {
   let empty;
   props.postList.length ? (empty = false) : (empty = true);
@@ -12,18 +25,6 @@ const BoardTypList = (props) => {
     </tr>
   );
 
-  const regDtFormat = (val) => {
-    let dt = new Date(val).toLocaleDateString();
-    let time = new Date(val).toTimeString().split(" ")[0];
-
-    time = time.substring(0, 5);
-    let now = new Date().toLocaleDateString();
-    if (dt === now) {
-      return time;
-    } else {
-      return dt;
-    }
-  };
   return (
     <div>
       <table>
@@ -49,6 +50,11 @@ const BoardTypList = (props) => {
                 <Link to="/board/detail" state={{ id: post.id }}>
                   {post.title}
                 </Link>
+                {post.commentCnt > 0 ? (
+                  <span className={classes.commentCnt}>
+                    [{post.commentCnt}]
+                  </span>
+                ) : null}
               </td>
               <td className={classes.tdName}>{post.nickName}</td>
               <td className={classes.tdDate}>{regDtFormat(post.regDt)}</td>

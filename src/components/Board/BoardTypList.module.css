@@ -24,3 +24,10 @@
   padding: 100px 0;
   text-align: center;
 }
+
+.commentCnt {
+  margin-left: 5px;
+  font-size: 13px;
+  font-weight: bold;
+  color: red;
+}

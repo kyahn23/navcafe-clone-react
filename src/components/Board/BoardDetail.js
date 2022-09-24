@@ -33,6 +33,11 @@ const BoardDetail = () => {
     replyArea.current.scrollIntoView();
   };
 
+  const contentArea = useRef();
+  const moveToTop = () => {
+    contentArea.current.scrollIntoView();
+  };
+
   const registCommentHandler = () => {
     const textContent = commentInputRef.current.value;
 
@@ -58,7 +63,7 @@ const BoardDetail = () => {
   return (
     <div className={classes.boardDetail}>
       <div className={classes.wrap}>
-        <div className={classes.contentBox}>
+        <div ref={contentArea} className={classes.contentBox}>
           <div className={classes.detailHeader}>
             <div className={classes.BoardTyp}>
               <Link
@@ -183,6 +188,21 @@ const BoardDetail = () => {
               </div>
             </div>
           </div>
+        </div>
+        <div className={classes.ArticleBottomBtns}>
+          <Link
+            to="/board"
+            className={classes.bottomBtn}
+            state={{ typ: postInfo.postTyp, txt: postInfo.postTypNm }}
+          >
+            목록
+          </Link>
+          <span
+            className={`${classes.bottomBtnList} ${classes.bottomBtn}`}
+            onClick={moveToTop}
+          >
+            <span>TOP</span>
+          </span>
         </div>
       </div>
     </div>
