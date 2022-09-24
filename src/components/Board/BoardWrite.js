@@ -32,7 +32,8 @@ const BoardWrite = (props) => {
   const [bdSelect, setBdSelect] = useState(null);
   const [hdSelect, setHdSelect] = useState(null);
   let currPage;
-
+  const user = JSON.parse(localStorage.getItem("userInfo"));
+  const isNtcYn = user.level === "admin";
   useEffect(() => {
     if (typ !== "all" && typ !== "main") {
       setBdSelect(typ);
@@ -40,7 +41,6 @@ const BoardWrite = (props) => {
   }, [typ]);
 
   // 게시판 목록
-
   if (typ === "all" || typ === "main") {
     currPage = boardTyp.filter((option) => option.value !== "notice");
   } else {
@@ -49,6 +49,7 @@ const BoardWrite = (props) => {
 
   const inputTitleRef = useRef();
   const inputContentRef = useRef();
+  const ntcYnRef = useRef();
 
   const boardChgHandler = (val) => {
     setBdSelect(val.value);
@@ -78,6 +79,7 @@ const BoardWrite = (props) => {
     const postTitle = inputTitleRef.current.value;
     const textContent = inputContentRef.current.getInstance(); //.getHTML() html 형태로  || .getMarkdown() markdown 형태로
 
+    const ntcYn = isNtcYn ? ntcYnRef.current.checked : false;
     if (!!bdSelect === false) {
       alert("게시판을 선택해주세요.");
       return;
@@ -95,7 +97,10 @@ const BoardWrite = (props) => {
       content: textContent.getMarkdown(),
       postTyp: bdSelect,
       postHeader: hdSelect,
+      noticeYn: ntcYn,
     };
+
+    console.log(postData);
     addPost(postData).then((res) => {
       if (res) {
         alert("게시글이 등록되었습니다.");
@@ -110,7 +115,15 @@ const BoardWrite = (props) => {
   return (
     <div className={classes.boardWrite}>
       <div className={classes.writeHeader}>
-        <h3 className={classes.title}>카페글쓰기</h3>
+        <h3 className={classes.title}>
+          카페글쓰기
+          {isNtcYn && (
+            <span className={classes.noticeYn}>
+              <input type="checkbox" id="ntcYn" ref={ntcYnRef} />
+              <label htmlFor="ntcYn">공지사항 등록</label>
+            </span>
+          )}
+        </h3>
       </div>
       <div className={classes.writeContent}>
         <div className={classes.writingTitle}>

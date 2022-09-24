@@ -18,8 +18,6 @@ import FirebaseConfig from "./firebaseConfig";
 
 // Initialize Firebase
 const app = initializeApp(FirebaseConfig);
-const user = JSON.parse(localStorage.getItem("userInfo"));
-console.log(user);
 
 export const db = getFirestore(app);
 
@@ -96,29 +94,73 @@ export const getPostPaiging = async (typ, page, cnt) => {
     const postList = await getDocs(post);
 
     let firstIdx;
-    +page === 1 ? (firstIdx = 0) : (firstIdx = cnt * page);
+    +page === 1 ? (firstIdx = 0) : (firstIdx = cnt * (page - 1));
     const first = postList.docs[firstIdx];
-    const curPage = query(
-      collectionRef,
-      orderBy("regDt", "desc"),
-      startAt(first),
-      limit(cnt)
-    );
-    const dataSnap = await getDocs(curPage);
-
+    console.log("몇개씩 firebase", cnt);
+    let curPage;
     let data = [];
-    for (const item of dataSnap.docs) {
-      const post = item.data();
-      const memberRef = doc(db, "member", post.writer);
-      const mbSnap = await getDoc(memberRef);
-      post.nickName = mbSnap.data().nickName;
-      post.id = item.id;
-      data.push(post);
+    if (!!first === true) {
+      if (typ === "all" || typ === "main") {
+        curPage = query(
+          collectionRef,
+          orderBy("regDt", "desc"),
+          startAt(first),
+          limit(cnt)
+        );
+      } else {
+        curPage = query(
+          collectionRef,
+          where("postTyp", "==", typ),
+          orderBy("regDt", "desc"),
+          startAt(first),
+          limit(cnt)
+        );
+      }
+
+      const dataSnap = await getDocs(curPage);
+      for (const item of dataSnap.docs) {
+        const post = item.data();
+        const memberRef = doc(db, "member", post.writer);
+        const mbSnap = await getDoc(memberRef);
+        post.nickName = mbSnap.data().nickName;
+        post.id = item.id;
+        data.push(post);
+      }
+    }
+
+    let startPgNum;
+    let endPgNum;
+    let pg = [];
+    console.log("현재게시판 전체게시글 수", postList.docs.length);
+    let pgEndNum = parseInt(postList.docs.length / cnt); // 마지막 페이지 넘버
+    if (postList.docs.length % cnt !== 0) {
+      pgEndNum = parseInt(postList.docs.length / cnt) + 1;
+    }
+    console.log("마지막페이지", pgEndNum);
+    startPgNum = parseInt(page / 10);
+    if (startPgNum % 10 === 0) {
+      startPgNum++;
+    }
+    console.log("현재화면 시작페이지", startPgNum);
+
+    endPgNum = startPgNum + 10;
+    if (endPgNum > pgEndNum) {
+      endPgNum = pgEndNum;
+    }
+    console.log("현재화면 마지막페이지", endPgNum);
+
+    for (let i = startPgNum; i <= endPgNum; i++) {
+      pg.push(i);
+    }
+    if (endPgNum < pgEndNum) {
+      pg.push("next");
     }
 
     let rslt = {};
     rslt.totalCnt = postList.docs.length;
+    rslt.paiging = pg;
     rslt.list = data;
+    console.log("현재게시판 전체게시글수.현재페이지 게시글리스트", rslt);
     return rslt;
   } catch (error) {
     return error;
@@ -167,6 +209,8 @@ export const getPostDetail = async (docId) => {
 };
 
 export const addPost = async (data) => {
+  const user = JSON.parse(localStorage.getItem("userInfo"));
+
   let postData;
   data.regDt = Date.now(); // 작성일
   data.modiDt = Date.now(); // 수정일
@@ -176,6 +220,23 @@ export const addPost = async (data) => {
   postData = data;
   try {
     const docRef = await addDoc(collection(db, "post"), postData);
+    return docRef.id;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const addComment = async (data) => {
+  const user = JSON.parse(localStorage.getItem("userInfo"));
+
+  let postData;
+  data.regDt = Date.now(); // 작성일
+  data.modiDt = Date.now(); // 수정일
+  data.writer = user.id; // 작성자
+
+  postData = data;
+  try {
+    const docRef = await addDoc(collection(db, "comment"), postData);
     return docRef.id;
   } catch (error) {
     return error;

@@ -6,6 +6,8 @@ import { useRef } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { getPostDetail, viewCntInc } from "../../service/firebase";
+import { useContext } from "react";
+import AuthContext from "../../store/auth/auth-context";
 
 // 게시판 종류
 // const boardTyp = [
@@ -20,10 +22,34 @@ const BoardDetail = () => {
   const [postInfo, setPostInfo] = useState({});
   const loc = useLocation();
   const st = loc.state;
+  const authCtx = useContext(AuthContext);
+  const user = JSON.parse(localStorage.getItem("userInfo"));
+
+  const commentInputRef = useRef();
 
   const replyArea = useRef();
   const moveToReplyBox = () => {
     replyArea.current.scrollIntoView();
+  };
+
+  const registCommentHandler = () => {
+    const textContent = commentInputRef.current.value;
+
+    const postData = {
+      postId: postInfo.id,
+      content: textContent,
+    };
+    console.log(postData);
+    // addPost(postData).then((res) => {
+    //   if (res) {
+    //     alert("게시글이 등록되었습니다.");
+    //     navigate("/board/detail", {
+    //       state: {
+    //         id: res,
+    //       },
+    //     });
+    //   }
+    // });
   };
 
   useEffect(() => {
@@ -156,21 +182,26 @@ const BoardDetail = () => {
                     </div>
                   </li>
                 </ul>
-                <div className={classes.commentWriter}>
-                  <div className={classes.commentInbox}>
-                    <em className={classes.commentInboxName}>구엉</em>
-                    <textarea
-                      placeholder="댓글을 남겨보세요"
-                      rows="1"
-                      className={classes.commentInboxText}
-                    />
-                  </div>
-                  <div className={classes.commentRegist}>
-                    <div className={classes.registerBox}>
-                      <span className={classes.btnRegister}>등록</span>
+                {authCtx.isLoggedIn && (
+                  <div className={classes.commentWriter}>
+                    <div className={classes.commentInbox}>
+                      <em className={classes.commentInboxName}>
+                        {authCtx.isLoggedIn && user.nickName}
+                      </em>
+                      <textarea
+                        placeholder="댓글을 남겨보세요"
+                        rows="1"
+                        ref={commentInputRef}
+                        className={classes.commentInboxText}
+                      />
+                    </div>
+                    <div className={classes.commentRegist}>
+                      <div className={classes.registerBox}>
+                        <span className={classes.btnRegister}>등록</span>
+                      </div>
                     </div>
                   </div>
-                </div>
+                )}
               </div>
             </div>
           </div>

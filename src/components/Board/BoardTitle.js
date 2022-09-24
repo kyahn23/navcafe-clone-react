@@ -38,7 +38,7 @@ const BoardTitle = (props) => {
 
   const listCntHandler = (val) => {
     setSortCnt(val.value);
-    props.cnt(sortCnt);
+    props.cnt(val.value);
   };
 
   const cardTypHandler = () => {

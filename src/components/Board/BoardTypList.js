@@ -41,7 +41,7 @@ const BoardTypList = (props) => {
               <td className={classes.tdArticle}>
                 <div className={classes.boardNumber}>
                   <div className={classes.innerNumber}>
-                    {props.postList.length - idx}
+                    {props.totLength - props.postCnt * (props.page - 1) - idx}
                   </div>
                 </div>
               </td>
