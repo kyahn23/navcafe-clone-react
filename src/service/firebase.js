@@ -1,4 +1,5 @@
 import { initializeApp } from "firebase/app";
+import { getStorage } from "firebase/storage";
 import {
   getFirestore,
   collection,
@@ -20,6 +21,8 @@ import FirebaseConfig from "./firebaseConfig";
 const app = initializeApp(FirebaseConfig);
 
 export const db = getFirestore(app);
+
+export const storage = getStorage(app);
 
 export const getData = async (col) => {
   try {
@@ -49,27 +52,115 @@ export const getDataDetail = async (col, docId) => {
   }
 };
 
-export const getPostList = async () => {
+// 메인화면 데이터가져오기
+export const getMainList = async () => {
   try {
+    let data = {};
     const collectionRef = collection(db, "post");
-    const list = await query(collectionRef, orderBy("regDt", "desc"));
-    const dataSnap = await getDocs(list);
-
-    console.log(dataSnap);
-
-    let data = [];
-    for (const item of dataSnap.docs) {
+    // 상단 공지사항
+    const topNtclist = await query(
+      collectionRef,
+      where("noticeYn", "==", true),
+      // orderBy("regDt", "desc"),
+      limit(2)
+    );
+    const ntcSnap = await getDocs(topNtclist);
+    let ntcList = [];
+    for (const item of ntcSnap.docs) {
       const post = item.data();
-      const memberRef = doc(db, "member", post.writer);
-      const mbSnap = await getDoc(memberRef);
-      post.nickName = mbSnap.data().nickName;
       post.id = item.id;
-      data.push(post);
+
+      const commentRef = collection(db, "comment");
+      let commentDoc;
+      commentDoc = await query(
+        commentRef,
+        where("postId", "==", item.id),
+        orderBy("regDt", "desc")
+      );
+      const commentSnap = await getDocs(commentDoc);
+      post.commentCnt = commentSnap.docs.length;
+
+      ntcList.push(post);
     }
-    // const data = dataSnap.docs.map((doc) => ({
-    //   ...doc.data(),
-    //   id: doc.id,
-    // }));
+
+    // 전체게시글
+    const allPostList = await query(
+      collectionRef,
+      orderBy("regDt", "desc"),
+      limit(6)
+    );
+    const allSnap = await getDocs(allPostList);
+    let allList = [];
+    for (const item of allSnap.docs) {
+      const post = item.data();
+      post.id = item.id;
+
+      const commentRef = collection(db, "comment");
+      let commentDoc;
+      commentDoc = await query(
+        commentRef,
+        where("postId", "==", item.id),
+        orderBy("regDt", "desc")
+      );
+      const commentSnap = await getDocs(commentDoc);
+      post.commentCnt = commentSnap.docs.length;
+      allList.push(post);
+    }
+
+    // 자유게시판
+    const freePostList = await query(
+      collectionRef,
+      where("postTyp", "==", "free"),
+      orderBy("regDt", "desc"),
+      limit(6)
+    );
+    const freePostSnap = await getDocs(freePostList);
+    let freeList = [];
+    for (const item of freePostSnap.docs) {
+      const post = item.data();
+      post.id = item.id;
+
+      const commentRef = collection(db, "comment");
+      let commentDoc;
+      commentDoc = await query(
+        commentRef,
+        where("postId", "==", item.id),
+        orderBy("regDt", "desc")
+      );
+      const commentSnap = await getDocs(commentDoc);
+      post.commentCnt = commentSnap.docs.length;
+      freeList.push(post);
+    }
+
+    // 질문게시판
+    const qnaPostList = await query(
+      collectionRef,
+      where("postTyp", "==", "qna"),
+      orderBy("regDt", "desc"),
+      limit(6)
+    );
+    const qnaPostSnap = await getDocs(qnaPostList);
+    let qnaList = [];
+    for (const item of qnaPostSnap.docs) {
+      const post = item.data();
+      post.id = item.id;
+
+      const commentRef = collection(db, "comment");
+      let commentDoc;
+      commentDoc = await query(
+        commentRef,
+        where("postId", "==", item.id),
+        orderBy("regDt", "desc")
+      );
+      const commentSnap = await getDocs(commentDoc);
+      post.commentCnt = commentSnap.docs.length;
+      qnaList.push(post);
+    }
+
+    data.ntcList = ntcList;
+    data.allList = allList;
+    data.freeList = freeList;
+    data.qnaList = qnaList;
     return data;
   } catch (error) {
     console.log(error);
@@ -274,6 +365,31 @@ export const getPostDetail = async (docId) => {
     return rslt;
   } catch (error) {
     return error;
+  }
+};
+
+export const getCommentList = async (docId) => {
+  try {
+    const commentRef = collection(db, "comment");
+    let commentDoc;
+    commentDoc = await query(
+      commentRef,
+      where("postId", "==", docId),
+      orderBy("regDt", "desc")
+    );
+    let commentArr = [];
+    const commentSnap = await getDocs(commentDoc);
+    for (const item of commentSnap.docs) {
+      const comment = item.data();
+      const memberRef = doc(db, "member", comment.writer);
+      const mbSnap = await getDoc(memberRef);
+      comment.nickName = mbSnap.data().nickName;
+      comment.id = item.id;
+      commentArr.push(comment);
+    }
+    return commentArr;
+  } catch (error) {
+    console.log(error);
   }
 };
 

@@ -1,12 +1,86 @@
 import classes from "./MainPage.module.css";
 import { FiArrowRight } from "react-icons/fi";
 import { useEffect } from "react";
-import { getData } from "../../service/firebase";
+import { getData, getMainList, getTopNtc } from "../../service/firebase";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
 const MainPage = () => {
-  useEffect(() => {}, []);
+  const [topNtc, setTopNtc] = useState([]);
+  const [allPost, setAllPost] = useState([]);
+  const [freePost, setFreePost] = useState([]);
+  const [qnaPost, setQnaPost] = useState([]);
+  useEffect(() => {
+    getMainList().then((res) => {
+      console.log(res);
+      setTopNtc(res.ntcList);
+      setAllPost(res.allList);
+      setFreePost(res.freeList);
+      setQnaPost(res.qnaList);
+    });
+  }, []);
+
+  const ntcRender = (list) => {
+    return list.map((item) => (
+      <tr key={item.id} className={classes.board_notice}>
+        <td className={classes.td_article}>
+          <div className={classes.board_tag}>
+            <strong className={classes.board_tag_txt}>
+              <span className="inner">공지</span>
+            </strong>
+          </div>
+          <div className={classes.board_list}>
+            <div className={classes.inner_list}>
+              <Link
+                className={classes.article}
+                to="/board/detail"
+                state={{ id: item.id }}
+              >
+                <span className={classes.inner}>{item.title}</span>
+              </Link>
+
+              <div className={classes.article_append}>
+                <span className={classes.article}>
+                  {item.commentCnt > 0 ? <em>[{item.commentCnt}]</em> : null}
+                </span>
+              </div>
+            </div>
+          </div>
+        </td>
+        <td className={classes.td_view}>{item.viewCnt}</td>
+      </tr>
+    ));
+  };
+
+  const listRender = (list) => {
+    return list.map((item) => (
+      <tr key={item.id}>
+        <td className={classes.td_article}>
+          <div className={`${classes.board_tag} ${classes.type_dot}`}>
+            <img width="3" height="3" alt="" className={classes.tcol_c} />
+          </div>
+          <div className={classes.board_list}>
+            <div className={classes.inner_list}>
+              <Link
+                to="/board/detail"
+                className={classes.article}
+                state={{ id: item.id }}
+              >
+                <span className={classes.inner}>{item.title}</span>
+              </Link>
+
+              <div className={classes.article_append}>
+                <span className={classes.article}>
+                  {item.commentCnt > 0 ? <em>[{item.commentCnt}]</em> : null}
+                </span>
+              </div>
+            </div>
+          </div>
+        </td>
+        <td className={classes.td_view}>{item.viewCnt}</td>
+      </tr>
+    ));
+  };
 
   return (
     <div>
@@ -31,204 +105,8 @@ const MainPage = () => {
               <col width="80" />
             </colgroup>
             <tbody>
-              <tr className={classes.board_notice}>
-                <td className={classes.td_article}>
-                  <div className={classes.board_tag}>
-                    <strong className={classes.board_tag_txt}>
-                      <span className="inner">공지</span>
-                    </strong>
-                  </div>
-                  <div className={classes.board_list}>
-                    <div className={classes.inner_list}>
-                      <a href="#none" className={classes.article}>
-                        <span className={classes.inner}>공지사항입니다.</span>
-                      </a>
-
-                      <div className={classes.article_append}>
-                        <span className={classes.article}>
-                          [<em>13</em>]
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </td>
-
-                <td className={classes.td_view}>1,543</td>
-              </tr>
-              <tr>
-                <td className={classes.td_article}>
-                  <div className={`${classes.board_tag} ${classes.type_dot}`}>
-                    <img
-                      width="3"
-                      height="3"
-                      alt=""
-                      className={classes.tcol_c}
-                    />
-                  </div>
-                  <div className={classes.board_list}>
-                    <div className={classes.inner_list}>
-                      <a href="/" className={classes.article}>
-                        <span className={classes.inner}>
-                          게시글 글제목영역 길이제한 없는지 확인게시글
-                          글제목영역 길이제한 없는지 확인
-                        </span>
-                      </a>
-
-                      <div className={classes.article_append}>
-                        <span className={classes.article}>
-                          [<em>1</em>]
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </td>
-                <td className={classes.td_view}>0</td>
-              </tr>
-              <tr>
-                <td className={classes.td_article}>
-                  <div className={`${classes.board_tag} ${classes.type_dot}`}>
-                    <img
-                      width="3"
-                      height="3"
-                      alt=""
-                      className={classes.tcol_c}
-                    />
-                  </div>
-                  <div className={classes.board_list}>
-                    <div className={classes.inner_list}>
-                      <a href="/" className={classes.article}>
-                        <span className={classes.inner}>
-                          게시글 글제목영역 길이제한 없는지 확인게시글
-                          글제목영역 길이제한 없는지 확인
-                        </span>
-                      </a>
-
-                      <div className={classes.article_append}>
-                        <span className={classes.article}>
-                          [<em>1</em>]
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </td>
-                <td className={classes.td_view}>0</td>
-              </tr>
-              <tr>
-                <td className={classes.td_article}>
-                  <div className={`${classes.board_tag} ${classes.type_dot}`}>
-                    <img
-                      width="3"
-                      height="3"
-                      alt=""
-                      className={classes.tcol_c}
-                    />
-                  </div>
-                  <div className={classes.board_list}>
-                    <div className={classes.inner_list}>
-                      <a href="/" className={classes.article}>
-                        <span className={classes.inner}>
-                          게시글 글제목영역 길이제한 없는지 확인게시글
-                          글제목영역 길이제한 없는지 확인
-                        </span>
-                      </a>
-
-                      <div className={classes.article_append}>
-                        <span className={classes.article}>
-                          [<em>1</em>]
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </td>
-                <td className={classes.td_view}>0</td>
-              </tr>
-              <tr>
-                <td className={classes.td_article}>
-                  <div className={`${classes.board_tag} ${classes.type_dot}`}>
-                    <img
-                      width="3"
-                      height="3"
-                      alt=""
-                      className={classes.tcol_c}
-                    />
-                  </div>
-                  <div className={classes.board_list}>
-                    <div className={classes.inner_list}>
-                      <a href="/" className={classes.article}>
-                        <span className={classes.inner}>
-                          게시글 글제목영역 길이제한 없는지 확인게시글
-                          글제목영역 길이제한 없는지 확인
-                        </span>
-                      </a>
-
-                      <div className={classes.article_append}>
-                        <span className={classes.article}>
-                          [<em>1</em>]
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </td>
-                <td className={classes.td_view}>0</td>
-              </tr>
-              <tr>
-                <td className={classes.td_article}>
-                  <div className={`${classes.board_tag} ${classes.type_dot}`}>
-                    <img
-                      width="3"
-                      height="3"
-                      alt=""
-                      className={classes.tcol_c}
-                    />
-                  </div>
-                  <div className={classes.board_list}>
-                    <div className={classes.inner_list}>
-                      <a href="/" className={classes.article}>
-                        <span className={classes.inner}>
-                          게시글 글제목영역 길이제한 없는지 확인게시글
-                          글제목영역 길이제한 없는지 확인
-                        </span>
-                      </a>
-
-                      <div className={classes.article_append}>
-                        <span className={classes.article}>
-                          [<em>1</em>]
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </td>
-                <td className={classes.td_view}>0</td>
-              </tr>
-              <tr>
-                <td className={classes.td_article}>
-                  <div className={`${classes.board_tag} ${classes.type_dot}`}>
-                    <img
-                      width="3"
-                      height="3"
-                      alt=""
-                      className={classes.tcol_c}
-                    />
-                  </div>
-                  <div className={classes.board_list}>
-                    <div className={classes.inner_list}>
-                      <a href="/" className={classes.article}>
-                        <span className={classes.inner}>
-                          게시글 글제목영역 길이제한 없는지 확인게시글
-                          글제목영역 길이제한 없는지 확인
-                        </span>
-                      </a>
-
-                      <div className={classes.article_append}>
-                        <span className={classes.article}>
-                          [<em>1</em>]
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </td>
-                <td className={classes.td_view}>0</td>
-              </tr>
+              {topNtc.length > 0 && ntcRender(topNtc)}
+              {listRender(allPost)}
             </tbody>
           </table>
         </div>
@@ -253,203 +131,8 @@ const MainPage = () => {
               <col width="80" />
             </colgroup>
             <tbody>
-              <tr className={classes.board_notice}>
-                <td className={classes.td_article}>
-                  <div className={classes.board_tag}>
-                    <strong className={classes.board_tag_txt}>
-                      <span className="inner">공지</span>
-                    </strong>
-                  </div>
-                  <div className={classes.board_list}>
-                    <div className={classes.inner_list}>
-                      <a href="#none" className={classes.article}>
-                        <span className={classes.inner}>공지사항입니다.</span>
-                      </a>
-
-                      <div className={classes.article_append}>
-                        <span className={classes.article}>
-                          [<em>13</em>]
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </td>
-                <td className={classes.td_view}>1,543</td>
-              </tr>
-              <tr>
-                <td className={classes.td_article}>
-                  <div className={`${classes.board_tag} ${classes.type_dot}`}>
-                    <img
-                      width="3"
-                      height="3"
-                      alt=""
-                      className={classes.tcol_c}
-                    />
-                  </div>
-                  <div className={classes.board_list}>
-                    <div className={classes.inner_list}>
-                      <a href="/" className={classes.article}>
-                        <span className={classes.inner}>
-                          게시글 글제목영역 길이제한 없는지 확인게시글
-                          글제목영역 길이제한 없는지 확인
-                        </span>
-                      </a>
-
-                      <div className={classes.article_append}>
-                        <span className={classes.article}>
-                          [<em>1</em>]
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </td>
-                <td className={classes.td_view}>0</td>
-              </tr>
-              <tr>
-                <td className={classes.td_article}>
-                  <div className={`${classes.board_tag} ${classes.type_dot}`}>
-                    <img
-                      width="3"
-                      height="3"
-                      alt=""
-                      className={classes.tcol_c}
-                    />
-                  </div>
-                  <div className={classes.board_list}>
-                    <div className={classes.inner_list}>
-                      <a href="/" className={classes.article}>
-                        <span className={classes.inner}>
-                          게시글 글제목영역 길이제한 없는지 확인게시글
-                          글제목영역 길이제한 없는지 확인
-                        </span>
-                      </a>
-
-                      <div className={classes.article_append}>
-                        <span className={classes.article}>
-                          [<em>1</em>]
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </td>
-                <td className={classes.td_view}>0</td>
-              </tr>
-              <tr>
-                <td className={classes.td_article}>
-                  <div className={`${classes.board_tag} ${classes.type_dot}`}>
-                    <img
-                      width="3"
-                      height="3"
-                      alt=""
-                      className={classes.tcol_c}
-                    />
-                  </div>
-                  <div className={classes.board_list}>
-                    <div className={classes.inner_list}>
-                      <a href="/" className={classes.article}>
-                        <span className={classes.inner}>
-                          게시글 글제목영역 길이제한 없는지 확인게시글
-                          글제목영역 길이제한 없는지 확인
-                        </span>
-                      </a>
-
-                      <div className={classes.article_append}>
-                        <span className={classes.article}>
-                          [<em>1</em>]
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </td>
-                <td className={classes.td_view}>0</td>
-              </tr>
-              <tr>
-                <td className={classes.td_article}>
-                  <div className={`${classes.board_tag} ${classes.type_dot}`}>
-                    <img
-                      width="3"
-                      height="3"
-                      alt=""
-                      className={classes.tcol_c}
-                    />
-                  </div>
-                  <div className={classes.board_list}>
-                    <div className={classes.inner_list}>
-                      <a href="/" className={classes.article}>
-                        <span className={classes.inner}>
-                          게시글 글제목영역 길이제한 없는지 확인게시글
-                          글제목영역 길이제한 없는지 확인
-                        </span>
-                      </a>
-
-                      <div className={classes.article_append}>
-                        <span className={classes.article}>
-                          [<em>1</em>]
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </td>
-                <td className={classes.td_view}>0</td>
-              </tr>
-              <tr>
-                <td className={classes.td_article}>
-                  <div className={`${classes.board_tag} ${classes.type_dot}`}>
-                    <img
-                      width="3"
-                      height="3"
-                      alt=""
-                      className={classes.tcol_c}
-                    />
-                  </div>
-                  <div className={classes.board_list}>
-                    <div className={classes.inner_list}>
-                      <a href="/" className={classes.article}>
-                        <span className={classes.inner}>
-                          게시글 글제목영역 길이제한 없는지 확인게시글
-                          글제목영역 길이제한 없는지 확인
-                        </span>
-                      </a>
-
-                      <div className={classes.article_append}>
-                        <span className={classes.article}>
-                          [<em>1</em>]
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </td>
-                <td className={classes.td_view}>0</td>
-              </tr>
-              <tr>
-                <td className={classes.td_article}>
-                  <div className={`${classes.board_tag} ${classes.type_dot}`}>
-                    <img
-                      width="3"
-                      height="3"
-                      alt=""
-                      className={classes.tcol_c}
-                    />
-                  </div>
-                  <div className={classes.board_list}>
-                    <div className={classes.inner_list}>
-                      <a href="/" className={classes.article}>
-                        <span className={classes.inner}>
-                          게시글 글제목영역 길이제한 없는지 확인게시글
-                          글제목영역 길이제한 없는지 확인
-                        </span>
-                      </a>
-
-                      <div className={classes.article_append}>
-                        <span className={classes.article}>
-                          [<em>1</em>]
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </td>
-                <td className={classes.td_view}>0</td>
-              </tr>
+              {topNtc.length > 0 && ntcRender(topNtc)}
+              {listRender(freePost)}
             </tbody>
           </table>
         </div>
@@ -458,13 +141,15 @@ const MainPage = () => {
         <div className={classes.cont_L}>
           <div className={classes.boardTitleArea}>
             <h3 className={classes.title}>
-              <a href="#none">질문게시판</a>
+              <Link to="/board" state={{ typ: "qna", txt: "질문게시판" }}>
+                질문게시판
+              </Link>
             </h3>
             <span className={classes.more}>
-              <a href="#none">
+              <Link to="/board" state={{ typ: "qna", txt: "질문게시판" }}>
                 더보기
                 <FiArrowRight />
-              </a>
+              </Link>
             </span>
           </div>
           <table className={classes.boardTable}>
@@ -473,218 +158,24 @@ const MainPage = () => {
               <col width="80" />
             </colgroup>
             <tbody>
-              <tr className={classes.board_notice}>
-                <td className={classes.td_article}>
-                  <div className={classes.board_tag}>
-                    <strong className={classes.board_tag_txt}>
-                      <span className="inner">공지</span>
-                    </strong>
-                  </div>
-                  <div className={classes.board_list}>
-                    <div className={classes.inner_list}>
-                      <a href="#none" className={classes.article}>
-                        <span className={classes.inner}>공지사항입니다.</span>
-                      </a>
-
-                      <div className={classes.article_append}>
-                        <span className={classes.article}>
-                          [<em>13</em>]
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </td>
-
-                <td className={classes.td_view}>1,543</td>
-              </tr>
-              <tr>
-                <td className={classes.td_article}>
-                  <div className={`${classes.board_tag} ${classes.type_dot}`}>
-                    <img
-                      width="3"
-                      height="3"
-                      alt=""
-                      className={classes.tcol_c}
-                    />
-                  </div>
-                  <div className={classes.board_list}>
-                    <div className={classes.inner_list}>
-                      <a href="/" className={classes.article}>
-                        <span className={classes.inner}>
-                          게시글 글제목영역 길이제한 없는지 확인게시글
-                          글제목영역 길이제한 없는지 확인
-                        </span>
-                      </a>
-
-                      <div className={classes.article_append}>
-                        <span className={classes.article}>
-                          [<em>1</em>]
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </td>
-                <td className={classes.td_view}>0</td>
-              </tr>
-              <tr>
-                <td className={classes.td_article}>
-                  <div className={`${classes.board_tag} ${classes.type_dot}`}>
-                    <img
-                      width="3"
-                      height="3"
-                      alt=""
-                      className={classes.tcol_c}
-                    />
-                  </div>
-                  <div className={classes.board_list}>
-                    <div className={classes.inner_list}>
-                      <a href="/" className={classes.article}>
-                        <span className={classes.inner}>
-                          게시글 글제목영역 길이제한 없는지 확인게시글
-                          글제목영역 길이제한 없는지 확인
-                        </span>
-                      </a>
-
-                      <div className={classes.article_append}>
-                        <span className={classes.article}>
-                          [<em>1</em>]
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </td>
-                <td className={classes.td_view}>0</td>
-              </tr>
-              <tr>
-                <td className={classes.td_article}>
-                  <div className={`${classes.board_tag} ${classes.type_dot}`}>
-                    <img
-                      width="3"
-                      height="3"
-                      alt=""
-                      className={classes.tcol_c}
-                    />
-                  </div>
-                  <div className={classes.board_list}>
-                    <div className={classes.inner_list}>
-                      <a href="/" className={classes.article}>
-                        <span className={classes.inner}>
-                          게시글 글제목영역 길이제한 없는지 확인게시글
-                          글제목영역 길이제한 없는지 확인
-                        </span>
-                      </a>
-
-                      <div className={classes.article_append}>
-                        <span className={classes.article}>
-                          [<em>1</em>]
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </td>
-                <td className={classes.td_view}>0</td>
-              </tr>
-              <tr>
-                <td className={classes.td_article}>
-                  <div className={`${classes.board_tag} ${classes.type_dot}`}>
-                    <img
-                      width="3"
-                      height="3"
-                      alt=""
-                      className={classes.tcol_c}
-                    />
-                  </div>
-                  <div className={classes.board_list}>
-                    <div className={classes.inner_list}>
-                      <a href="/" className={classes.article}>
-                        <span className={classes.inner}>
-                          게시글 글제목영역 길이제한 없는지 확인게시글
-                          글제목영역 길이제한 없는지 확인
-                        </span>
-                      </a>
-
-                      <div className={classes.article_append}>
-                        <span className={classes.article}>
-                          [<em>1</em>]
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </td>
-                <td className={classes.td_view}>0</td>
-              </tr>
-              <tr>
-                <td className={classes.td_article}>
-                  <div className={`${classes.board_tag} ${classes.type_dot}`}>
-                    <img
-                      width="3"
-                      height="3"
-                      alt=""
-                      className={classes.tcol_c}
-                    />
-                  </div>
-                  <div className={classes.board_list}>
-                    <div className={classes.inner_list}>
-                      <a href="/" className={classes.article}>
-                        <span className={classes.inner}>
-                          게시글 글제목영역 길이제한 없는지 확인게시글
-                          글제목영역 길이제한 없는지 확인
-                        </span>
-                      </a>
-
-                      <div className={classes.article_append}>
-                        <span className={classes.article}>
-                          [<em>1</em>]
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </td>
-                <td className={classes.td_view}>0</td>
-              </tr>
-              <tr>
-                <td className={classes.td_article}>
-                  <div className={`${classes.board_tag} ${classes.type_dot}`}>
-                    <img
-                      width="3"
-                      height="3"
-                      alt=""
-                      className={classes.tcol_c}
-                    />
-                  </div>
-                  <div className={classes.board_list}>
-                    <div className={classes.inner_list}>
-                      <a href="/" className={classes.article}>
-                        <span className={classes.inner}>
-                          게시글 글제목영역 길이제한 없는지 확인게시글
-                          글제목영역 길이제한 없는지 확인
-                        </span>
-                      </a>
-
-                      <div className={classes.article_append}>
-                        <span className={classes.article}>
-                          [<em>1</em>]
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </td>
-                <td className={classes.td_view}>0</td>
-              </tr>
+              {topNtc.length > 0 && ntcRender(topNtc)}
+              {listRender(qnaPost)}
             </tbody>
           </table>
         </div>
 
-        <div className={classes.cont_R}>
+        {/* <div className={classes.cont_R}>
           <div className={classes.boardTitleArea}>
             <h3 className={classes.title}>
-              <a href="#none">사진게시판</a>
+              <Link to="/board" state={{ typ: "photo", txt: "사진게시판" }}>
+                사진게시판
+              </Link>
             </h3>
             <span className={classes.more}>
-              <a href="#none">
+              <Link to="/board" state={{ typ: "photo", txt: "사진게시판" }}>
                 더보기
                 <FiArrowRight />
-              </a>
+              </Link>
             </span>
           </div>
           <table className={classes.boardTable}>
@@ -693,207 +184,11 @@ const MainPage = () => {
               <col width="80" />
             </colgroup>
             <tbody>
-              <tr className={classes.board_notice}>
-                <td className={classes.td_article}>
-                  <div className={classes.board_tag}>
-                    <strong className={classes.board_tag_txt}>
-                      <span className="inner">공지</span>
-                    </strong>
-                  </div>
-                  <div className={classes.board_list}>
-                    <div className={classes.inner_list}>
-                      <a href="#none" className={classes.article}>
-                        <span className={classes.inner}>공지사항입니다.</span>
-                      </a>
-
-                      <div className={classes.article_append}>
-                        <span className={classes.article}>
-                          [<em>13</em>]
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </td>
-
-                <td className={classes.td_view}>1,543</td>
-              </tr>
-              <tr>
-                <td className={classes.td_article}>
-                  <div className={`${classes.board_tag} ${classes.type_dot}`}>
-                    <img
-                      width="3"
-                      height="3"
-                      alt=""
-                      className={classes.tcol_c}
-                    />
-                  </div>
-                  <div className={classes.board_list}>
-                    <div className={classes.inner_list}>
-                      <a href="/" className={classes.article}>
-                        <span className={classes.inner}>
-                          게시글 글제목영역 길이제한 없는지 확인게시글
-                          글제목영역 길이제한 없는지 확인
-                        </span>
-                      </a>
-
-                      <div className={classes.article_append}>
-                        <span className={classes.article}>
-                          [<em>1</em>]
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </td>
-                <td className={classes.td_view}>0</td>
-              </tr>
-              <tr>
-                <td className={classes.td_article}>
-                  <div className={`${classes.board_tag} ${classes.type_dot}`}>
-                    <img
-                      width="3"
-                      height="3"
-                      alt=""
-                      className={classes.tcol_c}
-                    />
-                  </div>
-                  <div className={classes.board_list}>
-                    <div className={classes.inner_list}>
-                      <a href="/" className={classes.article}>
-                        <span className={classes.inner}>
-                          게시글 글제목영역 길이제한 없는지 확인게시글
-                          글제목영역 길이제한 없는지 확인
-                        </span>
-                      </a>
-
-                      <div className={classes.article_append}>
-                        <span className={classes.article}>
-                          [<em>1</em>]
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </td>
-                <td className={classes.td_view}>0</td>
-              </tr>
-              <tr>
-                <td className={classes.td_article}>
-                  <div className={`${classes.board_tag} ${classes.type_dot}`}>
-                    <img
-                      width="3"
-                      height="3"
-                      alt=""
-                      className={classes.tcol_c}
-                    />
-                  </div>
-                  <div className={classes.board_list}>
-                    <div className={classes.inner_list}>
-                      <a href="/" className={classes.article}>
-                        <span className={classes.inner}>
-                          게시글 글제목영역 길이제한 없는지 확인게시글
-                          글제목영역 길이제한 없는지 확인
-                        </span>
-                      </a>
-
-                      <div className={classes.article_append}>
-                        <span className={classes.article}>
-                          [<em>1</em>]
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </td>
-                <td className={classes.td_view}>0</td>
-              </tr>
-              <tr>
-                <td className={classes.td_article}>
-                  <div className={`${classes.board_tag} ${classes.type_dot}`}>
-                    <img
-                      width="3"
-                      height="3"
-                      alt=""
-                      className={classes.tcol_c}
-                    />
-                  </div>
-                  <div className={classes.board_list}>
-                    <div className={classes.inner_list}>
-                      <a href="/" className={classes.article}>
-                        <span className={classes.inner}>
-                          게시글 글제목영역 길이제한 없는지 확인게시글
-                          글제목영역 길이제한 없는지 확인
-                        </span>
-                      </a>
-
-                      <div className={classes.article_append}>
-                        <span className={classes.article}>
-                          [<em>1</em>]
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </td>
-                <td className={classes.td_view}>0</td>
-              </tr>
-              <tr>
-                <td className={classes.td_article}>
-                  <div className={`${classes.board_tag} ${classes.type_dot}`}>
-                    <img
-                      width="3"
-                      height="3"
-                      alt=""
-                      className={classes.tcol_c}
-                    />
-                  </div>
-                  <div className={classes.board_list}>
-                    <div className={classes.inner_list}>
-                      <a href="/" className={classes.article}>
-                        <span className={classes.inner}>
-                          게시글 글제목영역 길이제한 없는지 확인게시글
-                          글제목영역 길이제한 없는지 확인
-                        </span>
-                      </a>
-
-                      <div className={classes.article_append}>
-                        <span className={classes.article}>
-                          [<em>1</em>]
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </td>
-                <td className={classes.td_view}>0</td>
-              </tr>
-              <tr>
-                <td className={classes.td_article}>
-                  <div className={`${classes.board_tag} ${classes.type_dot}`}>
-                    <img
-                      width="3"
-                      height="3"
-                      alt=""
-                      className={classes.tcol_c}
-                    />
-                  </div>
-                  <div className={classes.board_list}>
-                    <div className={classes.inner_list}>
-                      <a href="/" className={classes.article}>
-                        <span className={classes.inner}>
-                          게시글 글제목영역 길이제한 없는지 확인게시글
-                          글제목영역 길이제한 없는지 확인
-                        </span>
-                      </a>
-
-                      <div className={classes.article_append}>
-                        <span className={classes.article}>
-                          [<em>1</em>]
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </td>
-                <td className={classes.td_view}>0</td>
-              </tr>
+            {topNtc.length > 0 && ntcRender(topNtc)}
+              {listRender(qnaPost)}
             </tbody>
           </table>
-        </div>
+        </div> */}
       </div>
     </div>
   );

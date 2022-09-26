@@ -1,6 +1,7 @@
 .mainData {
   width: 880px;
   float: right;
+  min-height: 320px;
 }
 
 .cont_L {

@@ -1,6 +1,7 @@
 import { Editor } from "@toast-ui/react-editor";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import "@toast-ui/editor/dist/i18n/ko-kr";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 import classes from "./BoardWrite.module.css";
 import Select from "react-select";
@@ -8,7 +9,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useRef } from "react";
 import { useState } from "react";
 import { useEffect } from "react";
-import { addPost } from "../../service/firebase";
+import { addPost, storage } from "../../service/firebase";
 
 // 게시판 종류
 const boardTyp = [
@@ -31,6 +32,7 @@ const BoardWrite = (props) => {
   const typ = loc.state.typ;
   const [bdSelect, setBdSelect] = useState(null);
   const [hdSelect, setHdSelect] = useState(null);
+  const [imgUpload, setImgUpload] = useState(false);
   let currPage;
   const user = JSON.parse(localStorage.getItem("userInfo"));
   const isNtcYn = user.level === "admin";
@@ -61,6 +63,8 @@ const BoardWrite = (props) => {
 
   // 취소
   const cancleHandler = () => {
+    if (imgUpload) {
+    }
     let board = boardTyp.filter((bd) => bd.value === typ);
     if (typ === "main") {
       navigate("/");
@@ -80,37 +84,48 @@ const BoardWrite = (props) => {
     const textContent = inputContentRef.current.getInstance(); //.getHTML() html 형태로  || .getMarkdown() markdown 형태로
 
     const ntcYn = isNtcYn ? ntcYnRef.current.checked : false;
-    if (!!bdSelect === false) {
-      alert("게시판을 선택해주세요.");
-      return;
-    }
-    if (postTitle === "") {
-      alert("제목을 입력해주세요.");
-      return;
-    }
-    if (textContent.getMarkdown().length === 0) {
-      alert("내용을 입력해주세요.");
-      return;
-    }
-    const postData = {
-      title: postTitle,
-      content: textContent.getMarkdown(),
-      postTyp: bdSelect,
-      postHeader: hdSelect,
-      noticeYn: ntcYn,
-    };
+    // if (!!bdSelect === false) {
+    //   alert("게시판을 선택해주세요.");
+    //   return;
+    // }
+    // if (postTitle === "") {
+    //   alert("제목을 입력해주세요.");
+    //   return;
+    // }
+    // if (textContent.getMarkdown().length === 0) {
+    //   alert("내용을 입력해주세요.");
+    //   return;
+    // }
+    // const postData = {
+    //   title: postTitle,
+    //   content: textContent.getMarkdown(),
+    //   postTyp: bdSelect,
+    //   postHeader: hdSelect,
+    //   noticeYn: ntcYn,
+    // };
 
-    console.log(postData);
-    addPost(postData).then((res) => {
-      if (res) {
-        alert("게시글이 등록되었습니다.");
-        navigate("/board/detail", {
-          state: {
-            id: res,
-          },
-        });
+    // console.log(postData);
+    // addPost(postData).then((res) => {
+    //   if (res) {
+    //     alert("게시글이 등록되었습니다.");
+    //     navigate("/board/detail", {
+    //       state: {
+    //         id: res,
+    //       },
+    //     });
+    //   }
+    // });
+  };
+
+  const uuidv4 = () => {
+    return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(
+      /[xy]/g,
+      function (c) {
+        var r = (Math.random() * 16) | 0,
+          v = c == "x" ? r : (r & 0x3) | 0x8;
+        return v.toString(16);
       }
-    });
+    );
   };
   return (
     <div className={classes.boardWrite}>
@@ -170,6 +185,18 @@ const BoardWrite = (props) => {
             language="ko-KR"
             placeholder="내용을 입력하세요."
             ref={inputContentRef}
+            hooks={{
+              addImageBlobHook: async (blob, callback) => {
+                const storageRef = ref(storage, `images/${uuidv4()}`);
+                uploadBytes(storageRef, blob).then((snapshot) => {
+                  setImgUpload(true);
+
+                  getDownloadURL(storageRef).then((url) => {
+                    callback(url, blob.name);
+                  });
+                });
+              },
+            }}
           />
         </div>
         <div className={classes.btnArea}>

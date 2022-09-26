@@ -1,11 +1,16 @@
 import classes from "./BoardDetail.module.css";
 import { AiOutlineRight } from "react-icons/ai";
 import { BiMessageRoundedDetail } from "react-icons/bi";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useRef } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
-import { addComment, getPostDetail, viewCntInc } from "../../service/firebase";
+import {
+  addComment,
+  getCommentList,
+  getPostDetail,
+  viewCntInc,
+} from "../../service/firebase";
 import { useContext } from "react";
 import AuthContext from "../../store/auth/auth-context";
 
@@ -21,7 +26,9 @@ import AuthContext from "../../store/auth/auth-context";
 const BoardDetail = () => {
   const [postInfo, setPostInfo] = useState({});
   const [commentList, setCommentList] = useState([]);
+  const [cmntRender, setCmntRender] = useState(false);
   const loc = useLocation();
+  const nav = useNavigate();
   const st = loc.state;
   const authCtx = useContext(AuthContext);
   const user = JSON.parse(localStorage.getItem("userInfo"));
@@ -38,6 +45,10 @@ const BoardDetail = () => {
     contentArea.current.scrollIntoView();
   };
 
+  const moveToList = () => {
+    nav(-1);
+  };
+
   const registCommentHandler = () => {
     const textContent = commentInputRef.current.value;
 
@@ -45,21 +56,25 @@ const BoardDetail = () => {
       postId: st.id,
       content: textContent,
     };
-    console.log(postData);
     addComment(postData).then(() => {
       commentInputRef.current.value = "";
+      setCmntRender(!cmntRender);
     });
   };
 
   useEffect(() => {
     viewCntInc(st.id);
     getPostDetail(st.id).then((res) => {
-      console.log(res);
       setPostInfo(res.postInfo);
       setCommentList(res.commentList);
     });
   }, [st.id]);
 
+  useEffect(() => {
+    getCommentList(st.id).then((res) => {
+      setCommentList(res);
+    });
+  }, [cmntRender]);
   return (
     <div className={classes.boardDetail}>
       <div className={classes.wrap}>
@@ -190,13 +205,9 @@ const BoardDetail = () => {
           </div>
         </div>
         <div className={classes.ArticleBottomBtns}>
-          <Link
-            to="/board"
-            className={classes.bottomBtn}
-            state={{ typ: postInfo.postTyp, txt: postInfo.postTypNm }}
-          >
+          <span className={classes.bottomBtn} onClick={moveToList}>
             목록
-          </Link>
+          </span>
           <span
             className={`${classes.bottomBtnList} ${classes.bottomBtn}`}
             onClick={moveToTop}
