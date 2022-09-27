@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import classes from "./BoardTypList.module.css";
+import { BiImageAlt } from "react-icons/bi";
 
 export const regDtFormat = (val) => {
   let dt = new Date(val).toLocaleDateString();
@@ -50,6 +51,11 @@ const BoardTypList = (props) => {
                 <Link to="/board/detail" state={{ id: post.id }}>
                   {post.title}
                 </Link>
+                {post.imgIncYn && (
+                  <span className={classes.imgInc}>
+                    <BiImageAlt />
+                  </span>
+                )}
                 {post.commentCnt > 0 ? (
                   <span className={classes.commentCnt}>
                     [{post.commentCnt}]

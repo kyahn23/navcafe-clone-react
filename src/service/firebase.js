@@ -60,8 +60,9 @@ export const getMainList = async () => {
     // 상단 공지사항
     const topNtclist = await query(
       collectionRef,
+      where("postTyp", "==", "notice"),
       where("noticeYn", "==", true),
-      // orderBy("regDt", "desc"),
+      orderBy("regDt", "desc"),
       limit(2)
     );
     const ntcSnap = await getDocs(topNtclist);
@@ -157,10 +158,40 @@ export const getMainList = async () => {
       qnaList.push(post);
     }
 
+    // 사진게시판
+    const photoPostList = await query(
+      collectionRef,
+      where("postTyp", "==", "photo"),
+      where("imgIncYn", "==", true),
+      orderBy("regDt", "desc"),
+      limit(6)
+    );
+    const photoPostSnap = await getDocs(photoPostList);
+    let photoList = [];
+    for (const item of photoPostSnap.docs) {
+      const post = item.data();
+      const memberRef = doc(db, "member", post.writer);
+      const mbSnap = await getDoc(memberRef);
+      post.nickName = mbSnap.data().nickName;
+      post.id = item.id;
+
+      const commentRef = collection(db, "comment");
+      let commentDoc;
+      commentDoc = await query(
+        commentRef,
+        where("postId", "==", item.id),
+        orderBy("regDt", "desc")
+      );
+      const commentSnap = await getDocs(commentDoc);
+      post.commentCnt = commentSnap.docs.length;
+      photoList.push(post);
+    }
+
     data.ntcList = ntcList;
     data.allList = allList;
     data.freeList = freeList;
     data.qnaList = qnaList;
+    data.photoList = photoList;
     return data;
   } catch (error) {
     console.log(error);
@@ -344,6 +375,9 @@ export const getPostDetail = async (docId) => {
         break;
       case "qna":
         postInfo.postTypNm = "질문게시판";
+        break;
+      case "photo":
+        postInfo.postTypNm = "사진게시판";
         break;
       default:
         break;

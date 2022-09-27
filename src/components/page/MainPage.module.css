@@ -168,3 +168,87 @@
   background-color: #333;
   vertical-align: middle;
 }
+
+.albumBox {
+  width: 100%;
+  padding-top: 16px;
+  font-size: 0;
+}
+
+.albumBox li {
+  overflow: hidden;
+  display: inline-block;
+  position: relative;
+  width: 130px;
+  min-height: 200px;
+  margin-right: 12px;
+  vertical-align: top;
+  font-size: 13px;
+}
+
+.albumBox li.noContent {
+  background: url("../../image/no_content_album.png") no-repeat;
+  background-size: 100% auto;
+}
+
+.albumBox .photo {
+  width: 130px;
+  height: 130px;
+}
+
+.albumBox .photo a {
+  display: block;
+  position: relative;
+  height: 100%;
+}
+
+.albumBox .photo a img {
+  vertical-align: top;
+  width: 130px;
+  height: 130px;
+}
+
+.albumBox .tit {
+  display: table;
+  padding-top: 8px;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.albumBox .tit a {
+  display: table-cell;
+  vertical-align: top;
+}
+
+.albumBox .tit .inner {
+  display: table;
+  table-layout: fixed;
+}
+
+.albumBox .tit .ellipsis {
+  height: 16px;
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  word-wrap: break-word;
+  word-break: break-word;
+}
+
+.commentCnt {
+  color: #ff2f3b;
+  margin-left: 3px;
+}
+
+.albumBox .nickArea {
+  position: relative;
+  padding-top: 6px;
+}
+
+.albumBox .nickArea .nn {
+  display: inline-block;
+  max-width: 110px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

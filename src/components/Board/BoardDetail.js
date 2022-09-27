@@ -1,10 +1,9 @@
 import classes from "./BoardDetail.module.css";
 import { AiOutlineRight } from "react-icons/ai";
-import { BiMessageRoundedDetail } from "react-icons/bi";
+import { BiMessageRoundedDetail, BiImageAlt } from "react-icons/bi";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useRef } from "react";
-import { useEffect } from "react";
-import { useState } from "react";
+import { useRef, useEffect, useState } from "react";
+import HTMLReactParser from "html-react-parser";
 import {
   addComment,
   getCommentList,
@@ -67,6 +66,7 @@ const BoardDetail = () => {
     getPostDetail(st.id).then((res) => {
       setPostInfo(res.postInfo);
       setCommentList(res.commentList);
+      console.log(res.postInfo);
     });
   }, [st.id]);
 
@@ -123,7 +123,15 @@ const BoardDetail = () => {
           </div>
           <div className={classes.detailContainer}>
             <div className={classes.detailViewer}>
-              <div className={classes.detailContent}>{postInfo.content}</div>
+              {postInfo.imgIncYn && (
+                <div className={classes.detailContent}>
+                  {HTMLReactParser(postInfo.content)}
+                </div>
+              )}
+              {!postInfo.imgIncYn && (
+                <div className={classes.detailContent}>{postInfo.content}</div>
+              )}
+
               <div className={classes.replyBox}>
                 <div className={classes.boxLeft}>
                   <span className={classes.buttonComment}>

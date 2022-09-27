@@ -1,23 +1,33 @@
 import classes from "./MainPage.module.css";
 import { FiArrowRight } from "react-icons/fi";
-import { useEffect } from "react";
+import { Fragment, useEffect } from "react";
 import { getData, getMainList, getTopNtc } from "../../service/firebase";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { regDtFormat } from "../Board/BoardTypList";
 
 const MainPage = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const [topNtc, setTopNtc] = useState([]);
   const [allPost, setAllPost] = useState([]);
   const [freePost, setFreePost] = useState([]);
   const [qnaPost, setQnaPost] = useState([]);
+  const [photoPost, setPhotoPost] = useState([]);
+
   useEffect(() => {
-    getMainList().then((res) => {
-      console.log(res);
-      setTopNtc(res.ntcList);
-      setAllPost(res.allList);
-      setFreePost(res.freeList);
-      setQnaPost(res.qnaList);
-    });
+    setIsLoading(true);
+    getMainList()
+      .then((res) => {
+        console.log(res);
+        setTopNtc(res.ntcList);
+        setAllPost(res.allList);
+        setFreePost(res.freeList);
+        setQnaPost(res.qnaList);
+        setPhotoPost(res.photoList);
+      })
+      .then(() => {
+        setIsLoading(false);
+      });
   }, []);
 
   const ntcRender = (list) => {
@@ -82,6 +92,43 @@ const MainPage = () => {
     ));
   };
 
+  const photoRender = (list) => {
+    return list.map((item) => (
+      <li key={item.id}>
+        <dl>
+          <dt className={classes.photo}>
+            <Link to="/board/detail" state={{ id: item.id }}>
+              <img src={item.imgUrl[0]} alt="컨텐츠이미지" />
+            </Link>
+          </dt>
+          <dd className={classes.tit}>
+            <Link to="/board/detail" state={{ id: item.id }}>
+              <span className={classes.inner}>
+                <span className={classes.ellipsis}>{item.title}</span>
+              </span>
+            </Link>
+            <span className={classes.commentCnt}>
+              {item.commentCnt > 0 ? (
+                <span className={classes.num}>[{item.commentCnt}]</span>
+              ) : null}
+            </span>
+          </dd>
+          <dd>
+            <div className={classes.nickArea}>
+              <div className={classes.nn}>{item.nickName}</div>
+            </div>
+          </dd>
+          <dd class="date m-tcol-c">
+            <div class="date_num m-tcol-c">
+              <span class="date">{regDtFormat(item.regDt)}</span>
+              <span class="num"> 조회 {item.viewCnt}</span>
+            </div>
+          </dd>
+        </dl>
+      </li>
+    ));
+  };
+
   return (
     <div>
       <div className={classes.mainData}>
@@ -104,9 +151,27 @@ const MainPage = () => {
               <col />
               <col width="80" />
             </colgroup>
-            <tbody>
-              {topNtc.length > 0 && ntcRender(topNtc)}
-              {listRender(allPost)}
+            <tbody className="postList">
+              {isLoading &&
+                [...Array(8)].map(() => {
+                  return (
+                    <tr>
+                      <td className={classes.td_article}></td>
+                      <td className={classes.td_view}></td>
+                    </tr>
+                  );
+                })}
+              {!isLoading && topNtc.length > 0 && ntcRender(topNtc)}
+              {!isLoading && listRender(allPost)}
+              {!isLoading &&
+                [...Array(6 - allPost.length)].map(() => {
+                  return (
+                    <tr>
+                      <td className={classes.td_article}></td>
+                      <td className={classes.td_view}></td>
+                    </tr>
+                  );
+                })}
             </tbody>
           </table>
         </div>
@@ -131,8 +196,26 @@ const MainPage = () => {
               <col width="80" />
             </colgroup>
             <tbody>
-              {topNtc.length > 0 && ntcRender(topNtc)}
-              {listRender(freePost)}
+              {isLoading &&
+                [...Array(8)].map(() => {
+                  return (
+                    <tr>
+                      <td className={classes.td_article}></td>
+                      <td className={classes.td_view}></td>
+                    </tr>
+                  );
+                })}
+              {!isLoading && topNtc.length > 0 && ntcRender(topNtc)}
+              {!isLoading && listRender(freePost)}
+              {!isLoading &&
+                [...Array(6 - freePost.length)].map(() => {
+                  return (
+                    <tr>
+                      <td className={classes.td_article}></td>
+                      <td className={classes.td_view}></td>
+                    </tr>
+                  );
+                })}
             </tbody>
           </table>
         </div>
@@ -158,13 +241,31 @@ const MainPage = () => {
               <col width="80" />
             </colgroup>
             <tbody>
-              {topNtc.length > 0 && ntcRender(topNtc)}
-              {listRender(qnaPost)}
+              {isLoading &&
+                [...Array(8)].map(() => {
+                  return (
+                    <tr>
+                      <td className={classes.td_article}></td>
+                      <td className={classes.td_view}></td>
+                    </tr>
+                  );
+                })}
+              {!isLoading && topNtc.length > 0 && ntcRender(topNtc)}
+              {!isLoading && listRender(qnaPost)}
+              {!isLoading &&
+                [...Array(6 - qnaPost.length)].map(() => {
+                  return (
+                    <tr>
+                      <td className={classes.td_article}></td>
+                      <td className={classes.td_view}></td>
+                    </tr>
+                  );
+                })}
             </tbody>
           </table>
         </div>
 
-        {/* <div className={classes.cont_R}>
+        <div className={classes.cont_R}>
           <div className={classes.boardTitleArea}>
             <h3 className={classes.title}>
               <Link to="/board" state={{ typ: "photo", txt: "사진게시판" }}>
@@ -178,17 +279,43 @@ const MainPage = () => {
               </Link>
             </span>
           </div>
-          <table className={classes.boardTable}>
-            <colgroup>
-              <col />
-              <col width="80" />
-            </colgroup>
-            <tbody>
-            {topNtc.length > 0 && ntcRender(topNtc)}
-              {listRender(qnaPost)}
-            </tbody>
-          </table>
-        </div> */}
+          <ul className={classes.albumBox}>
+            {isLoading &&
+              [...Array(6)].map(() => {
+                return (
+                  <li className={classes.noContent}>
+                    <dl>
+                      <dt class="photo"></dt>
+                      <dd class="tit"></dd>
+                      <dd class="date m-tcol-c">
+                        <div class="pers_nick_area"></div>
+                        <div class="date_num m-tcol-c"></div>
+                      </dd>
+                    </dl>
+                  </li>
+                );
+              })}
+            {!isLoading && photoRender(photoPost)}
+            {!isLoading &&
+              [...Array(6 - photoPost.length)].map(() => {
+                return (
+                  <li className={classes.noContent}>
+                    <dl>
+                      <dt className={classes.photo}></dt>
+                      <dd className={classes.tit}></dd>
+                      <dd className={classes.nnDtVcnt}>
+                        <div className={classes.nickArea}></div>
+                        <div className={classes.dtVcntArea}>
+                          <span className={classes.dt}></span>
+                          <span className={classes.vCnt}></span>
+                        </div>
+                      </dd>
+                    </dl>
+                  </li>
+                );
+              })}
+          </ul>
+        </div>
       </div>
     </div>
   );

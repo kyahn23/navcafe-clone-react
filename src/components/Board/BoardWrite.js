@@ -33,14 +33,10 @@ const BoardWrite = (props) => {
   const [bdSelect, setBdSelect] = useState(null);
   const [hdSelect, setHdSelect] = useState(null);
   const [imgUpload, setImgUpload] = useState(false);
+  const [imgUrlArr, setImgUrlArr] = useState([]);
   let currPage;
   const user = JSON.parse(localStorage.getItem("userInfo"));
-  const isNtcYn = user.level === "admin";
-  useEffect(() => {
-    if (typ !== "all" && typ !== "main") {
-      setBdSelect(typ);
-    }
-  }, [typ]);
+  let isNtcYn;
 
   // 게시판 목록
   if (typ === "all" || typ === "main") {
@@ -84,49 +80,87 @@ const BoardWrite = (props) => {
     const textContent = inputContentRef.current.getInstance(); //.getHTML() html 형태로  || .getMarkdown() markdown 형태로
 
     const ntcYn = isNtcYn ? ntcYnRef.current.checked : false;
-    // if (!!bdSelect === false) {
-    //   alert("게시판을 선택해주세요.");
-    //   return;
-    // }
-    // if (postTitle === "") {
-    //   alert("제목을 입력해주세요.");
-    //   return;
-    // }
-    // if (textContent.getMarkdown().length === 0) {
-    //   alert("내용을 입력해주세요.");
-    //   return;
-    // }
-    // const postData = {
-    //   title: postTitle,
-    //   content: textContent.getMarkdown(),
-    //   postTyp: bdSelect,
-    //   postHeader: hdSelect,
-    //   noticeYn: ntcYn,
-    // };
+    if (!!bdSelect === false) {
+      alert("게시판을 선택해주세요.");
+      return;
+    }
+    if (postTitle === "") {
+      alert("제목을 입력해주세요.");
+      return;
+    }
+    if (textContent.getMarkdown().length === 0) {
+      alert("내용을 입력해주세요.");
+      return;
+    }
+    const postData = {
+      title: postTitle,
+      content: imgUpload ? textContent.getHTML() : textContent.getMarkdown(),
+      postTyp: bdSelect,
+      postHeader: hdSelect,
+      noticeYn: ntcYn,
+      imgIncYn: imgUpload,
+      imgUrl: imgUrlArr,
+    };
 
-    // console.log(postData);
-    // addPost(postData).then((res) => {
-    //   if (res) {
-    //     alert("게시글이 등록되었습니다.");
-    //     navigate("/board/detail", {
-    //       state: {
-    //         id: res,
-    //       },
-    //     });
-    //   }
-    // });
+    console.log(postData);
+    addPost(postData).then((res) => {
+      if (res) {
+        alert("게시글이 등록되었습니다.");
+        navigate("/board/detail", {
+          state: {
+            id: res,
+          },
+        });
+      }
+    });
   };
+
+  useEffect(() => {
+    if (!!user === true) {
+      isNtcYn = user.level === "admin";
+    } else {
+      navigate("/");
+    }
+  }, [user]);
+
+  useEffect(() => {
+    if (typ !== "all" && typ !== "main") {
+      setBdSelect(typ);
+    }
+  }, [typ]);
 
   const uuidv4 = () => {
     return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(
       /[xy]/g,
       function (c) {
         var r = (Math.random() * 16) | 0,
-          v = c == "x" ? r : (r & 0x3) | 0x8;
+          v = c === "x" ? r : (r & 0x3) | 0x8;
         return v.toString(16);
       }
     );
   };
+
+  // const imgUrlPush = (val) => {
+  //   let arr = [...imgUrlArr, val];
+  //   setImgUrlArr(arr);
+  // };
+
+  const uploadImg = (storageRef, blob, callback) => {
+    uploadBytes(storageRef, blob).then((snapshot) => {
+      setImgUpload(true);
+
+      getDownloadURL(storageRef).then((url) => {
+        // imgUrlPush(url);
+        setImgUrlArr((prev) => {
+          console.log("asdf", prev);
+          return [...prev, url];
+        });
+
+        callback(url, blob.name);
+      });
+    });
+  };
+
   return (
     <div className={classes.boardWrite}>
       <div className={classes.writeHeader}>
@@ -188,13 +222,7 @@ const BoardWrite = (props) => {
             hooks={{
               addImageBlobHook: async (blob, callback) => {
                 const storageRef = ref(storage, `images/${uuidv4()}`);
-                uploadBytes(storageRef, blob).then((snapshot) => {
-                  setImgUpload(true);
-
-                  getDownloadURL(storageRef).then((url) => {
-                    callback(url, blob.name);
-                  });
-                });
+                uploadImg(storageRef, blob, callback);
               },
             }}
           />
