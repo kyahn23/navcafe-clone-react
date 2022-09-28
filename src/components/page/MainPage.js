@@ -1,7 +1,7 @@
 import classes from "./MainPage.module.css";
 import { FiArrowRight } from "react-icons/fi";
-import { Fragment, useEffect } from "react";
-import { getData, getMainList, getTopNtc } from "../../service/firebase";
+import { useEffect } from "react";
+import { getMainList } from "../../service/firebase";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { regDtFormat } from "../Board/BoardTypList";
@@ -18,7 +18,6 @@ const MainPage = () => {
     setIsLoading(true);
     getMainList()
       .then((res) => {
-        console.log(res);
         setTopNtc(res.ntcList);
         setAllPost(res.allList);
         setFreePost(res.freeList);
@@ -98,7 +97,7 @@ const MainPage = () => {
         <dl>
           <dt className={classes.photo}>
             <Link to="/board/detail" state={{ id: item.id }}>
-              <img src={item.imgUrl[0]} alt="컨텐츠이미지" />
+              <img src={item.imgUrl[0].url} alt="컨텐츠이미지" />
             </Link>
           </dt>
           <dd className={classes.tit}>
@@ -118,10 +117,10 @@ const MainPage = () => {
               <div className={classes.nn}>{item.nickName}</div>
             </div>
           </dd>
-          <dd class="date m-tcol-c">
-            <div class="date_num m-tcol-c">
-              <span class="date">{regDtFormat(item.regDt)}</span>
-              <span class="num"> 조회 {item.viewCnt}</span>
+          <dd className={classes.dtVcntArea}>
+            <div className={classes.dtVcnt}>
+              <span>{regDtFormat(item.regDt)}</span>
+              <span className={classes.vCnt}> 조회 {item.viewCnt}</span>
             </div>
           </dd>
         </dl>
@@ -153,9 +152,9 @@ const MainPage = () => {
             </colgroup>
             <tbody className="postList">
               {isLoading &&
-                [...Array(8)].map(() => {
+                [...Array(8)].map((empty, idx) => {
                   return (
-                    <tr>
+                    <tr key={idx}>
                       <td className={classes.td_article}></td>
                       <td className={classes.td_view}></td>
                     </tr>
@@ -164,9 +163,9 @@ const MainPage = () => {
               {!isLoading && topNtc.length > 0 && ntcRender(topNtc)}
               {!isLoading && listRender(allPost)}
               {!isLoading &&
-                [...Array(6 - allPost.length)].map(() => {
+                [...Array(6 - allPost.length)].map((empty, idx) => {
                   return (
-                    <tr>
+                    <tr key={idx}>
                       <td className={classes.td_article}></td>
                       <td className={classes.td_view}></td>
                     </tr>
@@ -197,9 +196,9 @@ const MainPage = () => {
             </colgroup>
             <tbody>
               {isLoading &&
-                [...Array(8)].map(() => {
+                [...Array(8)].map((empty, idx) => {
                   return (
-                    <tr>
+                    <tr key={idx}>
                       <td className={classes.td_article}></td>
                       <td className={classes.td_view}></td>
                     </tr>
@@ -208,9 +207,9 @@ const MainPage = () => {
               {!isLoading && topNtc.length > 0 && ntcRender(topNtc)}
               {!isLoading && listRender(freePost)}
               {!isLoading &&
-                [...Array(6 - freePost.length)].map(() => {
+                [...Array(6 - freePost.length)].map((empty, idx) => {
                   return (
-                    <tr>
+                    <tr key={idx}>
                       <td className={classes.td_article}></td>
                       <td className={classes.td_view}></td>
                     </tr>
@@ -242,9 +241,9 @@ const MainPage = () => {
             </colgroup>
             <tbody>
               {isLoading &&
-                [...Array(8)].map(() => {
+                [...Array(8)].map((empty, idx) => {
                   return (
-                    <tr>
+                    <tr key={idx}>
                       <td className={classes.td_article}></td>
                       <td className={classes.td_view}></td>
                     </tr>
@@ -253,9 +252,9 @@ const MainPage = () => {
               {!isLoading && topNtc.length > 0 && ntcRender(topNtc)}
               {!isLoading && listRender(qnaPost)}
               {!isLoading &&
-                [...Array(6 - qnaPost.length)].map(() => {
+                [...Array(6 - qnaPost.length)].map((empty, idx) => {
                   return (
-                    <tr>
+                    <tr key={idx}>
                       <td className={classes.td_article}></td>
                       <td className={classes.td_view}></td>
                     </tr>
@@ -281,38 +280,13 @@ const MainPage = () => {
           </div>
           <ul className={classes.albumBox}>
             {isLoading &&
-              [...Array(6)].map(() => {
-                return (
-                  <li className={classes.noContent}>
-                    <dl>
-                      <dt class="photo"></dt>
-                      <dd class="tit"></dd>
-                      <dd class="date m-tcol-c">
-                        <div class="pers_nick_area"></div>
-                        <div class="date_num m-tcol-c"></div>
-                      </dd>
-                    </dl>
-                  </li>
-                );
+              [...Array(6)].map((empty, idx) => {
+                return <li key={idx} className={classes.noContent}></li>;
               })}
             {!isLoading && photoRender(photoPost)}
             {!isLoading &&
-              [...Array(6 - photoPost.length)].map(() => {
-                return (
-                  <li className={classes.noContent}>
-                    <dl>
-                      <dt className={classes.photo}></dt>
-                      <dd className={classes.tit}></dd>
-                      <dd className={classes.nnDtVcnt}>
-                        <div className={classes.nickArea}></div>
-                        <div className={classes.dtVcntArea}>
-                          <span className={classes.dt}></span>
-                          <span className={classes.vCnt}></span>
-                        </div>
-                      </dd>
-                    </dl>
-                  </li>
-                );
+              [...Array(6 - photoPost.length)].map((empty, idx) => {
+                return <li key={idx} className={classes.noContent}></li>;
               })}
           </ul>
         </div>

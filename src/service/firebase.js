@@ -234,23 +234,46 @@ export const getTopNtc = async () => {
   }
 };
 
-export const getPostPaiging = async (typ, page, cnt) => {
+export const getPostPaiging = async (typ, page, cnt, search) => {
   try {
     // 첫 페이지
     const collectionRef = collection(db, "post");
     let post;
     if (typ === "all" || typ === "main") {
-      post = await query(collectionRef, orderBy("regDt", "desc"));
+      if (!!search.keyword === false) {
+        console.log("검색어없음1");
+        post = await query(collectionRef, orderBy("regDt", "desc"));
+      } else {
+        console.log("검색어있음1");
+        post = await query(
+          collectionRef,
+          // where(search.typ, ">=", search.keyword),
+          // where(search.typ, "<=", search.keyword + "\uf8ff")
+          orderBy("regDt", "desc")
+        );
+      }
     } else {
-      post = await query(
-        collectionRef,
-        where("postTyp", "==", typ),
-        orderBy("regDt", "desc")
-      );
+      if (!!search.keyword === false) {
+        console.log("검색어없음2");
+        post = await query(
+          collectionRef,
+          where("postTyp", "==", typ),
+          orderBy("regDt", "desc")
+        );
+      } else {
+        console.log("검색어있음2");
+        post = await query(
+          collectionRef,
+          where("postTyp", "==", typ),
+          // where(search.typ, ">=", search.keyword),
+          // where(search.typ, "<=", search.keyword + "\uf8ff")
+          orderBy("regDt", "desc")
+        );
+      }
     }
 
     const postList = await getDocs(post);
-
+    console.log(postList.docs.length);
     let firstIdx;
     +page === 1 ? (firstIdx = 0) : (firstIdx = cnt * (page - 1));
     const first = postList.docs[firstIdx];
@@ -259,20 +282,46 @@ export const getPostPaiging = async (typ, page, cnt) => {
     let data = [];
     if (!!first === true) {
       if (typ === "all" || typ === "main") {
-        curPage = query(
-          collectionRef,
-          orderBy("regDt", "desc"),
-          startAt(first),
-          limit(cnt)
-        );
+        if (!!search.keyword === false) {
+          console.log("검색어없음3");
+          curPage = query(
+            collectionRef,
+            orderBy("regDt", "desc"),
+            startAt(first),
+            limit(cnt)
+          );
+        } else {
+          console.log("검색어있음3");
+          curPage = query(
+            collectionRef,
+            // where(search.typ, ">=", search.keyword),
+            // where(search.typ, "<=", search.keyword + "\uf8ff"),
+            orderBy("regDt", "desc"),
+            startAt(first),
+            limit(cnt)
+          );
+        }
       } else {
-        curPage = query(
-          collectionRef,
-          where("postTyp", "==", typ),
-          orderBy("regDt", "desc"),
-          startAt(first),
-          limit(cnt)
-        );
+        if (!!search.keyword === false) {
+          console.log("검색어없음4");
+          curPage = query(
+            collectionRef,
+            where("postTyp", "==", typ),
+            orderBy("regDt", "desc"),
+            startAt(first),
+            limit(cnt)
+          );
+        } else {
+          curPage = query(
+            collectionRef,
+            where("postTyp", "==", typ),
+            // where(search.typ, ">=", search.keyword),
+            // where(search.typ, "<=", search.keyword + "\uf8ff"),
+            orderBy("regDt", "desc"),
+            startAt(first),
+            limit(cnt)
+          );
+        }
       }
 
       const dataSnap = await getDocs(curPage);
@@ -328,6 +377,7 @@ export const getPostPaiging = async (typ, page, cnt) => {
     let rslt = {};
     rslt.totalCnt = postList.docs.length;
     rslt.paiging = pg;
+
     rslt.list = data;
     console.log("현재게시판 전체게시글수.현재페이지 게시글리스트", rslt);
     return rslt;
@@ -461,6 +511,26 @@ export const addComment = async (data) => {
     return error;
   }
 };
+
+export const updatePost = async (data, docId) => {
+  try {
+    console.log(data);
+    console.log(docId);
+    const docRef = doc(db, "post", docId);
+
+    let postData;
+    data.modiDt = Date.now(); // 수정일
+
+    postData = data;
+
+    await updateDoc(docRef, postData);
+    return docId;
+  } catch (error) {
+    return error;
+  }
+};
+
+// Set the "capital" field of the city 'DC'
 
 export const viewCntInc = async (docId) => {
   try {

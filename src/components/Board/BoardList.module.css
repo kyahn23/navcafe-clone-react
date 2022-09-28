@@ -44,11 +44,15 @@
 }
 
 .prevNext {
-  background-color: #f9f9f9;
+  /* background-color: #f9f9f9; */
   margin-top: 52px;
   height: 56px;
   padding-top: 16px;
   text-align: center;
+}
+
+.Mt0 {
+  margin-top: 0 !important;
 }
 
 .prevNext span {

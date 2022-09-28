@@ -1,6 +1,6 @@
 import classes from "./BoardDetail.module.css";
 import { AiOutlineRight } from "react-icons/ai";
-import { BiMessageRoundedDetail, BiImageAlt } from "react-icons/bi";
+import { BiMessageRoundedDetail } from "react-icons/bi";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useRef, useEffect, useState } from "react";
 import HTMLReactParser from "html-react-parser";
@@ -74,7 +74,7 @@ const BoardDetail = () => {
     getCommentList(st.id).then((res) => {
       setCommentList(res);
     });
-  }, [cmntRender]);
+  }, [st.id, cmntRender]);
   return (
     <div className={classes.boardDetail}>
       <div className={classes.wrap}>
@@ -213,15 +213,35 @@ const BoardDetail = () => {
           </div>
         </div>
         <div className={classes.ArticleBottomBtns}>
-          <span className={classes.bottomBtn} onClick={moveToList}>
-            목록
-          </span>
-          <span
-            className={`${classes.bottomBtnList} ${classes.bottomBtn}`}
-            onClick={moveToTop}
-          >
-            <span>TOP</span>
-          </span>
+          {authCtx.isLoggedIn && user.id === postInfo.writer && (
+            <div className={classes.leftArea}>
+              <Link
+                className={classes.bottomBtn}
+                to="/board/edit"
+                state={{
+                  id: st.id,
+                  typ: postInfo.postTyp,
+                }}
+              >
+                수정
+              </Link>
+              {/* <span className={`${classes.bottomBtnML} ${classes.bottomBtn}`}>
+                삭제
+              </span> */}
+            </div>
+          )}
+
+          <div className={classes.rightArea}>
+            <span className={classes.bottomBtn} onClick={moveToList}>
+              목록
+            </span>
+            <span
+              className={`${classes.bottomBtnML} ${classes.bottomBtn}`}
+              onClick={moveToTop}
+            >
+              <span>TOP</span>
+            </span>
+          </div>
         </div>
       </div>
     </div>

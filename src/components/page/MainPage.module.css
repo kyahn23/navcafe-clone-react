@@ -252,3 +252,16 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+.albumBox .dtVcntArea {
+  color: #333;
+  padding-bottom: 10px;
+}
+
+.dtVcnt {
+  color: #999 !important;
+}
+
+.albumBox .dtVcntArea .vCnt {
+  margin-left: 5px;
+}

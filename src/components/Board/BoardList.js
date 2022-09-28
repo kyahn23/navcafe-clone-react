@@ -1,8 +1,6 @@
 import React from "react";
 import { useState, useEffect, useContext } from "react";
 
-import Select from "react-select";
-
 import { Link, useLocation } from "react-router-dom";
 import classes from "./BoardList.module.css";
 import BoardNotice from "./BoardNotice";
@@ -11,12 +9,13 @@ import BoardTypList from "./BoardTypList";
 import { AiOutlineRight } from "react-icons/ai";
 import AuthContext from "../../store/auth/auth-context";
 import { getPostPaiging, getTopNtc } from "../../service/firebase";
+import { useCallback } from "react";
 
-const options = [
-  { value: "title", label: "제목" },
-  { value: "content", label: "내용" },
-  { value: "writer", label: "작성자" },
-];
+// ## firestore 검색쿼리 문제로 보류
+// const options = [
+//   { value: "title", label: "제목" },
+//   { value: "content", label: "내용" },
+// ];
 
 const BoardList = (props) => {
   // const [noticeHide, setNoticeHide] = useState(false); // 공지사항 보이기 체크여부
@@ -26,10 +25,17 @@ const BoardList = (props) => {
   const [totCnt, setTotCnt] = useState(0); // 전체 게시글 수
   const [paging, setPaiging] = useState([]);
 
+  // ## firestore 검색쿼리 문제로 보류
+  // const [searchTyp, setSearchTyp] = useState("title"); // 검색구분 초기값 - 제목
+
   const loc = useLocation();
 
   const authCtx = useContext(AuthContext);
   const user = JSON.parse(localStorage.getItem("userInfo"));
+
+  // ## firestore 검색쿼리 문제로 보류
+  // const inputSearchRef = useRef();
+
   let typ = props.typ;
   if (!!typ) {
     typ = loc.state.typ;
@@ -43,60 +49,79 @@ const BoardList = (props) => {
     }
   }
 
-  // const paginationAreaRender = () => {
-  //   let startPgNum;
-  //   let endPgNum;
-  //   let pg = [];
-  //   console.log("현재게시판 전체게시글 수", totCnt);
-  //   let pgEndNum = parseInt(totCnt / props.postCnt); // 마지막 페이지 넘버
-  //   if (totCnt % props.postCnt !== 0) {
-  //     pgEndNum = parseInt(totCnt / props.postCnt) + 1;
-  //   }
-  //   console.log("마지막페이지", pgEndNum);
-  //   startPgNum = parseInt(page / 10);
-  //   if (startPgNum % 10 === 0) {
-  //     startPgNum++;
-  //   }
-  //   console.log("현재화면 시작페이지", startPgNum);
-
-  //   endPgNum = startPgNum + 10;
-  //   if (endPgNum > pgEndNum) {
-  //     endPgNum = pgEndNum;
-  //   }
-  //   console.log("현재화면 마지막페이지", endPgNum);
-
-  //   for (let i = startPgNum; i <= endPgNum; i++) {
-  //     pg.push(i);
-  //   }
-  //   if (endPgNum < pgEndNum) {
-  //     pg.push("next");
-  //   }
-  //   setPaiging(pg);
-  // };
-
   const pagelistRender = (val) => {
     setPage(val);
   };
-  useEffect(() => {
-    getTopNtc().then((res) => {
-      console.log(res);
-      setTopNtc(res);
-    });
-  }, []);
 
-  useEffect(() => {
-    getPostPaiging(typ, page, props.postCnt).then((res) => {
+  // ## firestore 검색쿼리 문제로 보류
+  // const optHandler = (val) => {
+  //   setSearchTyp(val.value);
+  // };
+
+  // ## firestore 검색쿼리 문제로 보류
+  // const onkeydownHandler = (e) => {
+  //   if (e.key === "Enter") {
+  //     // console.log(searchTyp);
+  //     // console.log(inputSearchRef.current.value);
+  //     searchHandler();
+  //   }
+  // };
+
+  // ## firestore 검색쿼리 문제로 보류
+  // const searchHandler = () => {
+  // const searchObj = {
+  //   typ: searchTyp,
+  //   keyword: inputSearchRef.current.value,
+  // };
+
+  // getPaging();
+  // getPostPaiging(typ, page, props.postCnt, searchObj).then((res) => {
+  //   setPostList(res.list);
+  //   setTotCnt(res.totalCnt);
+  //   setPaiging(res.paiging);
+  // });
+  // };
+
+  const getPaging = useCallback(async () => {
+    // ## firestore 검색쿼리 문제로 보류
+    const searchObj = {
+      // typ: searchTyp,
+      // keyword: inputSearchRef.current.value,
+    };
+    getPostPaiging(typ, page, props.postCnt, searchObj).then((res) => {
+      console.log(res);
+
       setPostList(res.list);
       setTotCnt(res.totalCnt);
       setPaiging(res.paiging);
     });
-  }, [typ, page, props.postCnt]); // #####확인 필요
+  }, [typ, page, props.postCnt]); // 검색어 타입의 경우는 제외해야함
+
+  // const getPaging = useCallback(typ, page, cnt, search) => {
+  //   getPostPaiging(typ, page, props.postCnt).then((res) => {
+  //     setPostList(res.list);
+  //     setTotCnt(res.totalCnt);
+  //     setPaiging(res.paiging);
+  //   });
+  // };
+  useEffect(() => {
+    getTopNtc().then((res) => {
+      setTopNtc(res);
+    });
+  }, []);
+
+  // ## firestore 검색쿼리 문제로 보류
+  // useEffect(() => {
+  //   inputSearchRef.current.value = "";
+  // }, [typ]);
+
+  useEffect(() => {
+    getPaging();
+  }, [getPaging]); // #####확인 필요
   useEffect(() => {
     setPage(1); // 게시글 리스트 개수 변경시 1페이지로 변경
   }, [props.postCnt]);
-  const searchHandler = () => {
-    return;
-  };
+
   return (
     <div className={classes.articleBoard}>
       <table>
@@ -141,7 +166,13 @@ const BoardList = (props) => {
           </div>
         </div>
       )}
-      <div className={classes.prevNext}>
+      <div
+        className={
+          authCtx.isLoggedIn
+            ? `${classes.prevNext}`
+            : `${classes.prevNext} ${classes.Mt0}`
+        }
+      >
         {paging.map((num) => {
           if (num === page) {
             return (
@@ -170,12 +201,15 @@ const BoardList = (props) => {
           }
         })}
       </div>
-      <div className={classes.listSearch}>
+
+      {/* ## firestore 검색쿼리 문제로 보류 */}
+      {/* <div className={classes.listSearch}>
         <div className={classes.selectTyp}>
           <Select
             className={classes.selectList}
             defaultValue={options[0]}
             options={options}
+            // onChange={optHandler}
           />
         </div>
         <div className={classes.inputSearchArea}>
@@ -183,14 +217,15 @@ const BoardList = (props) => {
             <input
               type="text"
               placeholder="검색어를 입력해주세요"
-              onKeyDown={searchHandler}
+              onKeyDown={onkeydownHandler}
+              ref={inputSearchRef}
             />
           </div>
           <button onClick={searchHandler} className={classes.btnSearch}>
             검색
           </button>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

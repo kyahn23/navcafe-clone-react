@@ -18,6 +18,7 @@ function App() {
         {!authCtx.isLoggedIn && <Route path="/auth" element={<AuthPage />} />}
         <Route path="/board" exact={true} element={<Board />} />
         <Route path="/board/write" exact={true} element={<BoardWrite />} />
+        <Route path="/board/edit" exact={true} element={<BoardWrite />} />
         <Route path="/board/detail" exact={true} element={<BoardDetail />} />
         <Route path="/*" element={<Navigate to="/" />} />
       </Routes>

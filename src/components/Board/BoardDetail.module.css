@@ -109,7 +109,11 @@
   line-height: 1.8;
   margin-bottom: 10px;
 }
-.ArticleBottomBtns {
+
+.ArticleBottomBtns .leftArea {
+  float: left;
+}
+.ArticleBottomBtns .rightArea {
   float: right;
 }
 
@@ -117,7 +121,6 @@
   min-width: 46px;
   height: 36px;
   margin-top: 10px;
-  margin-left: 10px;
   padding: 0 12px;
   font-size: 13px;
   line-height: 36px;
@@ -132,6 +135,10 @@
   color: #000000;
   text-decoration: none;
   cursor: pointer;
+}
+
+.bottomBtnML {
+  margin-left: 10px;
 }
 
 .detailContent {

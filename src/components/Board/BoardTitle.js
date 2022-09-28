@@ -41,15 +41,15 @@ const BoardTitle = (props) => {
     props.cnt(val.value);
   };
 
-  const cardTypHandler = () => {
-    props.boardTyp("card");
-    console.log("card");
-  };
+  // const cardTypHandler = () => {
+  //   props.boardTyp("card");
+  //   console.log("card");
+  // };
 
-  const listTypHandler = () => {
-    props.boardTyp("list");
-    console.log("list");
-  };
+  // const listTypHandler = () => {
+  //   props.boardTyp("list");
+  //   console.log("list");
+  // };
 
   return (
     <div className={classes.titleArea}>
@@ -64,7 +64,7 @@ const BoardTitle = (props) => {
           />
           <label htmlFor="ntc_hidden">공지 숨기기</label>
         </div>
-        <div className={classes.sortForm}>
+        {/* <div className={classes.sortForm}>
           <button className={classes.sortCard} onClick={cardTypHandler}>
             <span className={classes.blind}>카드형</span>
           </button>
@@ -74,7 +74,7 @@ const BoardTitle = (props) => {
           >
             <span className={classes.blind}>목록형</span>
           </button>
-        </div>
+        </div> */}
         <div className={classes.selectDiv}>
           <Select
             className={classes.sortCnt}

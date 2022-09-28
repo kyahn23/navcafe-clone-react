@@ -8,7 +8,7 @@ const BoardNotice = (props) => {
     <Fragment>
       {/* <tr className="noticeArticle boardNotice typeMain"> */}
       {props.ntcList.map((ntc) => (
-        <tr className={classes.noticeArticle}>
+        <tr key={ntc.id} className={classes.noticeArticle}>
           <td className={classes.tdArticle}>
             <div className={classes.boardTag}>
               <strong className={classes.boardTagTxt}>
