@@ -66,7 +66,6 @@ const BoardDetail = () => {
     getPostDetail(st.id).then((res) => {
       setPostInfo(res.postInfo);
       setCommentList(res.commentList);
-      console.log(res.postInfo);
     });
   }, [st.id]);
 

@@ -43,12 +43,10 @@ const BoardTitle = (props) => {
 
   // const cardTypHandler = () => {
   //   props.boardTyp("card");
-  //   console.log("card");
   // };
 
   // const listTypHandler = () => {
   //   props.boardTyp("list");
-  //   console.log("list");
   // };
 
   return (

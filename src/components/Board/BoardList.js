@@ -61,8 +61,6 @@ const BoardList = (props) => {
   // ## firestore 검색쿼리 문제로 보류
   // const onkeydownHandler = (e) => {
   //   if (e.key === "Enter") {
-  //     // console.log(searchTyp);
-  //     // console.log(inputSearchRef.current.value);
   //     searchHandler();
   //   }
   // };

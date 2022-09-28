@@ -241,10 +241,8 @@ export const getPostPaiging = async (typ, page, cnt, search) => {
     let post;
     if (typ === "all" || typ === "main") {
       if (!!search.keyword === false) {
-        console.log("검색어없음1");
         post = await query(collectionRef, orderBy("regDt", "desc"));
       } else {
-        console.log("검색어있음1");
         post = await query(
           collectionRef,
           // where(search.typ, ">=", search.keyword),
@@ -254,14 +252,12 @@ export const getPostPaiging = async (typ, page, cnt, search) => {
       }
     } else {
       if (!!search.keyword === false) {
-        console.log("검색어없음2");
         post = await query(
           collectionRef,
           where("postTyp", "==", typ),
           orderBy("regDt", "desc")
         );
       } else {
-        console.log("검색어있음2");
         post = await query(
           collectionRef,
           where("postTyp", "==", typ),
@@ -273,7 +269,6 @@ export const getPostPaiging = async (typ, page, cnt, search) => {
     }
 
     const postList = await getDocs(post);
-    console.log(postList.docs.length);
     let firstIdx;
     +page === 1 ? (firstIdx = 0) : (firstIdx = cnt * (page - 1));
     const first = postList.docs[firstIdx];
@@ -283,7 +278,6 @@ export const getPostPaiging = async (typ, page, cnt, search) => {
     if (!!first === true) {
       if (typ === "all" || typ === "main") {
         if (!!search.keyword === false) {
-          console.log("검색어없음3");
           curPage = query(
             collectionRef,
             orderBy("regDt", "desc"),
@@ -291,7 +285,6 @@ export const getPostPaiging = async (typ, page, cnt, search) => {
             limit(cnt)
           );
         } else {
-          console.log("검색어있음3");
           curPage = query(
             collectionRef,
             // where(search.typ, ">=", search.keyword),
@@ -388,7 +381,6 @@ export const getPostPaiging = async (typ, page, cnt, search) => {
 
 export const getPostDetail = async (docId) => {
   try {
-    console.log(docId);
     const docRef = doc(db, "post", docId);
     const dataSnap = await getDoc(docRef);
 
@@ -514,8 +506,6 @@ export const addComment = async (data) => {
 
 export const updatePost = async (data, docId) => {
   try {
-    console.log(data);
-    console.log(docId);
     const docRef = doc(db, "post", docId);
 
     let postData;
