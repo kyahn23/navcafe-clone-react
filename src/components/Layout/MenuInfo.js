@@ -6,15 +6,18 @@ import { useContext, useState, useEffect } from "react";
 import AuthContext from "../../store/auth/auth-context";
 import { getData } from "../../service/firebase";
 import MenuContext from "../../store/menu-context";
+import { Fragment } from "react";
 
 const MenuInfo = () => {
   const authCtx = useContext(AuthContext);
   const menuCtx = useContext(MenuContext);
   const loc = useLocation();
   const isLoggedIn = authCtx.isLoggedIn;
+  const user = JSON.parse(localStorage.getItem("userInfo"));
 
   const [memberCnt, setMemberCnt] = useState(0);
   const [postCnt, setPostCnt] = useState(0);
+  const [infoTab, setInfoTab] = useState("cafe");
   useEffect(() => {
     getData("member").then((res) => {
       if (res.length) {
@@ -53,19 +56,74 @@ const MenuInfo = () => {
   if (loc.pathname.includes("/write")) {
     btnAreaRender = false;
   }
+
+  const cafeInfoTab = () => {
+    setInfoTab("cafe");
+  };
+  const myInfoTab = () => {
+    setInfoTab("my");
+  };
   return (
     <div className={classes.menuInfoArea}>
       <div className={classes.info}>
-        <span className={classes.text}>카페정보</span>
-        <p>
-          <strong>CAFE_CLONE</strong>
-        </p>
-        <ul>
-          <li>
-            <span className={classes.dtl}>회원수</span>
-            <span className={classes.dtlInfo}>{memberCnt}</span>
-          </li>
-        </ul>
+        <div className={classes.infoTabT}>
+          <span
+            className={
+              infoTab === "cafe"
+                ? `${classes.on} ${classes.text} ${classes.infoTab1}`
+                : `${classes.text} ${classes.infoTab1}`
+            }
+            onClick={cafeInfoTab}
+          >
+            카페정보
+          </span>
+          {isLoggedIn && (
+            <span
+              className={
+                infoTab === "my"
+                  ? `${classes.on} ${classes.text} ${classes.infoTab2}`
+                  : `${classes.text} ${classes.infoTab2}`
+              }
+              onClick={myInfoTab}
+            >
+              내정보
+            </span>
+          )}
+        </div>
+        <div className={classes.infoTabC}>
+          {infoTab === "cafe" && (
+            <Fragment>
+              <p className={classes.cafeNick}>
+                <strong>CAFE_CLONE</strong>
+              </p>
+              <ul>
+                <li>
+                  <span className={classes.dtl}>회원수</span>
+                  <span className={classes.dtlInfo}>{memberCnt}</span>
+                </li>
+              </ul>
+            </Fragment>
+          )}
+          {isLoggedIn && infoTab === "my" && (
+            <Fragment>
+              <p className={classes.cafeNick}>
+                <strong>{user.nickName}</strong>
+              </p>
+              <ul>
+                <li>
+                  <span className={classes.dtl}>아이디</span>
+                  <span className={classes.dtlInfo}>{user.id}</span>
+                </li>
+                <li>
+                  <span className={classes.dtl}>등급</span>
+                  <span className={classes.dtlInfo}>
+                    {user.level === "admin" ? "관리자" : "일반회원"}
+                  </span>
+                </li>
+              </ul>
+            </Fragment>
+          )}
+        </div>
       </div>
       <div className={classes.btnArea}>{btnAreaRender && btnArea}</div>
 

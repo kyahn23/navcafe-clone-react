@@ -58,9 +58,6 @@ const Header = (props) => {
     layout = (
       <Fragment>
         <li>
-          <Link to="/myInfo">내정보</Link>
-        </li>
-        <li>
           <span className={classes.logout} onClick={logoutHandler}>
             로그아웃
           </span>

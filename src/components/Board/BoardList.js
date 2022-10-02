@@ -87,8 +87,6 @@ const BoardList = (props) => {
       // keyword: inputSearchRef.current.value,
     };
     getPostPaiging(typ, page, props.postCnt, searchObj).then((res) => {
-      console.log(res);
-
       setPostList(res.list);
       setTotCnt(res.totalCnt);
       setPaiging(res.paiging);

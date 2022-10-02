@@ -5,8 +5,8 @@ import AuthContext from "../../store/auth/auth-context";
 
 import classes from "./AuthForm.module.css";
 
-import { addUser, db } from "../../service/firebase";
-import { collection, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
+import { db } from "../../service/firebase";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 
 const AuthForm = () => {
   const nav = useNavigate();

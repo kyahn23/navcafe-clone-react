@@ -11,6 +11,38 @@
   border-top: 2px solid;
   border-bottom: 2px solid;
 }
+.menuInfoArea .info .infoTabT {
+  width: 100%;
+  height: 15px;
+  display: block;
+  margin-bottom: 5px;
+  cursor: pointer;
+}
+
+.infoTabT .on {
+  font-weight: bold;
+  cursor: default;
+}
+
+.menuInfoArea .info .infoTabT .infoTab1 {
+  width: 50%;
+  text-align: center;
+  float: left;
+}
+
+.menuInfoArea .info .infoTabT .infoTab2 {
+  width: 50%;
+  text-align: center;
+  float: right;
+}
+
+.cafeNick {
+  font-size: 14px;
+}
+
+.menuInfoArea .info .infoTabC {
+  margin-top: 10px;
+}
 
 .menuInfoArea .info li {
   margin: 5px 0;
